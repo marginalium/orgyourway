@@ -1,0 +1,21 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+    container_name: ${APP_NAME:?err}-nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - './app:/var/www/html'
+      - './docker/nginx/config:/etc/nginx/conf.d'
+      - './docker/nginx/entrypoint:/entrypoint'
+  mysql:
+    image: mysql:8.0.30
+    container_name: ${APP_NAME:?err}-mysql
+    restart: 'on-failure'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
+    volumes:
+      - ${PWD}
