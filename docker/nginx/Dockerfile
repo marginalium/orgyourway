@@ -11,4 +11,8 @@ RUN apt-get update && \
 RUN curl --silent --show-error https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
+COPY app /var/www/html
+COPY docker/nginx/config /etc/nginx/conf.d
+COPY docker/nginx/entrypoint /entrypoint
+
 CMD ["/entrypoint/orgyourway-entrypoint.sh"]
