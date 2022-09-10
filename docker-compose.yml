@@ -16,6 +16,8 @@ services:
     image: mysql:8.0.30
     container_name: ${APP_NAME:?err}-mysql
     restart: 'on-failure'
+    ports:
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
     volumes:
