@@ -260,7 +260,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->unsubscribedAt = $unsubscribedAt;
     }
-    
+
     #[PrePersist, PreUpdate]
     public function updatedTimestamps(): void
     {
