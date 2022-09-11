@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class IndexController
+class IndexController extends AbstractController
 {
-    #[Route('/', name: 'index', methods: ['GET'])]
+    #[Route('/', name: 'app_index')]
     public function index(): Response
     {
-        return new Response('This page does not exist.', Response::HTTP_NOT_FOUND);
+        return $this->render('base.html.twig');
     }
 }

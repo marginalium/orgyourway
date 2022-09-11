@@ -2,7 +2,3 @@ controllers:
     resource: ../src/Controller/
     type: attribute
 
-front:
-    resource: ../src/Controller/IndexController.php
-    type: annotation
-    prefix: /
