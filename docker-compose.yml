@@ -12,6 +12,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
       MYSQL_USER: ${MYSQL_USER:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:?err}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?err}
     volumes:
       - './app:/var/www/html'
       - './docker/nginx/config:/etc/nginx/conf.d'
@@ -31,5 +33,3 @@ services:
       MYSQL_USER: ${MYSQL_USER:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
-    volumes:
-      - ${PWD}
