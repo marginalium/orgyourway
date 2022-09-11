@@ -15,4 +15,7 @@ COPY app /var/www/html
 COPY docker/nginx/config /etc/nginx/conf.d
 COPY docker/nginx/entrypoint /entrypoint
 
+WORKDIR /var/www/html/
+RUN composer install
+
 CMD ["/entrypoint/orgyourway-entrypoint.sh"]
