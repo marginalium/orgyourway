@@ -13,8 +13,8 @@ security:
         admin_user:
             memory:
                 users:
-                    '%admin_username%':
-                        password: '%admin_password%'
+                    '%env(ADMIN_USERNAME)%':
+                        password: '%env(ADMIN_PASSWORD)%'
                         roles: ['ROLE_ADMIN', 'ROLE_USER']
         all_users:
             chain:

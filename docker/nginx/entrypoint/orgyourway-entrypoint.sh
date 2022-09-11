@@ -9,10 +9,12 @@ bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 cp /var/www/html/.env.dist /var/www/html/.env
 
+HASHED_PASSWORD=`php /entrypoint/bcrypt_password_hash.php`
+
 sed -i "s/%%MYSQL_USER%%/${MYSQL_USER}/" /var/www/html/.env
 sed -i "s/%%MYSQL_PASSWORD%%/${MYSQL_PASSWORD}/" /var/www/html/.env
 sed -i "s/%%MYSQL_DATABASE%%/${MYSQL_DATABASE}/" /var/www/html/.env
 sed -i "s/%%ADMIN_USERNAME%%/${ADMIN_USERNAME}/" /var/www/html/.env
-sed -i "s/%%ADMIN_PASSWORD%%/${ADMIN_PASSWORD}/" /var/www/html/.env
+sed -i "s,%%ADMIN_PASSWORD%%,$HASHED_PASSWORD," /var/www/html/.env
 
 exec tail -f /dev/null
