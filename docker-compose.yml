@@ -8,10 +8,16 @@ services:
     ports:
       - '80:80'
       - '443:443'
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
+      MYSQL_USER: ${MYSQL_USER:?err}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
     volumes:
       - './app:/var/www/html'
       - './docker/nginx/config:/etc/nginx/conf.d'
       - './docker/nginx/entrypoint:/entrypoint'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   mysql:
     build:
       context: ./docker/mysql
@@ -21,7 +27,7 @@ services:
     ports:
       - '3306:3306'
     environment:
-      MYSQL_DATABASE: orgyourway
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
       MYSQL_USER: ${MYSQL_USER:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}

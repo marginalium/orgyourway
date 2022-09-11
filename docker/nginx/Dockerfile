@@ -15,6 +15,10 @@ COPY app /var/www/html
 COPY docker/nginx/config /etc/nginx/conf.d
 COPY docker/nginx/entrypoint /entrypoint
 
+ENV MYSQL_DATABASE ${MYSQL_DATABASE}
+ENV MYSQL_USER ${MYSQL_USER}
+ENV MYSQL_PASSWORD ${MYSQL_PASSWORD}
+
 WORKDIR /var/www/html/
 RUN composer install
 
