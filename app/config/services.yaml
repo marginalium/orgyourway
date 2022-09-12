@@ -22,3 +22,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Begin Sonata services
+    admin.event:
+        class: App\Admin\EventAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Event, manager_type: orm, label: Event, group: Events }
+
+    admin.user:
+        class: App\Admin\UserAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: User, group: Events }
+    # End Sonata services
