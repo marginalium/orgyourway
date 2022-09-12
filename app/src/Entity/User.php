@@ -175,10 +175,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param string|null $firstName
+     * @return User
      */
-    public function setFirstName(?string $firstName): void
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     /**
@@ -191,10 +193,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param string|null $lastName
+     * @return User
      */
-    public function setLastName(?string $lastName): void
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
     /**
@@ -207,10 +211,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param string|null $alias
+     * @return User
      */
-    public function setAlias(?string $alias): void
+    public function setAlias(?string $alias): self
     {
         $this->alias = $alias;
+        return $this;
     }
 
     /**
@@ -223,10 +229,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param bool $subscribed
+     * @return User
      */
-    public function setSubscribed(bool $subscribed): void
+    public function setSubscribed(bool $subscribed): self
     {
         $this->subscribed = $subscribed;
+        return $this;
     }
 
     /**
@@ -239,10 +247,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param DateTime|null $subscribedAt
+     * @return User
      */
-    public function setSubscribedAt(?DateTime $subscribedAt): void
+    public function setSubscribedAt(?DateTime $subscribedAt): self
     {
         $this->subscribedAt = $subscribedAt;
+        return $this;
     }
 
     /**
@@ -255,10 +265,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param DateTime|null $unsubscribedAt
+     * @return User
      */
-    public function setUnsubscribedAt(?DateTime $unsubscribedAt): void
+    public function setUnsubscribedAt(?DateTime $unsubscribedAt): self
     {
         $this->unsubscribedAt = $unsubscribedAt;
+        return $this;
     }
 
     #[PrePersist, PreUpdate]
@@ -283,10 +295,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param DateTime $createdAt
+     * @return User
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     /**
@@ -299,10 +313,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param DateTime $updatedAt
+     * @return User
      */
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 
     /**
@@ -315,10 +331,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param DateTime $deletedAt
+     * @return User
      */
-    public function setDeletedAt(DateTime $deletedAt): void
+    public function setDeletedAt(DateTime $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+        return $this;
     }
 
     /**
@@ -331,9 +349,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param Collection $events
+     * @return User
      */
-    public function setEvents(Collection $events): void
+    public function setEvents(Collection $events): self
     {
         $this->events = $events;
+        return $this;
     }
 }

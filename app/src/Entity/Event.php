@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
@@ -15,6 +16,7 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Entity]
 #[Table(name: 'events')]
@@ -61,6 +63,8 @@ class Event
     )]
     private DateTime $endedAt;
 
+    private UploadedFile $file;
+
     #[Column(
         name: 'created_at',
         type: Types::DATETIME_MUTABLE
@@ -96,10 +100,12 @@ class Event
 
     /**
      * @param int|null $id
+     * @return Event
      */
-    public function setId(?int $id): void
+    public function setId(?int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -112,10 +118,12 @@ class Event
 
     /**
      * @param string $eventName
+     * @return Event
      */
-    public function setEventName(string $eventName): void
+    public function setEventName(string $eventName): self
     {
         $this->eventName = $eventName;
+        return $this;
     }
 
     /**
@@ -128,10 +136,12 @@ class Event
 
     /**
      * @param int $attendanceCount
+     * @return Event
      */
-    public function setAttendanceCount(int $attendanceCount): void
+    public function setAttendanceCount(int $attendanceCount): self
     {
         $this->attendanceCount = $attendanceCount;
+        return $this;
     }
 
     /**
@@ -144,10 +154,12 @@ class Event
 
     /**
      * @param int|null $attendanceCap
+     * @return Event
      */
-    public function setAttendanceCap(?int $attendanceCap): void
+    public function setAttendanceCap(?int $attendanceCap): self
     {
         $this->attendanceCap = $attendanceCap;
+        return $this;
     }
 
     /**
@@ -160,10 +172,12 @@ class Event
 
     /**
      * @param int $ticketCostInCents
+     * @return Event
      */
-    public function setTicketCostInCents(int $ticketCostInCents): void
+    public function setTicketCostInCents(int $ticketCostInCents): self
     {
         $this->ticketCostInCents = $ticketCostInCents;
+        return $this;
     }
 
     /**
@@ -176,10 +190,12 @@ class Event
 
     /**
      * @param DateTime $startedAt
+     * @return Event
      */
-    public function setStartedAt(DateTime $startedAt): void
+    public function setStartedAt(DateTime $startedAt): self
     {
         $this->startedAt = $startedAt;
+        return $this;
     }
 
     /**
@@ -192,10 +208,45 @@ class Event
 
     /**
      * @param DateTime $endedAt
+     * @return Event
      */
-    public function setEndedAt(DateTime $endedAt): void
+    public function setEndedAt(DateTime $endedAt): self
     {
         $this->endedAt = $endedAt;
+        return $this;
+    }
+
+    /**
+     * Upload attachment file
+     */
+    public function convertUploadedCsvToArray(UploadedFile $file): void
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        $this->getFile()->move('youruploadpath', $this->getFile()->getClientOriginalName());
+
+        // Do your logic with the csv file here
+        $transformer = new CsvDataTransformer();
+        $discounts = $transformer->transform($this->getFile());
+
+        // Set the field using result of parsing.
+        $this->setDiscounts($discounts);
+
+        // Empty the
+        $this->setFile(null);
+    }
+
+    public function getFile(): UploadedFile
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file): self
+    {
+        $this->file = $file;
+        return $this;
     }
 
     #[PrePersist, PreUpdate]
@@ -220,10 +271,12 @@ class Event
 
     /**
      * @param DateTime $createdAt
+     * @return Event
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     /**
@@ -236,10 +289,12 @@ class Event
 
     /**
      * @param DateTime $updatedAt
+     * @return Event
      */
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 
     /**
@@ -252,9 +307,11 @@ class Event
 
     /**
      * @param DateTime $deletedAt
+     * @return Event
      */
-    public function setDeletedAt(DateTime $deletedAt): void
+    public function setDeletedAt(DateTime $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+        return $this;
     }
 }
