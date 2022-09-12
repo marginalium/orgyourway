@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Transformer\CsvDataTransformer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -72,6 +74,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         nullable: true
     )]
     private ?DateTime $unsubscribedAt;
+
+    private ?UploadedFile $file = null;
 
     #[Column(
         name: 'created_at',
@@ -283,6 +287,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt($dateTimeNow);
         }
+    }
+
+    /**
+     * Upload attachment file
+     */
+    public function convertUploadedCsvToArray(UploadedFile $file): void
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        $this->getFile()->move('youruploadpath', $this->getFile()->getClientOriginalName());
+
+        // Do your logic with the csv file here
+        $transformer = new CsvDataTransformer();
+        $discounts = $transformer->transform($this->getFile());
+
+        // Set the field using result of parsing.
+//        $this->setDiscounts($discounts);
+
+        // Empty the file after parsing
+        $this->setFile(null);
+    }
+
+    public function getFile(): ?UploadedFile
+    {
+        return $this->file;
+    }
+
+    public function setFile(?UploadedFile $file): self
+    {
+        $this->file = $file;
+        return $this;
     }
 
     /**

@@ -71,5 +71,5 @@ class EventAdmin extends AbstractAdmin
     protected function manageFileUpload(object $object)
     {
         $object->convertUploadedCsvToArray($object->getFile())  ;
-}
+    }
 }

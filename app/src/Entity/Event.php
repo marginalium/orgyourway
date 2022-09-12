@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Transformer\CsvDataTransformer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -63,7 +64,7 @@ class Event
     )]
     private DateTime $endedAt;
 
-    private UploadedFile $file;
+    private ?UploadedFile $file = null;
 
     #[Column(
         name: 'created_at',
@@ -232,18 +233,18 @@ class Event
         $discounts = $transformer->transform($this->getFile());
 
         // Set the field using result of parsing.
-        $this->setDiscounts($discounts);
+//        $this->setDiscounts($discounts);
 
-        // Empty the
+        // Empty the file after parsing
         $this->setFile(null);
     }
 
-    public function getFile(): UploadedFile
+    public function getFile(): ?UploadedFile
     {
         return $this->file;
     }
 
-    public function setFile(UploadedFile $file): self
+    public function setFile(?UploadedFile $file): self
     {
         $this->file = $file;
         return $this;
