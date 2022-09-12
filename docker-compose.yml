@@ -18,6 +18,8 @@ services:
       - './app:/var/www/html:cached'
       - './docker/nginx/config:/etc/nginx/conf.d'
       - './docker/nginx/entrypoint:/entrypoint'
+      - '/var/www/html/var'
+      - '/var/www/html/vendor'
     extra_hosts:
       - "host.docker.internal:host-gateway"
   mysql:
