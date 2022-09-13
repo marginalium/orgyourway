@@ -23,13 +23,13 @@ class UploadUsersCsvController extends AbstractController
         $this->uploadUsersCsvPersister = $uploadUsersCsvPersister;
     }
 
-    #[Route('/csv/upload/users', name: 'app_utility_upload_csv_users')]
+    #[Route('/upload/users/csv', name: 'app_utility_upload_users_csv')]
     public function index(): Response
     {
         $csv_data = [];
         $form = $this->createForm(UploadUsersCsvForm::class);
 
-        return $this->render('utility_upload_csv_users/index.html.twig', [
+        return $this->render('utility_upload_users_csv/index.html.twig', [
             'controller_name' => 'UploadUsersCsvController',
         ]);
     }
