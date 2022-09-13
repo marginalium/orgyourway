@@ -1,6 +1,9 @@
 #!/bin/bash
 
 phpenmod intl
+phpenmod gd
+phpenmod mbstring
+phpenmod zip
 
 service php8.1-fpm start
 
