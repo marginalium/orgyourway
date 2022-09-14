@@ -290,39 +290,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Upload attachment file
-     */
-    public function convertUploadedCsvToArray(UploadedFile $file): void
-    {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        $this->getFile()->move('youruploadpath', $this->getFile()->getClientOriginalName());
-
-        // Do your logic with the csv file here
-        $transformer = new CsvDataTransformer();
-        $discounts = $transformer->transform($this->getFile());
-
-        // Set the field using result of parsing.
-//        $this->setDiscounts($discounts);
-
-        // Empty the file after parsing
-        $this->setFile(null);
-    }
-
-    public function getFile(): ?UploadedFile
-    {
-        return $this->file;
-    }
-
-    public function setFile(?UploadedFile $file): self
-    {
-        $this->file = $file;
-        return $this;
-    }
-
-    /**
      * @return DateTime
      */
     public function getCreatedAt(): DateTime
