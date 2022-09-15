@@ -23,6 +23,15 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    # Begin repositories
+    App\Service\UserRepository:
+
+    # Begin custom services
+    App\Service\UploadUsersCsvPersister:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+    # End custom services
+
     # Begin Sonata services
     admin.event:
         class: App\Admin\EventAdmin

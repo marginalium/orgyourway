@@ -3,37 +3,40 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Transformer\CsvDataTransformer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[Entity(repositoryClass: UserRepository::class)]
+#[HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[Id]
+    #[GeneratedValue]
+    #[Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[Column]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[Column]
     private ?string $password = null;
 
     #[Column(
@@ -57,9 +60,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $alias;
 
     #[Column(
+        name: 'is_subscribed',
         type: Types::BOOLEAN
     )]
-    private bool $subscribed;
+    private bool $isSubscribed;
 
     #[Column(
         name: 'subscribed_at',
@@ -75,19 +79,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?DateTime $unsubscribedAt;
 
-    private ?UploadedFile $file = null;
+    #[Column(
+        name: 'registered_at',
+        type: Types::DATETIME_MUTABLE,
+        nullable: true
+    )]
+    private ?DateTime $registeredAt;
 
     #[Column(
         name: 'created_at',
         type: Types::DATETIME_MUTABLE
     )]
-    private DateTime $createdAt;
+    private ?DateTime $createdAt = null;
 
     #[Column(
         name: 'updated_at',
         type: Types::DATETIME_MUTABLE
     )]
-    private DateTime $updatedAt;
+    private ?DateTime $updatedAt = null;
 
     #[Column(
         name: 'deleted_at',
@@ -228,16 +237,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function isSubscribed(): bool
     {
-        return $this->subscribed;
+        return $this->isSubscribed;
     }
 
     /**
-     * @param bool $subscribed
+     * @param bool $isSubscribed
      * @return User
      */
-    public function setSubscribed(bool $subscribed): self
+    public function setIsSubscribed(bool $isSubscribed): self
     {
-        $this->subscribed = $subscribed;
+        $this->isSubscribed = $isSubscribed;
         return $this;
     }
 
@@ -290,18 +299,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param DateTime|null $createdAt
      * @return User
      */
-    public function setCreatedAt(DateTime $createdAt): self
+    public function setCreatedAt(?DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
         return $this;

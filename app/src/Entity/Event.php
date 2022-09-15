@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Transformer\CsvDataTransformer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -17,10 +17,10 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Entity]
 #[Table(name: 'events')]
+#[HasLifecycleCallbacks]
 class Event
 {
     #[Id, GeneratedValue, Column]
@@ -64,19 +64,17 @@ class Event
     )]
     private DateTime $endedAt;
 
-    private ?UploadedFile $file = null;
-
     #[Column(
         name: 'created_at',
         type: Types::DATETIME_MUTABLE
     )]
-    private DateTime $createdAt;
+    private ?DateTime $createdAt;
 
     #[Column(
         name: 'updated_at',
         type: Types::DATETIME_MUTABLE
     )]
-    private DateTime $updatedAt;
+    private ?DateTime $updatedAt;
 
     #[Column(
         name: 'deleted_at',
@@ -230,18 +228,18 @@ class Event
     }
 
     /**
-     * @return DateTime
+     * @return ?DateTime
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param ?DateTime $createdAt
      * @return Event
      */
-    public function setCreatedAt(DateTime $createdAt): self
+    public function setCreatedAt(?DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
         return $this;

@@ -8,7 +8,7 @@ class UploadUsersCsvLoader
         "Email Address" => "email",
         "First Name" => "first_name",
         "Last Name" => "last_name",
-        "Subscribed? Yes/No" => "subscribed",
+        "Subscribed? Yes/No" => "is_subscribed",
         "Unsubscribed Date" => "unsubscribed_at"
     ];
 
@@ -18,6 +18,12 @@ class UploadUsersCsvLoader
         return $validatedUserArray;
     }
 
+    /**
+     * @param array $userArray
+     * @return array
+     *
+     * TODO: Move this out to an EventBriteProvider class to make it adaptable to other ticketing systems in the future.
+     */
     public function validateValues(array $userArray): array
     {
         $validatedUserArray = [];

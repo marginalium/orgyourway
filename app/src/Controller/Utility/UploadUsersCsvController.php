@@ -42,8 +42,9 @@ class UploadUsersCsvController extends AbstractController
             }
 
             $validatedUserArray = ($this->uploadUsersCsvLoader)($userArray);
+            $writtenUserArray = ($this->uploadUsersCsvPersister)($validatedUserArray);
 
-            dd($validatedUserArray);
+            dd($writtenUserArray);
         }
 
         return $this->render('utility_upload_users_csv/index.html.twig', [
