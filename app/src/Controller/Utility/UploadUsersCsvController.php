@@ -16,15 +16,10 @@ use Symfony\Component\Serializer\Encoder\CsvEncoder;
 #[Route('/utility')]
 class UploadUsersCsvController extends AbstractController
 {
-    private UploadUsersCsvLoader $uploadUsersCsvLoader;
-    private UploadUsersCsvPersister $uploadUsersCsvPersister;
-
     public function __construct(
-        UploadUsersCsvLoader $uploadUsersCsvLoader,
-        UploadUsersCsvPersister $uploadUsersCsvPersister
+        private UploadUsersCsvLoader $uploadUsersCsvLoader,
+        private UploadUsersCsvPersister $uploadUsersCsvPersister
     ) {
-        $this->uploadUsersCsvLoader = $uploadUsersCsvLoader;
-        $this->uploadUsersCsvPersister = $uploadUsersCsvPersister;
     }
 
     #[Route('/upload/users/csv', name: 'app_utility_upload_users_csv')]
@@ -41,8 +36,14 @@ class UploadUsersCsvController extends AbstractController
             $file = $form->getData()['file'];
             $sheetData = $this->getSheetData($file);
 
-            var_dump($sheetData);
-            die();
+            $header = array_shift($sheetData);
+            foreach($sheetData as $row) {
+                $userArray[] = array_combine($header, $row);
+            }
+
+            $validatedUserArray = ($this->uploadUsersCsvLoader)($userArray);
+
+            dd($validatedUserArray);
         }
 
         return $this->render('utility_upload_users_csv/index.html.twig', [
