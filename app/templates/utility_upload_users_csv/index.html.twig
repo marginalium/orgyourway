@@ -8,19 +8,24 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Upload Contact List/Member List</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/html/src/Controller/UploadUsersCsvController.php'|file_link(0) }}">src/Controller/UploadUsersCsvController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/html/templates/utility_upload_users_csv/index.html.twig'|file_link(0) }}">templates/utility_upload_users_csv/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {% if writtenUserArray is not empty %}
+    <div>
+        <h2>Upload Results</h2>
+        <ul>
+            <li>Created: {{ writtenUserArray.created }}</li>
+            <li>Updated: {{ writtenUserArray.updated }}</li>
+            <li>Total: {{ writtenUserArray.total }}</li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <h2>Upload Form</h2>
 
     {{ form_start(form) }}
-    {{ form_row(form.file) }}
-    {{ form_row(form.preview) }}
-    {{ form_row(form.submit) }}
+        {{ form_row(form.file) }}
+        {{ form_row(form.preview) }}
+        {{ form_row(form.submit) }}
     {{ form_end(form) }}
 {% endblock %}

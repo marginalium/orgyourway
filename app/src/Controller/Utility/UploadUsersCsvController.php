@@ -32,6 +32,7 @@ class UploadUsersCsvController extends AbstractController
         $preview = $form->get('preview');
         $action = $preview->isClicked() ? 'preview' : 'submit';
 
+        $writtenUserArray = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->getData()['file'];
             $sheetData = $this->getSheetData($file);
@@ -43,8 +44,6 @@ class UploadUsersCsvController extends AbstractController
 
             $validatedUserArray = ($this->uploadUsersCsvLoader)($userArray);
             $writtenUserArray = ($this->uploadUsersCsvPersister)($validatedUserArray);
-
-            dd($writtenUserArray);
         }
 
         return $this->render('utility_upload_users_csv/index.html.twig', [
@@ -52,6 +51,7 @@ class UploadUsersCsvController extends AbstractController
             'generated' => [],
             'csvData' => $csvData,
             'controller_name' => 'UploadUsersCsvController',
+            'writtenUserArray' => $writtenUserArray
         ]);
     }
 
