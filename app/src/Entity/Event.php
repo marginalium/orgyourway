@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
@@ -83,11 +84,11 @@ class Event
     )]
     private DateTime $deletedAt;
 
-    #[ManyToMany(targetEntity: 'User', inversedBy: 'events')]
-    #[JoinTable(name: 'event_user')]
-    #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    #[InverseJoinColumn(name: 'event_id', referencedColumnName: 'id')]
-    private Collection $users;
+    #[OneToMany(
+        mappedBy: 'event_id',
+        targetEntity: 'Ticket'
+    )]
+    private Collection $tickets;
 
     /**
      * @return int|null
@@ -213,6 +214,22 @@ class Event
     {
         $this->endedAt = $endedAt;
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    /**
+     * @param Collection $tickets
+     */
+    public function setTickets(Collection $tickets): void
+    {
+        $this->tickets = $tickets;
     }
 
     #[PrePersist, PreUpdate]

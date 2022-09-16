@@ -6,19 +6,20 @@ use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Entity(repositoryClass: UserRepository::class)]
+#[Table(name: 'users')]
 #[HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -61,7 +62,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Column(
         name: 'is_subscribed',
-        type: Types::BOOLEAN
+        type: Types::BOOLEAN,
+        nullable: true
     )]
     private bool $isSubscribed;
 
@@ -105,8 +107,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private DateTime $deletedAt;
 
-    #[ManyToMany(targetEntity: 'Event', mappedBy: 'users')]
-    private Collection $events;
+    #[OneToMany(
+        mappedBy: 'user_id',
+        targetEntity: 'Ticket'
+    )]
+    private Collection $tickets;
 
     public function getId(): ?int
     {
@@ -284,6 +289,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->unsubscribedAt = $unsubscribedAt;
         return $this;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getRegisteredAt(): ?DateTime
+    {
+        return $this->registeredAt;
+    }
+
+    /**
+     * @param DateTime|null $registeredAt
+     */
+    public function setRegisteredAt(?DateTime $registeredAt): void
+    {
+        $this->registeredAt = $registeredAt;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    /**
+     * @param Collection $tickets
+     */
+    public function setTickets(Collection $tickets): void
+    {
+        $this->tickets = $tickets;
     }
 
     #[PrePersist, PreUpdate]
