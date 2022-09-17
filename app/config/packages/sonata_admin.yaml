@@ -5,15 +5,16 @@ sonata_admin:
             - { type: sonata.admin.block.admin_list, position: left }
         groups:
             user:
-                label: User
+                label: Users
                 translation_domain: ~
                 items:
                     - admin.user
             event:
-                label: Event
+                label: Events
                 translation_domain: ~
                 items:
                     - admin.event
+                    - admin.ticket
             utilities:
                 label: Utilities
                 translation_domain: ~

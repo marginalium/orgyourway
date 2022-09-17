@@ -49,7 +49,7 @@ class UploadTicketsCsvController extends AbstractController
             'generated' => [],
             'csvData' => $csvData,
             'controller_name' => 'UploadTicketsCsvController',
-            'writtenUserArray' => $writtenTicketArray
+            'writtenTicketArray' => $writtenTicketArray
         ]);
     }
 
