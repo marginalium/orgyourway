@@ -12,6 +12,9 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <script type="text/javascript" src="/bundles/sonataForm/vendor/moment/min/moment-with-locales.min.js"></script>
+        <script type="text/javascript" src="/bundles/sonataForm/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+        <link rel="stylesheet" href="/bundles/sonataForm/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
     </head>
     <body>
         {% block body %}{% endblock %}
