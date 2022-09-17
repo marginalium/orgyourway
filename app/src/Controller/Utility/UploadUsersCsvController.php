@@ -20,7 +20,7 @@ class UploadUsersCsvController extends AbstractController
     ) {
     }
 
-    #[Route('/utility/upload/users/csv', name: 'app_utility_upload_users_csv')]
+    #[Route('/utilities/upload/users/csv', name: 'app_utilities_upload_users_csv')]
     public function index(Request $request): Response
     {
         $csvData = [];

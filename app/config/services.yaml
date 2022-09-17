@@ -33,23 +33,28 @@ services:
     # End custom services
 
     # Begin Sonata services
-    admin.event:
+    admin.events:
         class: App\Admin\EventAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Event, manager_type: orm, label: Events, group: Events }
 
-    admin.ticket:
+    admin.tickets:
         class: App\Admin\TicketAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Ticket, manager_type: orm, label: Tickets, group: Events }
 
-    admin.user:
+    admin.users:
         class: App\Admin\UserAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: Users, group: Users }
 
-    admin.utility.users:
+    admin.utilities.users:
         class: App\Controller\Utility\UploadUsersCsvController
         tags:
             - { name: app_utility_upload_users_csv}
+
+    admin.utilities.tickets:
+        class: App\Controller\Utility\UploadTicketsCsvController
+        tags:
+            - { name: app_utilities_upload_tickets_csv }
     # End Sonata services

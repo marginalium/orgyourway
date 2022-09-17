@@ -7,18 +7,18 @@ sonata_admin:
             user:
                 label: Users
                 items:
-                    - admin.user
+                    - admin.users
             event:
                 label: Events
                 items:
-                    - admin.event
-                    - admin.ticket
+                    - admin.events
+                    - admin.tickets
             utilities:
                 label: Utilities
                 items:
-                    - route: app_utility_upload_users_csv
+                    - route: app_utilities_upload_users_csv
                       label: Upload User CSV
-                    - route: app_utility_upload_tickets_csv
+                    - route: app_utilities_upload_tickets_csv
                       label: Upload Ticket CSV
 
 

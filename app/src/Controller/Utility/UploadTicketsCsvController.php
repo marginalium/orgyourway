@@ -20,7 +20,7 @@ class UploadTicketsCsvController extends AbstractController
     ) {
     }
 
-    #[Route('/utility/upload/tickets/csv', name: 'app_utility_upload_tickets_csv')]
+    #[Route('/utilities/upload/tickets/csv', name: 'app_utilities_upload_tickets_csv')]
     public function index(Request $request): Response
     {
         $csvData = [];
