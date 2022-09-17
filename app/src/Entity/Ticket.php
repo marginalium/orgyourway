@@ -113,10 +113,10 @@ class Ticket
     )]
     private DateTime $deletedAt;
 
-    #[ManyToOne(targetEntity: 'User')]
+    #[ManyToOne(targetEntity: 'User', inversedBy: 'tickets')]
     private User $user;
 
-    #[ManyToOne(targetEntity: 'Event')]
+    #[ManyToOne(targetEntity: 'Event', inversedBy: 'tickets')]
     private Event $event;
 
     /**

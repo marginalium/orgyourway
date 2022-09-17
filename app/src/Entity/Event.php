@@ -83,7 +83,7 @@ class Event
     private DateTime $deletedAt;
 
     #[OneToMany(
-        mappedBy: 'event_id',
+        mappedBy: 'event',
         targetEntity: 'Ticket'
     )]
     private Collection $tickets;

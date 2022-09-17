@@ -110,7 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private DateTime $deletedAt;
 
     #[OneToMany(
-        mappedBy: 'user_id',
+        mappedBy: 'user',
         targetEntity: 'Ticket'
     )]
     private Collection $tickets;
