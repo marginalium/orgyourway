@@ -1,0 +1,31 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block title %}Upload Ticket CSV{% endblock %}
+
+{% block content %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <h1>Upload Ticket List</h1>
+
+    {% if writtenTicketArray is not empty %}
+        <div>
+            <h2>Upload Results</h2>
+            <ul>
+                <li>Created: {{ writtenTicketArray.created }}</li>
+                <li>Updated: {{ writtenTicketArray.updated }}</li>
+                <li>Total: {{ writtenTicketArray.total }}</li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <h2>Upload Form</h2>
+
+    {{ form_start(form) }}
+    {{ form_row(form.file) }}
+    {{ form_row(form.preview) }}
+    {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+{% endblock %}

@@ -2,9 +2,9 @@
 
 namespace App\Controller\Utility;
 
-use App\Form\UploadUsersCsvForm;
-use App\Service\UploadUsersCsvLoader;
-use App\Service\UploadUsersCsvPersister;
+use App\Form\UploadTicketsCsvForm;
+use App\Service\UploadTicketsCsvLoader;
+use App\Service\UploadTicketsCsvPersister;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -12,44 +12,44 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UploadUsersCsvController extends AbstractController
+class UploadTicketsCsvController extends AbstractController
 {
     public function __construct(
-        private UploadUsersCsvLoader $uploadUsersCsvLoader,
-        private UploadUsersCsvPersister $uploadUsersCsvPersister
+        private UploadTicketsCsvLoader $uploadTicketsCsvLoader,
+        private UploadTicketsCsvPersister $uploadTicketsCsvPersister
     ) {
     }
 
-    #[Route('/utility/upload/users/csv', name: 'app_utility_upload_users_csv')]
+    #[Route('/utility/upload/tickets/csv', name: 'app_utility_upload_tickets_csv')]
     public function index(Request $request): Response
     {
         $csvData = [];
-        $form = $this->createForm(UploadUsersCsvForm::class);
+        $form = $this->createForm(UploadTicketsCsvForm::class);
         $form->handleRequest($request);
 
         $preview = $form->get('preview');
         $action = $preview->isClicked() ? 'preview' : 'submit';
 
-        $writtenUserArray = [];
+        $writtenTicketArray = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->getData()['file'];
             $sheetData = $this->getSheetData($file);
 
             $header = array_shift($sheetData);
             foreach($sheetData as $row) {
-                $userArray[] = array_combine($header, $row);
+                $ticketArray[] = array_combine($header, $row);
             }
 
-            $validatedUserArray = ($this->uploadUsersCsvLoader)($userArray);
-            $writtenUserArray = ($this->uploadUsersCsvPersister)($validatedUserArray);
+            $validatedTicketArray = ($this->uploadTicketsCsvLoader)($ticketArray);
+            $writtenTicketArray = ($this->uploadTicketsCsvPersister)($validatedTicketArray);
         }
 
-        return $this->render('utility_upload_users_csv/index.html.twig', [
+        return $this->render('utility_upload_tickets_csv/index.html.twig', [
             'form' => $form->createView(),
             'generated' => [],
             'csvData' => $csvData,
-            'controller_name' => 'UploadUsersCsvController',
-            'writtenUserArray' => $writtenUserArray
+            'controller_name' => 'UploadTicketsCsvController',
+            'writtenUserArray' => $writtenTicketArray
         ]);
     }
 

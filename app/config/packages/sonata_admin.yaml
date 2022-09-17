@@ -20,6 +20,8 @@ sonata_admin:
                 items:
                     - route: app_utility_upload_users_csv
                       label: Upload User CSV
+                    - route: app_utility_upload_tickets_csv
+                      label: Upload Ticket CSV
 
 
 sonata_block:
