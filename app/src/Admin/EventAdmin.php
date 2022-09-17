@@ -43,6 +43,7 @@ class EventAdmin extends AbstractAdmin
     {
         $show
             ->add('event_name')
-            ->add('attendance_count');
+//            ->add('attendance_count')
+        ;
     }
 }

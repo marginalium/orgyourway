@@ -32,12 +32,6 @@ class Event
     private string $eventName;
 
     #[Column(
-        name: 'attendance_count',
-        type: Types::INTEGER
-    )]
-    private int $attendanceCount;
-
-    #[Column(
         name: 'attendance_cap',
         type: Types::INTEGER,
         nullable: true
