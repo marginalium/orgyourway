@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Sonata\Form\Type\DateTimePickerType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -17,19 +17,16 @@ class EventAdmin extends AbstractAdmin
     {
         $form
             ->add('event_name', TextType::class)
+            ->add('attendance_cap', IntegerType::class)
             ->add(
-                'attendance_count',
+                'ticket_cost_in_cents',
                 IntegerType::class,
                 [
-                    'attr' => [
-                        'readonly' => true
-                    ]
+                    'label' => 'Ticket Cost'
                 ]
             )
-            ->add('attendance_cap', IntegerType::class)
-            ->add('ticket_cost_in_cents', IntegerType::class)
-            ->add('started_at', DateType::class)
-            ->add('ended_at', DateType::class);
+            ->add('started_at', DateTimePickerType::class)
+            ->add('ended_at', DateTimePickerType::class);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
@@ -44,6 +41,8 @@ class EventAdmin extends AbstractAdmin
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('event_name');
+        $show
+            ->add('event_name')
+            ->add('attendance_count');
     }
 }
