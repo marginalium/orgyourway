@@ -6,18 +6,15 @@ sonata_admin:
         groups:
             user:
                 label: Users
-                translation_domain: ~
                 items:
                     - admin.user
             event:
                 label: Events
-                translation_domain: ~
                 items:
                     - admin.event
                     - admin.ticket
             utilities:
                 label: Utilities
-                translation_domain: ~
                 items:
                     - route: app_utility_upload_users_csv
                       label: Upload User CSV
