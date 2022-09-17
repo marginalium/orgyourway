@@ -11,6 +11,9 @@ RUN apt-get update && \
 RUN curl --silent --show-error https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+apt-get install -y nodejs
+
 COPY app /var/www/html
 COPY docker/nginx/config /etc/nginx/conf.d
 COPY docker/nginx/entrypoint /entrypoint
@@ -23,5 +26,7 @@ ENV ADMIN_PASSWORD ${ADMIN_PASSWORD}
 
 WORKDIR /var/www/html/
 RUN composer install
+
+RUN npm install
 
 CMD ["/entrypoint/orgyourway-entrypoint.sh"]
