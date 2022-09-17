@@ -3,6 +3,24 @@ sonata_admin:
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+        groups:
+            user:
+                label: User
+                translation_domain: ~
+                items:
+                    - admin.user
+            event:
+                label: Event
+                translation_domain: ~
+                items:
+                    - admin.event
+            utilities:
+                label: Utilities
+                translation_domain: ~
+                items:
+                    - route: app_utility_upload_users_csv
+                      label: Upload User CSV
+
 
 sonata_block:
     blocks:

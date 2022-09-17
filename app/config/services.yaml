@@ -42,4 +42,9 @@ services:
         class: App\Admin\UserAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: User, group: Events }
+
+    admin.utility.users:
+        class: App\Controller\Utility\UploadUsersCsvController
+        tags:
+            - { name: app_utility_upload_users_csv}
     # End Sonata services
