@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\Form\Type\DateTimePickerType;
+use Sonata\Form\Type\DateTimeRangePickerType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -25,8 +25,19 @@ class EventAdmin extends AbstractAdmin
                     'label' => 'Ticket Cost'
                 ]
             )
-            ->add('started_at', DateTimePickerType::class)
-            ->add('ended_at', DateTimePickerType::class);
+            ->add(
+                'event_date',
+                DateTimeRangePickerType::class,
+                [
+                    'label' => 'Event Date',
+                    'field_options_start' => [
+                        'label' => 'Start Date/time'
+                    ],
+                    'field_options_end' => [
+                        'label' => 'End Date/time'
+                    ]
+                ]
+            );
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
@@ -36,13 +47,24 @@ class EventAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('event_name');
+        $list->addIdentifier('event_name')
+            ->add('attendance_cap')
+            ->add('ticket_cost_in_cents')
+            ->add(
+                'started_at',
+                'datetime',
+                [
+                    'date_format' => 'y-M-d H:i:s'
+                ]
+            );
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('event_name')
+            ->add('attendance_cap')
+            ->add('ticket_cost_in_cents')
 //            ->add('attendance_count')
         ;
     }

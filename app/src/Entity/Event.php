@@ -61,13 +61,13 @@ class Event
         name: 'created_at',
         type: Types::DATETIME_MUTABLE
     )]
-    private ?DateTime $createdAt;
+    private ?DateTime $createdAt = null;
 
     #[Column(
         name: 'updated_at',
         type: Types::DATETIME_MUTABLE
     )]
-    private ?DateTime $updatedAt;
+    private ?DateTime $updatedAt = null;
 
     #[Column(
         name: 'deleted_at',
@@ -81,6 +81,8 @@ class Event
         targetEntity: 'Ticket'
     )]
     private Collection $tickets;
+
+    private $eventDate;
 
     /**
      * @return int|null
@@ -205,6 +207,25 @@ class Event
     public function setEndedAt(DateTime $endedAt): self
     {
         $this->endedAt = $endedAt;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventDate(): array
+    {
+        return [
+            'start' => $this->getStartedAt(),
+            'end' => $this->getEndedAt()
+        ];
+    }
+
+    public function setEventDate(array $eventDate): self
+    {
+        $this->setStartedAt($eventDate['start']);
+        $this->setEndedAt($eventDate['end']);
+
         return $this;
     }
 
