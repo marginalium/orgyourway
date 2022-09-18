@@ -32,7 +32,20 @@ class UserAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('email');
+        $list
+            ->addIdentifier('email')
+            ->add(ListMapper::NAME_ACTIONS, null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [
+                        // You may add custom link parameters used to generate the action url
+                        'link_parameters' => [
+                            'full' => true,
+                        ]
+                    ],
+                    'delete' => [],
+                ]
+            ]);
     }
 
     protected function configureShowFields(ShowMapper $show): void
