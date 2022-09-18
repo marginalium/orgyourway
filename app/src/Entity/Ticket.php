@@ -89,6 +89,12 @@ class Ticket
     private string $deliveryMethod;
 
     #[Column(
+        name: 'checked_in',
+        type: Types::BOOLEAN
+    )]
+    private bool $checkedIn = false;
+
+    #[Column(
         name: 'purchased_at',
         type: Types::DATETIME_MUTABLE
     )]
@@ -309,6 +315,22 @@ class Ticket
     public function setDeliveryMethod(string $deliveryMethod): void
     {
         $this->deliveryMethod = $deliveryMethod;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCheckedIn(): bool
+    {
+        return $this->checkedIn;
+    }
+
+    /**
+     * @param bool $checkedIn
+     */
+    public function setCheckedIn(bool $checkedIn): void
+    {
+        $this->checkedIn = $checkedIn;
     }
 
     /**
