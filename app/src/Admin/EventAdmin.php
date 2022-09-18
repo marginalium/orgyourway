@@ -2,6 +2,7 @@
 
 namespace App\Admin;
 
+use DateTime;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -54,7 +55,14 @@ class EventAdmin extends AbstractAdmin
                 'started_at',
                 'datetime',
                 [
-                    'date_format' => 'y-M-d H:i:s'
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            )
+            ->add(
+                'ended_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
                 ]
             );
     }

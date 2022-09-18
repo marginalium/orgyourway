@@ -1,11 +1,12 @@
-Event Name: Event Name
 Attendance Cap: Attendance Cap
-Ticket Cost In Cents: Ticket Cost In Cents
-Started At: Started At
+Ended At: Ended At
 Event List: Event List
-Users: Users
+Event Name: Event Name
 Events: Events
+Started At: Started At
+Ticket Cost In Cents: Ticket Cost In Cents
 Tickets: Tickets
-Utilities: Utilities
 Upload User CSV: Upload User CSV
 Upload Ticket CSV: Upload Ticket CSV
+Users: Users
+Utilities: Utilities
