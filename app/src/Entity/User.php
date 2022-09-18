@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping\{
     PreUpdate,
     Table
 };
+use Exception;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -267,11 +268,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param DateTime|null $subscribedAt
+     * @param DateTime|string|null $subscribedAt
      * @return User
+     * @throws Exception
      */
-    public function setSubscribedAt(?DateTime $subscribedAt): self
+    public function setSubscribedAt(DateTime|string|null $subscribedAt): self
     {
+        if (is_string($subscribedAt)) {
+            $subscribedAt = new DateTime($subscribedAt);
+        }
         $this->subscribedAt = $subscribedAt;
         return $this;
     }
@@ -285,11 +290,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param DateTime|null $unsubscribedAt
+     * @param DateTime|string|null $unsubscribedAt
      * @return User
+     * @throws Exception
      */
-    public function setUnsubscribedAt(?DateTime $unsubscribedAt): self
+    public function setUnsubscribedAt(DateTime|string|null $unsubscribedAt): self
     {
+        if (is_string($unsubscribedAt)) {
+            $unsubscribedAt = new DateTime($unsubscribedAt);
+        }
         $this->unsubscribedAt = $unsubscribedAt;
         return $this;
     }
@@ -305,8 +314,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param DateTime|null $registeredAt
      */
-    public function setRegisteredAt(?DateTime $registeredAt): void
+    public function setRegisteredAt(DateTime|string|null $registeredAt): void
     {
+        if (is_string($registeredAt)) {
+            $registeredAt = new DateTime($registeredAt);
+        }
         $this->registeredAt = $registeredAt;
     }
 

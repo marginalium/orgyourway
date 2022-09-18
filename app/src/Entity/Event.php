@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping\{
     PreUpdate,
     Table
 };
+use Exception;
 
 #[Entity]
 #[Table(name: 'events')]
@@ -31,6 +32,20 @@ class Event
         type: Types::STRING
     )]
     private string $name;
+
+    #[Column(
+        name: 'venue_name',
+        type: Types::STRING,
+        nullable: true
+    )]
+    private ?string $venueName;
+
+    #[Column(
+        name: 'external_venue_id',
+        type: Types::STRING,
+        nullable: true
+    )]
+    private ?string $externalVenueId;
 
     #[Column(
         name: 'attendance_cap',
@@ -48,15 +63,17 @@ class Event
 
     #[Column(
         name: 'started_at',
-        type: Types::DATETIME_MUTABLE
+        type: Types::DATETIME_MUTABLE,
+        nullable: true
     )]
-    private DateTime $startedAt;
+    private ?DateTime $startedAt;
 
     #[Column(
         name: 'ended_at',
-        type: Types:: DATETIME_MUTABLE
+        type: Types:: DATETIME_MUTABLE,
+        nullable: true
     )]
-    private DateTime $endedAt;
+    private ?DateTime $endedAt;
 
     #[Column(
         name: 'created_at',
@@ -130,21 +147,35 @@ class Event
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getAttendanceCount(): int
+    public function getVenueName(): ?string
     {
-        return $this->attendanceCount;
+        return $this->venueName;
     }
 
     /**
-     * @param int $attendanceCount
-     * @return Event
+     * @param string|null $venueName
      */
-    public function setAttendanceCount(int $attendanceCount): self
+    public function setVenueName(?string $venueName): void
     {
-        $this->attendanceCount = $attendanceCount;
-        return $this;
+        $this->venueName = $venueName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getExternalVenueId(): ?string
+    {
+        return $this->externalVenueId;
+    }
+
+    /**
+     * @param string|null $externalVenueId
+     */
+    public function setExternalVenueId(?string $externalVenueId): void
+    {
+        $this->externalVenueId = $externalVenueId;
     }
 
     /**
@@ -192,11 +223,15 @@ class Event
     }
 
     /**
-     * @param DateTime $startedAt
+     * @param DateTime|string|null $startedAt
      * @return Event
+     * @throws Exception
      */
-    public function setStartedAt(DateTime $startedAt): self
+    public function setStartedAt(DateTime|string|null $startedAt): self
     {
+        if (is_string($startedAt)) {
+            $startedAt = new DateTime($startedAt);
+        }
         $this->startedAt = $startedAt;
         return $this;
     }
@@ -210,11 +245,15 @@ class Event
     }
 
     /**
-     * @param DateTime $endedAt
+     * @param DateTime|string|null $endedAt
      * @return Event
+     * @throws Exception
      */
-    public function setEndedAt(DateTime $endedAt): self
+    public function setEndedAt(DateTime|string|null $endedAt): self
     {
+        if (is_string($endedAt)) {
+            $endedAt = new DateTime($endedAt);
+        }
         $this->endedAt = $endedAt;
         return $this;
     }

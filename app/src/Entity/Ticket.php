@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\{
     PreUpdate,
     Table
 };
+use Exception;
 
 #[Entity]
 #[Table(name: 'tickets')]
@@ -360,10 +361,14 @@ class Ticket
     }
 
     /**
-     * @param DateTime|null $purchasedAt
+     * @param DateTime|string|null $purchasedAt
+     * @throws Exception
      */
-    public function setPurchasedAt(?DateTime $purchasedAt): void
+    public function setPurchasedAt(DateTime|string|null $purchasedAt): void
     {
+        if (is_string($purchasedAt)) {
+            $purchasedAt = new DateTime($purchasedAt);
+        }
         $this->purchasedAt = $purchasedAt;
     }
 

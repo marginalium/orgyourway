@@ -22,6 +22,7 @@ class EventAdmin extends AbstractAdmin
             ->tab('Event')
                 ->with('Event')
                     ->add('name', TextType::class)
+                    ->add('venue_name', TextType::class)
                     ->add('attendance_cap', IntegerType::class)
                     ->add(
                         'ticket_cost_in_cents',
