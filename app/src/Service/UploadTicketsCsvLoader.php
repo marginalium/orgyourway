@@ -5,54 +5,49 @@ namespace App\Service;
 class UploadTicketsCsvLoader
 {
     private const ACCEPTED_TICKET_HEADER_VALUES = [
-        "Order ID" => "external_ticket_id",
-        "Date" => "purchased_at",
-        "Venue Name" => "venue_name",
-        "Venue ID" => "external_venue_id",
-        "Gross Revenue (USD)" => "gross_revenue_in_cents",
-        "Ticket Revenue (USD)" => "ticket_venue_in_cents",
-        "Eventbrite Fees (USD)" => "third_party_fees_in_cents",
-        "Eventbrite Payment Processing (USD)" => "third_party_payment_processing_in_cents",
-        "Tax on Eventbrite Fees (USD)" => "tax_in_cents",
-        "Tickets" => "quantity",
-        "Type" => "payment_type",
-        "Status" => "payment_status",
-        "Delivery Method" => "delivery_method",
-    ];
-
-    private const ACCEPTED_USER_HEADER_VALUES = [
+        "Order ID" => "ticket.external_ticket_id",
+        "Date" => "ticket.purchased_at",
+        "Gross Revenue (USD)" => "ticket.gross_revenue_in_cents",
+        "Ticket Revenue (USD)" => "ticket.ticket_revenue_in_cents",
+        "Eventbrite Fees (USD)" => "ticket.third_party_fees_in_cents",
+        "Eventbrite Payment Processing (USD)" => "ticket.third_party_payment_processing_in_cents",
+        "Tax on Eventbrite Fees (USD)" => "ticket.tax_in_cents",
+        "Tickets" => "ticket.quantity",
+        "Type" => "ticket.payment_type",
+        "Status" => "ticket.payment_status",
+        "Delivery Method" => "ticket.delivery_method",
         "First Name" => "user.first_name",
         "Last Name" => "user.last_name",
-        "Email Address" => "user.email"
-    ];
-
-    private const ACCEPTED_EVENT_HEADER_VALUES = [
+        "Email Address" => "user.email",
         "Event Name" => "event.name",
+        "Venue Name" => "event.venue_name",
+        "Venue ID" => "event.external_venue_id"
     ];
 
-    public function __invoke(array $userArray): array
+    public function __invoke(array $ticketArray): array
     {
-        return $this->validateValues($userArray);
+        return $this->validateValues($ticketArray);
     }
 
     /**
-     * @param array $userArray
+     * @param array $ticketArray
      * @return array
      *
      * TODO: Move this out to an EventBriteProvider class to make it adaptable to other ticketing systems in the future.
      */
-    public function validateValues(array $userArray): array
+    public function validateValues(array $ticketArray): array
     {
-        $validatedUserArray = [];
+        $validatedTicketArray = [];
 
-        foreach ($userArray as $userRowKey => $userRowValue) {
-            foreach ($userRowValue as $userColumnKey => $userColumnValue) {
-                if (array_key_exists($userColumnKey, self::ACCEPTED_TICKET_HEADER_VALUES)) {
-                    $validatedUserArray[$userRowKey][self::ACCEPTED_TICKET_HEADER_VALUES[$userColumnKey]] = $userColumnValue;
+        foreach ($ticketArray as $ticketRowKey => $ticketRowValue) {
+            foreach ($ticketRowValue as $ticketColumnKey => $ticketColumnValue) {
+                if (array_key_exists($ticketColumnKey, self::ACCEPTED_TICKET_HEADER_VALUES)) {
+                    $keyValuePair = explode('.', self::ACCEPTED_TICKET_HEADER_VALUES[$ticketColumnKey]);
+                    $validatedTicketArray[$keyValuePair[0]][$ticketRowKey][$keyValuePair[1]] = $ticketColumnValue;
                 }
             }
         }
 
-        return $validatedUserArray;
+        return $validatedTicketArray;
     }
 }

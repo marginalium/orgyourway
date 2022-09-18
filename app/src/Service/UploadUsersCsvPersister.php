@@ -3,8 +3,10 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class UploadUsersCsvPersister
 {
@@ -14,16 +16,19 @@ class UploadUsersCsvPersister
 
     public function __invoke(array $userArray): array
     {
-         $writeCounts['user'] = $this->createUserEntities($userArray['user']);
-         return $writeCounts;
+        $userRepository = $this->entityManager->getRepository(User::class);
+
+        $writeCounts['user'] = $this->writeUserEntities($userArray['user'], $userRepository);
+        $this->entityManager->flush();
+
+        return $writeCounts;
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function createUserEntities(array $userArray): array
+    public function writeUserEntities(array $userArray, UserRepository $userRepository): array
     {
-        $userRepo = $this->entityManager->getRepository(User::class);
         $writeCount = [
             'updated' => 0,
             'created' => 0,
@@ -31,7 +36,7 @@ class UploadUsersCsvPersister
         ];
 
         foreach ($userArray as $userRow) {
-            $user = $userRepo->findOneBy(['email' => $userRow['email']]);
+            $user = $userRepository->findOneBy(['email' => $userRow['email']]);
             if (empty($user)) {
                 $user = new User();
                 $user->setEmail($userRow['email']);
@@ -55,8 +60,6 @@ class UploadUsersCsvPersister
             $this->entityManager->persist($user);
             $writeCount['total']++;
         }
-
-        $this->entityManager->flush();
 
         return $writeCount;
     }
