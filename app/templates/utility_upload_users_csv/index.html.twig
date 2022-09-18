@@ -10,14 +10,18 @@
 
     <h1>Upload Contact List/Member List</h1>
 
-    {% if writtenUserArray is not empty %}
+    {% if writeCountArray is not empty %}
     <div>
         <h2>Upload Results</h2>
+
+        {% if writeCountArray.user is not empty %}
+        <h3>User records</h3>
         <ul>
-            <li>Created: {{ writtenUserArray.created }}</li>
-            <li>Updated: {{ writtenUserArray.updated }}</li>
-            <li>Total: {{ writtenUserArray.total }}</li>
+            <li>Created: {{ writeCountArray.user.created }}</li>
+            <li>Updated: {{ writeCountArray.user.updated }}</li>
+            <li>Total: {{ writeCountArray.user.total }}</li>
         </ul>
+        {% endif %}
     </div>
     {% endif %}
 

@@ -5,17 +5,16 @@ namespace App\Service;
 class UploadUsersCsvLoader
 {
     private const ACCEPTED_CONTACT_HEADER_VALUES = [
-        "Email Address" => "email",
-        "First Name" => "first_name",
-        "Last Name" => "last_name",
-        "Subscribed? Yes/No" => "is_subscribed",
-        "Unsubscribed Date" => "unsubscribed_at"
+        "Email Address" => "user.email",
+        "First Name" => "user.first_name",
+        "Last Name" => "user.last_name",
+        "Subscribed? Yes/No" => "user.is_subscribed",
+        "Unsubscribed Date" => "user.unsubscribed_at"
     ];
 
-    public function __invoke(array $userArray)
+    public function __invoke(array $userArray): array
     {
-        $validatedUserArray = $this->validateValues($userArray);
-        return $validatedUserArray;
+        return $this->validateValues($userArray);
     }
 
     /**
@@ -31,7 +30,8 @@ class UploadUsersCsvLoader
         foreach ($userArray as $userRowKey => $userRowValue) {
             foreach ($userRowValue as $userColumnKey => $userColumnValue) {
                 if (array_key_exists($userColumnKey, self::ACCEPTED_CONTACT_HEADER_VALUES)) {
-                    $validatedUserArray[$userRowKey][self::ACCEPTED_CONTACT_HEADER_VALUES[$userColumnKey]] = $userColumnValue;
+                    $keyValuePair = explode('.', self::ACCEPTED_CONTACT_HEADER_VALUES[$userColumnKey]);
+                    $validatedUserArray[$keyValuePair[0]][$userRowKey][$keyValuePair[1]] = $userColumnValue;
                 }
             }
         }

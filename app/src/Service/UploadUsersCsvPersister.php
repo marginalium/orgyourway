@@ -14,7 +14,8 @@ class UploadUsersCsvPersister
 
     public function __invoke(array $userArray): array
     {
-         return $this->createUserEntities($userArray);
+         $writeCounts['user'] = $this->createUserEntities($userArray['user']);
+         return $writeCounts;
     }
 
     /**
