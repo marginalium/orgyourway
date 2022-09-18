@@ -86,6 +86,8 @@ class Event
 
     private array $eventDate;
 
+    private string $fullName;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -234,6 +236,11 @@ class Event
         $this->setEndedAt($eventDate['end']);
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->getName() . ': ' . $this->getStartedAt()->format('Y-m-d H:i:s') . ' - ' . $this->getEndedAt()->format('Y-m-d H:i:s');
     }
 
     /**

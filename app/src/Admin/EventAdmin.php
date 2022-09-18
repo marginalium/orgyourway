@@ -80,7 +80,7 @@ class EventAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('event_name')
+        $list->addIdentifier('name')
             ->add('attendance_cap')
             ->add('ticket_cost_in_cents')
             ->add(

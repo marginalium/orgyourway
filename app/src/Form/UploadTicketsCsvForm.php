@@ -2,6 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Event;
+use DateTime;
+use Doctrine\ORM\EntityRepository;
+use Sonata\AdminBundle\Form\Type\ModelType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,6 +28,21 @@ class UploadTicketsCsvForm extends AbstractType
                     'attr' => [
                         'accept' => 'text/csv'
                     ]
+                ]
+            )
+            ->add(
+                'event',
+                EntityType::class,
+                [
+                    'class' => Event::class,
+                    'required' => true,
+                    'choice_label' => 'fullName',
+                    'query_builder' => function (EntityRepository $entityRepository) {
+                        return $entityRepository->createQueryBuilder('e')
+                            ->where('e.endedAt > :today')
+                            ->orderBy('e.startedAt')
+                            ->setParameter('today', new DateTime());
+                    }
                 ]
             )
             ->add(
