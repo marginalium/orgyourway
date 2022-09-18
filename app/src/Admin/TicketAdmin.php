@@ -56,16 +56,16 @@ class TicketAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('event_name');
+        $datagrid->add('event.name');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('event_name');
+        $list->addIdentifier('event.name');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('event_name');
+        $show->add('event.name');
     }
 }

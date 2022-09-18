@@ -21,7 +21,7 @@ class EventAdmin extends AbstractAdmin
         $form
             ->tab('Event')
                 ->with('Event')
-                    ->add('event_name', TextType::class)
+                    ->add('name', TextType::class)
                     ->add('attendance_cap', IntegerType::class)
                     ->add(
                         'ticket_cost_in_cents',

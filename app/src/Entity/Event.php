@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\{
@@ -26,10 +27,10 @@ class Event
     private ?int $id = null;
 
     #[Column(
-        name: 'event_name',
+        name: 'name',
         type: Types::STRING
     )]
-    private string $eventName;
+    private string $name;
 
     #[Column(
         name: 'attendance_cap',
@@ -78,11 +79,17 @@ class Event
 
     #[OneToMany(
         mappedBy: 'event',
-        targetEntity: 'Ticket'
+        targetEntity: 'Ticket',
+        cascade: ['persist']
     )]
-    private Collection $tickets;
+    private ?Collection $tickets;
 
-    private $eventDate;
+    private array $eventDate;
+
+    public function __construct()
+    {
+        $this->tickets = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -105,18 +112,18 @@ class Event
     /**
      * @return string
      */
-    public function getEventName(): string
+    public function getName(): string
     {
-        return $this->eventName;
+        return $this->name;
     }
 
     /**
-     * @param string $eventName
+     * @param string $name
      * @return Event
      */
-    public function setEventName(string $eventName): self
+    public function setName(string $name): self
     {
-        $this->eventName = $eventName;
+        $this->name = $name;
         return $this;
     }
 

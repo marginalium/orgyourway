@@ -31,60 +31,69 @@ class Ticket
 
     #[Column(
         name: 'external_ticket_id',
-        type: Types::STRING
+        type: Types::STRING,
+        nullable: true
     )]
-    private string $externalTicketId;
+    private ?string $externalTicketId;
 
     #[Column(
         name: 'gross_revenue_in_cents',
-        type: Types::INTEGER
+        type: Types::INTEGER,
+        nullable: true
     )]
     private int $grossRevenueInCents;
 
     #[Column(
         name: 'ticket_revenue_in_cents',
-        type: Types::INTEGER
+        type: Types::INTEGER,
+        nullable: true
     )]
     private int $ticketRevenueInCents;
 
     #[Column(
         name: 'third_party_fees_in_cents',
-        type: Types::INTEGER
+        type: Types::INTEGER,
+        nullable: true
     )]
     private int $thirdPartyFeesInCents;
 
     #[Column(
         name: 'third_party_payment_processing_in_cents',
-        type: Types::INTEGER
+        type: Types::INTEGER,
+        nullable: true
     )]
     private int $thirdPartyPaymentProcessingInCents;
 
     #[Column(
         name: 'tax_in_cents',
-        type: Types::INTEGER
+        type: Types::INTEGER,
+        nullable: true
     )]
     private int $taxInCents;
 
     #[Column(
         type: Types::INTEGER
     )]
-    private int $quantity;
+    private int $quantity = 1;
 
     #[Column(
         name: 'payment_type',
-        type: Types::STRING
+        type: Types::STRING,
+        nullable: true
     )]
     private string $paymentType;
 
     #[Column(
         name: 'payment_status',
-        type: Types::STRING
+        type: Types::STRING,
+        nullable: true
     )]
     private string $paymentStatus;
 
     #[Column(
         name: 'delivery_method',
-        type: Types::STRING
+        type: Types::STRING,
+        nullable: true
     )]
     private string $deliveryMethod;
 
@@ -96,7 +105,8 @@ class Ticket
 
     #[Column(
         name: 'purchased_at',
-        type: Types::DATETIME_MUTABLE
+        type: Types::DATETIME_MUTABLE,
+        nullable: true
     )]
     private ?DateTime $purchasedAt;
 
@@ -119,10 +129,18 @@ class Ticket
     )]
     private DateTime $deletedAt;
 
-    #[ManyToOne(targetEntity: 'User', inversedBy: 'tickets')]
+    #[ManyToOne(
+        targetEntity: 'User',
+        cascade: ['persist'],
+        inversedBy: 'tickets'
+    )]
     private User $user;
 
-    #[ManyToOne(targetEntity: 'Event', inversedBy: 'tickets')]
+    #[ManyToOne(
+        targetEntity: 'Event',
+        cascade: ['persist'],
+        inversedBy: 'tickets'
+    )]
     private Event $event;
 
     /**

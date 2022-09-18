@@ -111,9 +111,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[OneToMany(
         mappedBy: 'user',
-        targetEntity: 'Ticket'
+        targetEntity: 'Ticket',
+        cascade: ['persist']
     )]
-    private Collection $tickets;
+    private ?Collection $tickets;
 
     public function getId(): ?int
     {
