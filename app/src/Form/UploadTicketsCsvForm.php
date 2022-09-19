@@ -23,8 +23,8 @@ class UploadTicketsCsvForm extends AbstractType
                 [
                     'label' => 'User File',
                     'required' => true,
-                    'help' => 'This upload accepts CSV files of member lists from Eventbrite.
-                        For best results, do not alter the CSV from Eventbrite before uploading.',
+                    'help' => 'This upload accepts CSV files of member lists from Eventbrite. ' .
+                        'For best results, do not alter the CSV from Eventbrite before uploading.',
                     'attr' => [
                         'accept' => 'text/csv'
                     ]

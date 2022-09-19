@@ -1,16 +1,25 @@
+Actions: Actions
 Attendance Cap: Attendance Cap
+Email: Email
 End Date/time: End Date/time
 Ended At: Ended At
 Event Date: Event Date
 Event List: Event List
 Event Name: Event Name
+Event: Event
 Events: Events
+Preview: Preview
 Start Date/time: Start Date/time
 Started At: Started At
+Submit: Submit
+This upload accepts CSV files of member lists from Eventbrite. For best results, do not alter the CSV from Eventbrite before uploading.:
+  This upload accepts CSV files of member lists from Eventbrite. For best results, do not alter the CSV from Eventbrite before uploading.
 Ticket Cost: Ticket Cost
 Ticket Cost In Cents: Ticket Cost In Cents
 Tickets: Tickets
 Upload User CSV: Upload User CSV
 Upload Ticket CSV: Upload Ticket CSV
+User File: User File
+User List: User List
 Users: Users
 Utilities: Utilities

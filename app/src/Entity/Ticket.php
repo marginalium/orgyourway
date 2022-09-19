@@ -133,6 +133,7 @@ class Ticket
     #[ManyToOne(
         targetEntity: 'User',
         cascade: ['persist'],
+        fetch: 'EAGER',
         inversedBy: 'tickets'
     )]
     private User $user;
@@ -140,6 +141,7 @@ class Ticket
     #[ManyToOne(
         targetEntity: 'Event',
         cascade: ['persist'],
+        fetch: 'EAGER',
         inversedBy: 'tickets'
     )]
     private Event $event;

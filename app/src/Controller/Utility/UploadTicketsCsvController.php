@@ -41,7 +41,7 @@ class UploadTicketsCsvController extends AbstractController
             }
 
             $validatedTicketArray = ($this->uploadTicketsCsvLoader)($ticketArray);
-            $writtenTicketArray = ($this->uploadTicketsCsvPersister)($validatedTicketArray);
+            $writtenTicketArray = ($this->uploadTicketsCsvPersister)($validatedTicketArray, $form->getData()['event']);
         }
 
         return $this->render('utility_upload_tickets_csv/index.html.twig', [

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Ticket;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,5 +38,18 @@ class TicketRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getTicketsByExternalId(array $ticketArray): array
+    {
+        $ticketIdArray = array_map(function ($row) {
+            return $row['ticket']['external_ticket_id'];
+        }, $ticketArray);
+
+        return $this->createQueryBuilder('t')
+            ->where('t.externalTicketId IN (:ticketIdArray)')
+            ->setParameter('ticketIdArray', $ticketIdArray)
+            ->getQuery()
+            ->execute();
     }
 }

@@ -2,30 +2,34 @@
 
 namespace App\Service;
 
+use App\Entity\Event;
 use App\Entity\Ticket;
+use App\Entity\User;
 use App\Repository\TicketRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UploadTicketsCsvPersister
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private TicketRepository $ticketRepository,
+        private UserRepository $userRepository
     ) {}
 
-    public function __invoke(array $ticketArray): array
+    public function __invoke(array $ticketArray, Event $event): array
     {
-        $ticketRepository = $this->entityManager->getRepository(Ticket::class);
+        $ticketEntityArray = $this->ticketRepository->getTicketsByExternalId($ticketArray);
+        $userEntityArray = $this->userRepository->getUsersByEmail($ticketArray);
 
-        $writeCounts['ticket'] = $this->writeTicketEntities($ticketArray['ticket'], $ticketRepository);
-        $writeCounts['user'] = $this->writeUserEntities($ticketArray['user'], $ticketRepository);
-        $writeCounts['event'] = $this->writeEventEntities($ticketArray['event'], $ticketRepository);
+        $writeCounts = $this->writeTicketEntities($ticketArray, $ticketEntityArray, $event);
 
         $this->entityManager->flush();
 
         return $writeCounts;
     }
 
-    public function writeTicketEntities(array $ticketArray, TicketRepository $ticketRepository): array
+    public function writeTicketEntities(array $ticketArray, array $ticketEntityArray, Event $event): array
     {
         $writeCount = [
             'updated' => 0,
@@ -34,59 +38,45 @@ class UploadTicketsCsvPersister
         ];
 
         foreach ($ticketArray as $ticketRow) {
-            $ticket = $ticketRepository->findOneBy(['external_ticket_id' => $ticketRow['external_ticket_id']]);
-            if (empty($ticket)) {
+            if (!in_array($ticketRow['ticket']['external_ticket_id'], $ticketEntityArray)) {
                 $ticket = new Ticket();
                 $writeCount['created']++;
             } else {
                 $writeCount['updated']++;
             }
-            $ticket->setExternalTicketId($ticketRow['external_ticket_id']);
-            $ticket->setPurchasedAt($ticketRow['purchased_at']);
+            $ticket->setExternalTicketId($ticketRow['ticket']['external_ticket_id']);
+            $ticket->setPurchasedAt($ticketRow['ticket']['purchased_at']);
             $ticket->setGrossRevenueInCents(
-                (int) ($ticketRow['gross_revenue_in_cents'] * 100)
+                (int) ($ticketRow['ticket']['gross_revenue_in_cents'] * 100)
             );
             $ticket->setTicketRevenueInCents(
-                (int) ($ticketRow['ticket_revenue_in_cents'] * 100)
+                (int) ($ticketRow['ticket']['ticket_revenue_in_cents'] * 100)
             );
             $ticket->setThirdPartyFeesInCents(
-                (int) ($ticketRow['third_party_fees_in_cents'] * 100)
+                (int) ($ticketRow['ticket']['third_party_fees_in_cents'] * 100)
             );
             $ticket->setThirdPartyPaymentProcessingInCents(
-                (int) ($ticketRow['third_party_payment_processing_in_cents'] * 100)
+                (int) ($ticketRow['ticket']['third_party_payment_processing_in_cents'] * 100)
             );
             $ticket->setTaxInCents(
-                (int) ($ticketRow['tax_in_cents'] * 100)
+                (int) ($ticketRow['ticket']['tax_in_cents'] * 100)
             );
-            $ticket->setQuantity($ticketRow['quantity']);
-            $ticket->setPaymentType($ticketRow['payment_type']);
-            $ticket->setPaymentStatus($ticketRow['payment_status']);
-            $ticket->setDeliveryMethod($ticketRow['delivery_method']);
+            $ticket->setQuantity($ticketRow['ticket']['quantity']);
+            $ticket->setPaymentType($ticketRow['ticket']['payment_type']);
+            $ticket->setPaymentStatus($ticketRow['ticket']['payment_status']);
+            $ticket->setDeliveryMethod($ticketRow['ticket']['delivery_method']);
+
+            $user = new User();
+            $user->setEmail($ticketRow['user']['email']);
+            $user->setPassword(password_hash(random_bytes(16), PASSWORD_BCRYPT));
+            $user->setFirstName($ticketRow['user']['first_name']);
+            $user->setLastName($ticketRow['user']['last_name']);
+
+            $ticket->setUser($user);
+
             $this->entityManager->persist($ticket);
             $writeCount['total']++;
         }
-
-        return $writeCount;
-    }
-
-    public function writeUserEntities(array $userArray, TicketRepository $ticketRepository): array
-    {
-        $writeCount = [
-            'updated' => 0,
-            'created' => 0,
-            'total' => 0
-        ];
-
-        return $writeCount;
-    }
-
-    public function writeEventEntities(array $eventArray, TicketRepository $ticketRepository): array
-    {
-        $writeCount = [
-            'updated' => 0,
-            'created' => 0,
-            'total' => 0
-        ];
 
         return $writeCount;
     }

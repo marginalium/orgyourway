@@ -43,7 +43,7 @@ class UploadTicketsCsvLoader
             foreach ($ticketRowValue as $ticketColumnKey => $ticketColumnValue) {
                 if (array_key_exists($ticketColumnKey, self::ACCEPTED_TICKET_HEADER_VALUES)) {
                     $keyValuePair = explode('.', self::ACCEPTED_TICKET_HEADER_VALUES[$ticketColumnKey]);
-                    $validatedTicketArray[$keyValuePair[0]][$ticketRowKey][$keyValuePair[1]] = $ticketColumnValue;
+                    $validatedTicketArray[$ticketRowKey][$keyValuePair[0]][$keyValuePair[1]] = $ticketColumnValue;
                 }
             }
         }
