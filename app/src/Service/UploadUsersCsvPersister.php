@@ -19,7 +19,6 @@ class UploadUsersCsvPersister
         $userRepository = $this->entityManager->getRepository(User::class);
 
         $writeCounts['user'] = $this->writeUserEntities($userArray['user'], $userRepository);
-        $this->entityManager->flush();
 
         return $writeCounts;
     }
@@ -39,7 +38,7 @@ class UploadUsersCsvPersister
             $user = $userRepository->findOneBy(['email' => $userRow['email']]);
             if (empty($user)) {
                 $user = new User();
-                $user->setEmail($userRow['email']);
+                $user->setEmail(strtolower($userRow['email']));
                 $user->setIsSubscribed($userRow['is_subscribed']);
                 $writeCount['created']++;
             } else {
@@ -60,6 +59,7 @@ class UploadUsersCsvPersister
             $this->entityManager->persist($user);
             $writeCount['total']++;
         }
+        $this->entityManager->flush();
 
         return $writeCount;
     }

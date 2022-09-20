@@ -7,10 +7,13 @@ use App\Entity\Ticket;
 use App\Entity\User;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UploadTicketsCsvPersister
 {
+    private const DEFAULT_PROVIDER = 'eventbrite';
+
     public function __construct(
         private EntityManagerInterface $entityManager,
         private TicketRepository $ticketRepository,
@@ -19,18 +22,20 @@ class UploadTicketsCsvPersister
 
     public function __invoke(array $ticketArray, Event $event): array
     {
-        $ticketEntityArray = $this->ticketRepository->getTicketsByExternalId($ticketArray);
-        $userEntityArray = $this->userRepository->getUsersByEmail($ticketArray);
+        $ticketCollection = $this->ticketRepository->getTicketsByExternalId($ticketArray);
+        $userCollection = $this->userRepository->getUsersByEmail($ticketArray);
 
-        $writeCounts = $this->writeTicketEntities($ticketArray, $ticketEntityArray, $event);
-
-        $this->entityManager->flush();
+        $writeCounts = $this->writeTicketEntities($ticketArray, $ticketCollection, $userCollection, $event);
 
         return $writeCounts;
     }
 
-    public function writeTicketEntities(array $ticketArray, array $ticketEntityArray, Event $event): array
-    {
+    public function writeTicketEntities(
+        array $ticketArray,
+        ArrayCollection $ticketCollection,
+        ArrayCollection $userCollection,
+        Event $event
+    ): array {
         $writeCount = [
             'updated' => 0,
             'created' => 0,
@@ -38,13 +43,22 @@ class UploadTicketsCsvPersister
         ];
 
         foreach ($ticketArray as $ticketRow) {
-            if (!in_array($ticketRow['ticket']['external_ticket_id'], $ticketEntityArray)) {
+            $externalTicketId = strtolower($ticketRow['ticket']['external_ticket_id']);
+            $ticket = $ticketCollection->filter(
+            //https://www.php.net/manual/en/functions.arrow.php
+                fn($ticket) => $ticket->getExternalTicketId() == $externalTicketId
+            )->first();
+
+            $writeCount['total']++;
+            if (empty($ticket)) {
                 $ticket = new Ticket();
                 $writeCount['created']++;
             } else {
                 $writeCount['updated']++;
             }
-            $ticket->setExternalTicketId($ticketRow['ticket']['external_ticket_id']);
+
+            $ticket->setSource(self::DEFAULT_PROVIDER);
+            $ticket->setExternalTicketId(strtolower($ticketRow['ticket']['external_ticket_id']));
             $ticket->setPurchasedAt($ticketRow['ticket']['purchased_at']);
             $ticket->setGrossRevenueInCents(
                 (int) ($ticketRow['ticket']['gross_revenue_in_cents'] * 100)
@@ -66,17 +80,29 @@ class UploadTicketsCsvPersister
             $ticket->setPaymentStatus($ticketRow['ticket']['payment_status']);
             $ticket->setDeliveryMethod($ticketRow['ticket']['delivery_method']);
 
-            $user = new User();
-            $user->setEmail($ticketRow['user']['email']);
+            $email = strtolower($ticketRow['user']['email']);
+
+            $user = $userCollection->filter(
+                fn($userEntity) => $userEntity->getEmail() == $email
+            )->first();
+
+            if (empty($user)) {
+                $user = new User();
+            }
+
+            $user->setEmail($email);
             $user->setPassword(password_hash(random_bytes(16), PASSWORD_BCRYPT));
             $user->setFirstName($ticketRow['user']['first_name']);
             $user->setLastName($ticketRow['user']['last_name']);
+            $this->entityManager->persist($user);
 
             $ticket->setUser($user);
+            $ticket->setEvent($event);
 
             $this->entityManager->persist($ticket);
-            $writeCount['total']++;
         }
+
+        $this->entityManager->flush();
 
         return $writeCount;
     }

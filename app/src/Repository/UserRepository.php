@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -56,16 +57,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
-    public function getUsersByEmail(array $userArray): array
+    public function getUsersByEmail(array $userArray): ArrayCollection
     {
         $emailArray = array_map(function ($row) {
             return $row['user']['email'];
         }, $userArray);
 
-        return $this->createQueryBuilder('u')
+        $result = $this->createQueryBuilder('u')
             ->where('u.email IN (:emailArray)')
             ->setParameter('emailArray', $emailArray)
             ->getQuery()
-            ->execute();
+            ->getResult();
+
+        return new ArrayCollection($result);
     }
 }

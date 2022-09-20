@@ -40,16 +40,18 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
-    public function getTicketsByExternalId(array $ticketArray): array
+    public function getTicketsByExternalId(array $ticketArray): ArrayCollection
     {
         $ticketIdArray = array_map(function ($row) {
             return $row['ticket']['external_ticket_id'];
         }, $ticketArray);
 
-        return $this->createQueryBuilder('t')
+        $result = $this->createQueryBuilder('t')
             ->where('t.externalTicketId IN (:ticketIdArray)')
             ->setParameter('ticketIdArray', $ticketIdArray)
             ->getQuery()
-            ->execute();
+            ->getResult();
+
+        return new ArrayCollection($result);
     }
 }
