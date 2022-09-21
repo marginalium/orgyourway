@@ -25,11 +25,16 @@ services:
 
     # Begin repositories
     App\Service\UserRepository:
+    # End repositories
 
     # Begin custom services
     App\Service\UploadUsersCsvPersister:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
+
+    Doctrine\Laminas\Hydrator\DoctrineObject:
+        arguments:
+            $objectManager: '@doctrine.orm.entity_manager'
     # End custom services
 
     # Begin Sonata services

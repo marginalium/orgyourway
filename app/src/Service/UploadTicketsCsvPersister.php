@@ -8,7 +8,9 @@ use App\Entity\User;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Laminas\Hydrator\DoctrineObject;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class UploadTicketsCsvPersister
 {
@@ -16,6 +18,7 @@ class UploadTicketsCsvPersister
 
     public function __construct(
         private EntityManagerInterface $entityManager,
+        private DoctrineObject $doctrineHydrator,
         private TicketRepository $ticketRepository,
         private UserRepository $userRepository
     ) {}
@@ -43,10 +46,31 @@ class UploadTicketsCsvPersister
         ];
 
         foreach ($ticketArray as $ticketRow) {
-            $externalTicketId = strtolower($ticketRow['ticket']['external_ticket_id']);
+            $user = $this->hydrateUserData($ticketRow, $userCollection);
+
+            $event = $this->hydrateEventData($ticketRow, $event);
+
+            $ticketData = [
+                'source' => self::DEFAULT_PROVIDER,
+                'external_ticket_id' => strtolower($ticketRow['external_ticket_id']),
+                'purchased_at' => $ticketRow['purchased_at'],
+                'gross_revenue_in_cents' => (int) ($ticketRow['gross_revenue_in_cents'] * 100),
+                'ticket_revenue_in_cents' => (int) ($ticketRow['ticket_revenue_in_cents'] * 100),
+                'third_party_fees_in_cents' => (int) ($ticketRow['third_party_fees_in_cents'] * 100),
+                'third_party_payment_processing_in_cents' =>
+                    (int) ($ticketRow['third_party_payment_processing_in_cents'] * 100),
+                'tax_in_cents' => (int) ($ticketRow['tax_in_cents'] * 100),
+                'quantity' => (int) ($ticketRow['quantity']),
+                'payment_type' => $ticketRow['payment_type'],
+                'payment_status' => $ticketRow['payment_status'],
+                'delivery_method' => $ticketRow['delivery_method'],
+                'user' => $user,
+                'event' => $event
+            ];
+
             $ticket = $ticketCollection->filter(
             //https://www.php.net/manual/en/functions.arrow.php
-                fn($ticket) => $ticket->getExternalTicketId() == $externalTicketId
+                fn($ticket) => $ticket->getExternalTicketId() == $ticketData['external_ticket_id']
             )->first();
 
             $writeCount['total']++;
@@ -57,47 +81,7 @@ class UploadTicketsCsvPersister
                 $writeCount['updated']++;
             }
 
-            $ticket->setSource(self::DEFAULT_PROVIDER);
-            $ticket->setExternalTicketId(strtolower($ticketRow['ticket']['external_ticket_id']));
-            $ticket->setPurchasedAt($ticketRow['ticket']['purchased_at']);
-            $ticket->setGrossRevenueInCents(
-                (int) ($ticketRow['ticket']['gross_revenue_in_cents'] * 100)
-            );
-            $ticket->setTicketRevenueInCents(
-                (int) ($ticketRow['ticket']['ticket_revenue_in_cents'] * 100)
-            );
-            $ticket->setThirdPartyFeesInCents(
-                (int) ($ticketRow['ticket']['third_party_fees_in_cents'] * 100)
-            );
-            $ticket->setThirdPartyPaymentProcessingInCents(
-                (int) ($ticketRow['ticket']['third_party_payment_processing_in_cents'] * 100)
-            );
-            $ticket->setTaxInCents(
-                (int) ($ticketRow['ticket']['tax_in_cents'] * 100)
-            );
-            $ticket->setQuantity($ticketRow['ticket']['quantity']);
-            $ticket->setPaymentType($ticketRow['ticket']['payment_type']);
-            $ticket->setPaymentStatus($ticketRow['ticket']['payment_status']);
-            $ticket->setDeliveryMethod($ticketRow['ticket']['delivery_method']);
-
-            $email = strtolower($ticketRow['user']['email']);
-
-            $user = $userCollection->filter(
-                fn($userEntity) => $userEntity->getEmail() == $email
-            )->first();
-
-            if (empty($user)) {
-                $user = new User();
-            }
-
-            $user->setEmail($email);
-            $user->setPassword(password_hash(random_bytes(16), PASSWORD_BCRYPT));
-            $user->setFirstName($ticketRow['user']['first_name']);
-            $user->setLastName($ticketRow['user']['last_name']);
-            $this->entityManager->persist($user);
-
-            $ticket->setUser($user);
-            $ticket->setEvent($event);
+            $ticket = $this->doctrineHydrator->hydrate($ticketData, $ticket);
 
             $this->entityManager->persist($ticket);
         }
@@ -105,5 +89,39 @@ class UploadTicketsCsvPersister
         $this->entityManager->flush();
 
         return $writeCount;
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function hydrateUserData(array $data, ArrayCollection $userCollection): User
+    {
+        $userData = [
+            'email' => strtolower($data['user']['email']),
+            'password' => password_hash(random_bytes(16), PASSWORD_BCRYPT),
+            'first_name' => $data['user']['first_name'],
+            'last_name' => $data['user']['last_name']
+        ];
+
+        $user = $userCollection->filter(
+            fn($userEntity) => $userEntity->getEmail() == $userData['email']
+        )->first();
+
+        if (empty($user)) {
+            $user = new User();
+        }
+
+        return $this->doctrineHydrator->hydrate($userData, $user);
+    }
+
+    protected function hydrateEventData(array $data, Event $event): Event
+    {
+        $eventData = [
+            'name' => $data['event']['name'],
+            'venue_name' => $data['event']['venue_name'],
+            'external_venue_id' => $data['event']['external_venue_id']
+        ];
+
+        return $this->doctrineHydrator->hydrate($eventData, $event);
     }
 }

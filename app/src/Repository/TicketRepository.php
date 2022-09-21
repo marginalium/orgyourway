@@ -43,7 +43,7 @@ class TicketRepository extends ServiceEntityRepository
     public function getTicketsByExternalId(array $ticketArray): ArrayCollection
     {
         $ticketIdArray = array_map(function ($row) {
-            return $row['ticket']['external_ticket_id'];
+            return $row['external_ticket_id'];
         }, $ticketArray);
 
         $result = $this->createQueryBuilder('t')

@@ -5,17 +5,17 @@ namespace App\Service;
 class UploadTicketsCsvLoader
 {
     private const ACCEPTED_TICKET_HEADER_VALUES = [
-        "Order ID" => "ticket.external_ticket_id",
-        "Date" => "ticket.purchased_at",
-        "Gross Revenue (USD)" => "ticket.gross_revenue_in_cents",
-        "Ticket Revenue (USD)" => "ticket.ticket_revenue_in_cents",
-        "Eventbrite Fees (USD)" => "ticket.third_party_fees_in_cents",
-        "Eventbrite Payment Processing (USD)" => "ticket.third_party_payment_processing_in_cents",
-        "Tax on Eventbrite Fees (USD)" => "ticket.tax_in_cents",
-        "Tickets" => "ticket.quantity",
-        "Type" => "ticket.payment_type",
-        "Status" => "ticket.payment_status",
-        "Delivery Method" => "ticket.delivery_method",
+        "Order ID" => "external_ticket_id",
+        "Date" => "purchased_at",
+        "Gross Revenue (USD)" => "gross_revenue_in_cents",
+        "Ticket Revenue (USD)" => "ticket_revenue_in_cents",
+        "Eventbrite Fees (USD)" => "third_party_fees_in_cents",
+        "Eventbrite Payment Processing (USD)" => "third_party_payment_processing_in_cents",
+        "Tax on Eventbrite Fees (USD)" => "tax_in_cents",
+        "Tickets" => "quantity",
+        "Type" => "payment_type",
+        "Status" => "payment_status",
+        "Delivery Method" => "delivery_method",
         "First Name" => "user.first_name",
         "Last Name" => "user.last_name",
         "Email Address" => "user.email",
@@ -43,7 +43,11 @@ class UploadTicketsCsvLoader
             foreach ($ticketRowValue as $ticketColumnKey => $ticketColumnValue) {
                 if (array_key_exists($ticketColumnKey, self::ACCEPTED_TICKET_HEADER_VALUES)) {
                     $keyValuePair = explode('.', self::ACCEPTED_TICKET_HEADER_VALUES[$ticketColumnKey]);
-                    $validatedTicketArray[$ticketRowKey][$keyValuePair[0]][$keyValuePair[1]] = $ticketColumnValue;
+                    if (count($keyValuePair) == 2) {
+                        $validatedTicketArray[$ticketRowKey][$keyValuePair[0]][$keyValuePair[1]] = $ticketColumnValue;
+                    } else if (count($keyValuePair) == 1) {
+                        $validatedTicketArray[$ticketRowKey][$keyValuePair[0]] = $ticketColumnValue;
+                    }
                 }
             }
         }
