@@ -76,7 +76,20 @@ class TicketAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('event.name')
             ->add('source')
-            ->add('purchased_at')
+            ->add(
+                'checked_in',
+                'boolean',
+                [
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'purchased_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            )
             ->add('quantity')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [

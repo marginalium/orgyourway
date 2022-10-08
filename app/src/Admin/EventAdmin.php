@@ -5,10 +5,11 @@ namespace App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\CollectionType;
+use Sonata\Form\Type\DateRangePickerType;
 use Sonata\Form\Type\DateTimeRangePickerType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -25,6 +26,7 @@ class EventAdmin extends AbstractAdmin
                 ->with('Event')
                     ->add('name', TextType::class)
                     ->add('venue_name', TextType::class)
+                    ->add('external_venue_id', TextType::class)
                     ->add('attendance_cap', IntegerType::class)
                     ->add(
                         'ticket_cost_in_cents',
@@ -79,7 +81,22 @@ class EventAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('event_name');
+        $datagrid
+            ->add('event_name')
+            ->add(
+                'started_at',
+                DateRangeFilter::class,
+                [
+                    'field_type' => DateRangePickerType::class
+                ]
+            )
+            ->add(
+                'ended_at',
+                DateRangeFilter::class,
+                [
+                    'field_type' => DateRangePickerType::class
+                ]
+            );
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -91,10 +108,9 @@ class EventAdmin extends AbstractAdmin
                 'currency',
                 [
                     'currency' => 'USD',
-                    'locale' => 'us',
-                    'attributes' => [
-                        'fraction_digits' => 2
-                    ]
+                    'editable' => true,
+                    'label' => 'Ticket Cost',
+                    'locale' => 'us'
                 ]
             )
             ->add(
@@ -130,8 +146,14 @@ class EventAdmin extends AbstractAdmin
         $show
             ->add('event_name')
             ->add('attendance_cap')
-            ->add('ticket_cost_in_cents')
-//            ->add('attendance_count')
+            ->add(
+                'ticket_cost_in_cents',
+                'currency',
+                [
+                    'currency' => 'USD',
+                    'locale' => 'us'
+                ]
+            )
         ;
     }
 }

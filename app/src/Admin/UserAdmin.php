@@ -7,6 +7,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,7 +29,30 @@ class UserAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('email');
+        $datagrid
+            ->add('email')
+            ->add('alias')
+            ->add(
+                'subscribed_at',
+                DateRangeFilter::class,
+                [
+                    'field_type' => DateRangePickerType::class
+                ]
+            )
+            ->add(
+                'unsubscribed_at',
+                DateRangeFilter::class,
+                [
+                    'field_type' => DateRangePickerType::class
+                ]
+            )
+            ->add(
+                'created_at',
+                DateRangeFilter::class,
+                [
+                    'field_type' => DateRangePickerType::class
+                ]
+            );
     }
 
     protected function configureListFields(ListMapper $list): void

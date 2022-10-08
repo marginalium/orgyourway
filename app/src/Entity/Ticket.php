@@ -105,6 +105,13 @@ class Ticket
     private bool $checkedIn = false;
 
     #[Column(
+        name: 'checked_in_at',
+        type: Types::DATETIME_MUTABLE,
+        nullable: true
+    )]
+    private ?DateTime $checkedInAt;
+
+    #[Column(
         name: 'purchased_at',
         type: Types::DATETIME_MUTABLE,
         nullable: true
@@ -348,10 +355,34 @@ class Ticket
 
     /**
      * @param bool $checkedIn
+     * @throws Exception
      */
     public function setCheckedIn(bool $checkedIn): void
     {
         $this->checkedIn = $checkedIn;
+        if ($checkedIn && empty($this->checkedInAt)) {
+            $this->setCheckedInAt(new DateTime('now'));
+        }
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getCheckedInAt(): ?DateTime
+    {
+        return $this->checkedInAt;
+    }
+
+    /**
+     * @param DateTime|string|null $checkedInAt
+     * @throws Exception
+     */
+    public function setCheckedInAt(DateTime|string|null $checkedInAt): void
+    {
+        if (is_string($checkedInAt)) {
+            $checkedInAt = new DateTime($checkedInAt);
+        }
+        $this->checkedInAt = $checkedInAt;
     }
 
     /**
