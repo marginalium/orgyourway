@@ -17,22 +17,26 @@ class UploadTicketsCsvPersister
     private const DEFAULT_PROVIDER = 'eventbrite';
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private DoctrineObject $doctrineHydrator,
-        private TicketRepository $ticketRepository,
-        private UserRepository $userRepository
+        private readonly EntityManagerInterface $entityManager,
+        private readonly DoctrineObject         $doctrineHydrator,
+        private readonly TicketRepository       $ticketRepository,
+        private readonly UserRepository         $userRepository
     ) {}
 
+    /**
+     * @throws Exception
+     */
     public function __invoke(array $ticketArray, Event $event): array
     {
         $ticketCollection = $this->ticketRepository->getTicketsByExternalId($ticketArray);
         $userCollection = $this->userRepository->getUsersByEmail($ticketArray);
 
-        $writeCounts = $this->writeTicketEntities($ticketArray, $ticketCollection, $userCollection, $event);
-
-        return $writeCounts;
+        return $this->writeTicketEntities($ticketArray, $ticketCollection, $userCollection, $event);
     }
 
+    /**
+     * @throws Exception
+     */
     public function writeTicketEntities(
         array $ticketArray,
         ArrayCollection $ticketCollection,
