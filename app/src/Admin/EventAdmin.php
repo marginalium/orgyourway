@@ -82,7 +82,7 @@ class EventAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
         $datagrid
-            ->add('event_name')
+            ->add('name')
             ->add(
                 'started_at',
                 DateRangeFilter::class,
@@ -144,7 +144,8 @@ class EventAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('event_name')
+            ->add('name')
+            ->add('external_venue_id')
             ->add('attendance_cap')
             ->add(
                 'ticket_cost_in_cents',
@@ -154,6 +155,19 @@ class EventAdmin extends AbstractAdmin
                     'locale' => 'us'
                 ]
             )
-        ;
+            ->add(
+                'started_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            )
+            ->add(
+                'ended_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            );
     }
 }

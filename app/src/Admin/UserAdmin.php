@@ -84,6 +84,26 @@ class UserAdmin extends AbstractAdmin
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('email');
+        $show
+            ->add('email')
+            ->add('alias')
+            ->add(
+                'is_subscribed',
+                'boolean'
+            )
+            ->add(
+                'subscribed_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            )
+            ->add(
+                'unsubscribed_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            );
     }
 }
