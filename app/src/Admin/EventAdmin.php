@@ -5,11 +5,13 @@ namespace App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DateTimeRangePickerType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class EventAdmin extends AbstractAdmin
@@ -26,8 +28,9 @@ class EventAdmin extends AbstractAdmin
                     ->add('attendance_cap', IntegerType::class)
                     ->add(
                         'ticket_cost_in_cents',
-                        IntegerType::class,
+                        MoneyType::class,
                         [
+                            'currency' => 'USD',
                             'label' => 'Ticket Cost'
                         ]
                     )
@@ -82,8 +85,18 @@ class EventAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list->addIdentifier('name')
-            ->add('attendance_cap')
-            ->add('ticket_cost_in_cents')
+            ->add('attendance_cap', 'integer', ['editable' => true])
+            ->add(
+                'ticket_cost_in_cents',
+                'currency',
+                [
+                    'currency' => 'USD',
+                    'locale' => 'us',
+                    'attributes' => [
+                        'fraction_digits' => 2
+                    ]
+                ]
+            )
             ->add(
                 'started_at',
                 'datetime',

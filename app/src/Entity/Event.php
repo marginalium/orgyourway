@@ -197,11 +197,11 @@ class Event
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getTicketCostInCents(): int
+    public function getTicketCostInCents(): float
     {
-        return $this->ticketCostInCents;
+        return $this->ticketCostInCents / 100;
     }
 
     /**
@@ -210,7 +210,7 @@ class Event
      */
     public function setTicketCostInCents(int $ticketCostInCents): self
     {
-        $this->ticketCostInCents = $ticketCostInCents;
+        $this->ticketCostInCents = (int) ($ticketCostInCents * 100);
         return $this;
     }
 

@@ -195,11 +195,11 @@ class Ticket
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getGrossRevenueInCents(): int
+    public function getGrossRevenueInCents(): float
     {
-        return $this->grossRevenueInCents;
+        return $this->grossRevenueInCents / 100;
     }
 
     /**
@@ -207,15 +207,15 @@ class Ticket
      */
     public function setGrossRevenueInCents(int $grossRevenueInCents): void
     {
-        $this->grossRevenueInCents = $grossRevenueInCents;
+        $this->grossRevenueInCents = (int) ($grossRevenueInCents * 100);
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getTicketRevenueInCents(): int
+    public function getTicketRevenueInCents(): float
     {
-        return $this->ticketRevenueInCents;
+        return $this->ticketRevenueInCents / 100;
     }
 
     /**
@@ -223,15 +223,15 @@ class Ticket
      */
     public function setTicketRevenueInCents(int $ticketRevenueInCents): void
     {
-        $this->ticketRevenueInCents = $ticketRevenueInCents;
+        $this->ticketRevenueInCents = (int) ($ticketRevenueInCents * 100);
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getThirdPartyFeesInCents(): int
+    public function getThirdPartyFeesInCents(): float
     {
-        return $this->thirdPartyFeesInCents;
+        return $this->thirdPartyFeesInCents / 100;
     }
 
     /**
@@ -239,15 +239,15 @@ class Ticket
      */
     public function setThirdPartyFeesInCents(int $thirdPartyFeesInCents): void
     {
-        $this->thirdPartyFeesInCents = $thirdPartyFeesInCents;
+        $this->thirdPartyFeesInCents = (int) ($thirdPartyFeesInCents * 100);
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getThirdPartyPaymentProcessingInCents(): int
+    public function getThirdPartyPaymentProcessingInCents(): float
     {
-        return $this->thirdPartyPaymentProcessingInCents;
+        return $this->thirdPartyPaymentProcessingInCents / 100;
     }
 
     /**
@@ -255,15 +255,15 @@ class Ticket
      */
     public function setThirdPartyPaymentProcessingInCents(int $thirdPartyPaymentProcessingInCents): void
     {
-        $this->thirdPartyPaymentProcessingInCents = $thirdPartyPaymentProcessingInCents;
+        $this->thirdPartyPaymentProcessingInCents = (int) ($thirdPartyPaymentProcessingInCents * 100);
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getTaxInCents(): int
+    public function getTaxInCents(): float
     {
-        return $this->taxInCents;
+        return $this->taxInCents / 100;
     }
 
     /**
@@ -271,7 +271,7 @@ class Ticket
      */
     public function setTaxInCents(int $taxInCents): void
     {
-        $this->taxInCents = $taxInCents;
+        $this->taxInCents = (int) ($taxInCents * 100);
     }
 
     /**

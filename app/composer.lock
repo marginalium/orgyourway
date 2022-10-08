@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a331efd322a7bc01c0abd5ce611a6d02",
+    "content-hash": "bdd36b1c07818a429e79a98bafa6a34f",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -4159,6 +4159,103 @@
                 }
             ],
             "time": "2022-07-28T10:11:36+00:00"
+        },
+        {
+            "name": "sonata-project/intl-bundle",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sonata-project/SonataIntlBundle.git",
+                "reference": "a853e96a257e0e1a36ae9b5093ef8bd034f403df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sonata-project/SonataIntlBundle/zipball/a853e96a257e0e1a36ae9b5093ef8bd034f403df",
+                "reference": "a853e96a257e0e1a36ae9b5093ef8bd034f403df",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "symfony/config": "^5.4 || ^6.0",
+                "symfony/dependency-injection": "^5.4 || ^6.0",
+                "symfony/http-foundation": "^5.4 || ^6.0",
+                "symfony/http-kernel": "^5.4 || ^6.0",
+                "symfony/intl": "^5.4 || ^6.0",
+                "symfony/translation-contracts": "^2.5 || ^3.0",
+                "twig/twig": "^3.0"
+            },
+            "conflict": {
+                "sonata-project/user-bundle": "<3.6"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.4",
+                "matthiasnoback/symfony-config-test": "^4.2",
+                "matthiasnoback/symfony-dependency-injection-test": "^4.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpstan/phpstan-symfony": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "psalm/plugin-phpunit": "^0.17",
+                "psalm/plugin-symfony": "^3.0",
+                "rector/rector": "^0.14",
+                "symfony/phpunit-bridge": "^6.1",
+                "symfony/security-core": "^5.4 || ^6.0",
+                "vimeo/psalm": "^4.7.2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Sonata\\IntlBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Rabaix",
+                    "email": "thomas.rabaix@sonata-project.org"
+                },
+                {
+                    "name": "Sonata Community",
+                    "homepage": "https://github.com/sonata-project/SonataIntlBundle/contributors"
+                }
+            ],
+            "description": "Symfony SonataIntlBundle",
+            "homepage": "https://docs.sonata-project.org/projects/SonataIntlBundle",
+            "keywords": [
+                "date",
+                "intl",
+                "number",
+                "sonata",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/sonata-project/SonataIntlBundle/issues",
+                "source": "https://github.com/sonata-project/SonataIntlBundle/tree/3.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/OskarStark",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/VincentLanglet",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/greg0ire",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/jordisala1991",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-10-06T06:59:35+00:00"
         },
         {
             "name": "sonata-project/twig-extensions",

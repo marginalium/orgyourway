@@ -34,6 +34,15 @@ class UserAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('email')
+            ->add('alias', null, ['editable' => true])
+            ->add('is_subscribed', 'boolean')
+            ->add(
+                'created_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            )
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],

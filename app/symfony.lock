@@ -123,6 +123,9 @@
             "config/packages/sonata_form.yaml"
         ]
     },
+    "sonata-project/intl-bundle": {
+        "version": "3.0.2"
+    },
     "sonata-project/twig-extensions": {
         "version": "2.0",
         "recipe": {
