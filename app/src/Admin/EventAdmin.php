@@ -84,14 +84,14 @@ class EventAdmin extends AbstractAdmin
         $datagrid
             ->add('name')
             ->add(
-                'started_at',
+                'startedAt',
                 DateRangeFilter::class,
                 [
                     'field_type' => DateRangePickerType::class
                 ]
             )
             ->add(
-                'ended_at',
+                'endedAt',
                 DateRangeFilter::class,
                 [
                     'field_type' => DateRangePickerType::class

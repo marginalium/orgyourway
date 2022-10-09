@@ -60,7 +60,20 @@ class UserAdmin extends AbstractAdmin
         $list
             ->addIdentifier('email')
             ->add('alias', null, ['editable' => true])
-            ->add('is_subscribed', 'boolean')
+            ->add(
+                'is_subscribed',
+                'boolean',
+                [
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'subscribed_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
+                ]
+            )
             ->add(
                 'created_at',
                 'datetime',

@@ -163,10 +163,13 @@ class Ticket
 
     /**
      * @param int|null $id
+     * @return Ticket
      */
-    public function setId(?int $id): void
+    public function setId(?int $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -179,10 +182,13 @@ class Ticket
 
     /**
      * @param string $source
+     * @return Ticket
      */
-    public function setSource(string $source): void
+    public function setSource(string $source): self
     {
         $this->source = $source;
+
+        return $this;
     }
 
     /**
@@ -195,10 +201,13 @@ class Ticket
 
     /**
      * @param string $externalTicketId
+     * @return Ticket
      */
-    public function setExternalTicketId(string $externalTicketId): void
+    public function setExternalTicketId(string $externalTicketId): self
     {
         $this->externalTicketId = $externalTicketId;
+
+        return $this;
     }
 
     /**
@@ -211,10 +220,13 @@ class Ticket
 
     /**
      * @param int $grossRevenueInCents
+     * @return Ticket
      */
-    public function setGrossRevenueInCents(int $grossRevenueInCents): void
+    public function setGrossRevenueInCents(int $grossRevenueInCents): self
     {
         $this->grossRevenueInCents = (int) ($grossRevenueInCents * 100);
+
+        return $this;
     }
 
     /**
@@ -227,10 +239,13 @@ class Ticket
 
     /**
      * @param int $ticketRevenueInCents
+     * @return Ticket
      */
-    public function setTicketRevenueInCents(int $ticketRevenueInCents): void
+    public function setTicketRevenueInCents(int $ticketRevenueInCents): self
     {
         $this->ticketRevenueInCents = (int) ($ticketRevenueInCents * 100);
+
+        return $this;
     }
 
     /**
@@ -243,10 +258,13 @@ class Ticket
 
     /**
      * @param int $thirdPartyFeesInCents
+     * @return Ticket
      */
-    public function setThirdPartyFeesInCents(int $thirdPartyFeesInCents): void
+    public function setThirdPartyFeesInCents(int $thirdPartyFeesInCents): self
     {
         $this->thirdPartyFeesInCents = (int) ($thirdPartyFeesInCents * 100);
+
+        return $this;
     }
 
     /**
@@ -259,10 +277,13 @@ class Ticket
 
     /**
      * @param int $thirdPartyPaymentProcessingInCents
+     * @return Ticket
      */
-    public function setThirdPartyPaymentProcessingInCents(int $thirdPartyPaymentProcessingInCents): void
+    public function setThirdPartyPaymentProcessingInCents(int $thirdPartyPaymentProcessingInCents): self
     {
         $this->thirdPartyPaymentProcessingInCents = (int) ($thirdPartyPaymentProcessingInCents * 100);
+
+        return $this;
     }
 
     /**
@@ -275,10 +296,13 @@ class Ticket
 
     /**
      * @param int $taxInCents
+     * @return Ticket
      */
-    public function setTaxInCents(int $taxInCents): void
+    public function setTaxInCents(int $taxInCents): self
     {
         $this->taxInCents = (int) ($taxInCents * 100);
+
+        return $this;
     }
 
     /**
@@ -291,10 +315,13 @@ class Ticket
 
     /**
      * @param int $quantity
+     * @return Ticket
      */
-    public function setQuantity(int $quantity): void
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
     }
 
     /**
@@ -307,10 +334,13 @@ class Ticket
 
     /**
      * @param string $paymentType
+     * @return Ticket
      */
-    public function setPaymentType(string $paymentType): void
+    public function setPaymentType(string $paymentType): self
     {
         $this->paymentType = $paymentType;
+
+        return $this;
     }
 
     /**
@@ -323,10 +353,13 @@ class Ticket
 
     /**
      * @param string $paymentStatus
+     * @return Ticket
      */
-    public function setPaymentStatus(string $paymentStatus): void
+    public function setPaymentStatus(string $paymentStatus): self
     {
         $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 
     /**
@@ -339,10 +372,13 @@ class Ticket
 
     /**
      * @param string $deliveryMethod
+     * @return Ticket
      */
-    public function setDeliveryMethod(string $deliveryMethod): void
+    public function setDeliveryMethod(string $deliveryMethod): self
     {
         $this->deliveryMethod = $deliveryMethod;
+
+        return $this;
     }
 
     /**
@@ -355,14 +391,17 @@ class Ticket
 
     /**
      * @param bool $checkedIn
+     * @return Ticket
      * @throws Exception
      */
-    public function setCheckedIn(bool $checkedIn): void
+    public function setCheckedIn(bool $checkedIn): self
     {
         $this->checkedIn = $checkedIn;
         if ($checkedIn && empty($this->checkedInAt)) {
             $this->setCheckedInAt(new DateTime('now'));
         }
+
+        return $this;
     }
 
     /**
@@ -375,14 +414,19 @@ class Ticket
 
     /**
      * @param DateTime|string|null $checkedInAt
+     * @return Ticket
      * @throws Exception
      */
-    public function setCheckedInAt(DateTime|string|null $checkedInAt): void
+    public function setCheckedInAt(DateTime|string|null $checkedInAt): self
     {
         if (is_string($checkedInAt)) {
             $checkedInAt = new DateTime($checkedInAt);
         }
-        $this->checkedInAt = $checkedInAt;
+        if (empty($this->checkedInAt)) {
+            $this->checkedInAt = $checkedInAt;
+        }
+
+        return $this;
     }
 
     /**
@@ -395,14 +439,19 @@ class Ticket
 
     /**
      * @param DateTime|string|null $purchasedAt
+     * @return Ticket
      * @throws Exception
      */
-    public function setPurchasedAt(DateTime|string|null $purchasedAt): void
+    public function setPurchasedAt(DateTime|string|null $purchasedAt): self
     {
         if (is_string($purchasedAt)) {
             $purchasedAt = new DateTime($purchasedAt);
         }
-        $this->purchasedAt = $purchasedAt;
+        if (empty($this->purchasedAt)) {
+            $this->purchasedAt = $purchasedAt;
+        }
+
+        return $this;
     }
 
     #[PrePersist, PreUpdate]
@@ -427,10 +476,13 @@ class Ticket
 
     /**
      * @param DateTime|null $createdAt
+     * @return Ticket
      */
-    public function setCreatedAt(?DateTime $createdAt): void
+    public function setCreatedAt(?DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -443,10 +495,13 @@ class Ticket
 
     /**
      * @param DateTime|null $updatedAt
+     * @return Ticket
      */
-    public function setUpdatedAt(?DateTime $updatedAt): void
+    public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**
@@ -459,10 +514,13 @@ class Ticket
 
     /**
      * @param DateTime $deletedAt
+     * @return Ticket
      */
-    public function setDeletedAt(DateTime $deletedAt): void
+    public function setDeletedAt(DateTime $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 
     /**
@@ -475,10 +533,13 @@ class Ticket
 
     /**
      * @param User $user
+     * @return Ticket
      */
-    public function setUser(User $user): void
+    public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -491,9 +552,12 @@ class Ticket
 
     /**
      * @param Event $event
+     * @return Ticket
      */
-    public function setEvent(Event $event): void
+    public function setEvent(Event $event): self
     {
         $this->event = $event;
+
+        return $this;
     }
 }

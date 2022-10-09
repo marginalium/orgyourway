@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DateTimePickerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -45,7 +46,10 @@ class TicketAdmin extends AbstractAdmin
             ->add('delivery_method')
             ->add(
                 'checked_in',
-                BooleanType::class
+                CheckboxType::class,
+                [
+                    'required' => false,
+                ]
             )
             ->add(
                 'checked_in_at',
@@ -106,6 +110,13 @@ class TicketAdmin extends AbstractAdmin
                 'boolean',
                 [
                     'editable' => true
+                ]
+            )
+            ->add(
+                'checked_in_at',
+                'datetime',
+                [
+                    'format' => 'Y-m-d H:i:s'
                 ]
             )
             ->add(
