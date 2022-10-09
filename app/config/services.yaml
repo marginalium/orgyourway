@@ -24,7 +24,9 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # Begin repositories
-    App\Service\UserRepository:
+    App\Repository\EventRepository:
+    App\Repository\TicketRepository:
+    App\Repository\UserRepository:
     # End repositories
 
     # Begin custom services
@@ -52,14 +54,21 @@ services:
         class: App\Admin\UserAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: Users, group: Users }
+    # End Sonata services
 
-    admin.utilities.users:
+    utilities.users:
         class: App\Controller\Utility\UploadUsersCsvController
         tags:
-            - { name: app_utility_upload_users_csv}
+            - { name: app_utility_upload_users_csv }
 
-    admin.utilities.tickets:
+    utilities.tickets:
         class: App\Controller\Utility\UploadTicketsCsvController
         tags:
             - { name: app_utilities_upload_tickets_csv }
-    # End Sonata services
+
+    admin.user.checkin:
+        class: App\Controller\Admin\User\CheckInController
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+        tags:
+            - { name: app_admin_user_checkin }

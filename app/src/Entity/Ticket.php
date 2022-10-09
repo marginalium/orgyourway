@@ -140,7 +140,7 @@ class Ticket
     #[ManyToOne(
         targetEntity: 'User',
         cascade: ['persist'],
-        fetch: 'EAGER',
+        fetch: 'LAZY',
         inversedBy: 'tickets'
     )]
     private User $user;
@@ -148,10 +148,10 @@ class Ticket
     #[ManyToOne(
         targetEntity: 'Event',
         cascade: ['persist'],
-        fetch: 'EAGER',
+        fetch: 'LAZY',
         inversedBy: 'tickets'
     )]
-    private Event $event;
+    private ?Event $event = null;
 
     /**
      * @return int|null
@@ -543,9 +543,9 @@ class Ticket
     }
 
     /**
-     * @return Event
+     * @return ?Event
      */
-    public function getEvent(): Event
+    public function getEvent(): ?Event
     {
         return $this->event;
     }

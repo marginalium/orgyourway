@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\{
     Column,
@@ -401,24 +402,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDeletedAt(DateTime $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    /**
-     * @param Collection $events
-     * @return User
-     */
-    public function setEvents(Collection $events): self
-    {
-        $this->events = $events;
         return $this;
     }
 }
