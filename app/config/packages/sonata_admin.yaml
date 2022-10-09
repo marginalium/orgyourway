@@ -1,5 +1,6 @@
 sonata_admin:
-    title: 'Sonata Admin'
+    title: 'Marti Parti'
+    title_logo: 'assets/images/logo.jpg'
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
