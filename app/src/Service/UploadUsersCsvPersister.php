@@ -54,7 +54,9 @@ class UploadUsersCsvPersister
             }
             $user->setFirstName($userRow['first_name']);
             $user->setLastName($userRow['last_name']);
-            $user->setUnsubscribedAt(new DateTime($userRow['unsubscribed_at']));
+            if (!empty($userRow['unsubscribed_at'])) {
+                $user->setUnsubscribedAt(new DateTime($userRow['unsubscribed_at']));
+            }
             $user->setPassword(password_hash(random_bytes(16), PASSWORD_BCRYPT));
             $this->entityManager->persist($user);
             $writeCount['total']++;

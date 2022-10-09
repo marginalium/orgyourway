@@ -28,8 +28,20 @@ class EventAdmin extends AbstractAdmin
                 ->with('Event')
                     ->add('name', TextType::class)
                     ->add('venue_name', TextType::class)
-                    ->add('external_venue_id', TextType::class)
-                    ->add('attendance_cap', IntegerType::class)
+                    ->add(
+                        'external_venue_id',
+                        TextType::class,
+                        [
+                            'required' => false
+                        ]
+                    )
+                    ->add(
+                        'attendance_cap',
+                        IntegerType::class,
+                        [
+                            'required' => false
+                        ]
+                    )
                     ->add(
                         'ticket_cost_in_cents',
                         MoneyType::class,
