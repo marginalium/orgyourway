@@ -2,9 +2,11 @@
 
 namespace App\Admin;
 
+use Doctrine\ORM\PersistentCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -55,7 +57,7 @@ class EventAdmin extends AbstractAdmin
             ->end();
 
         $form
-            ->tab('Ticket')
+            ->tab('Tickets')
                 ->with('Tickets')
                     ->add(
                         'tickets',
@@ -144,30 +146,50 @@ class EventAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('name')
-            ->add('external_venue_id')
-            ->add('attendance_cap')
-            ->add(
-                'ticket_cost_in_cents',
-                'currency',
-                [
-                    'currency' => 'USD',
-                    'locale' => 'us'
-                ]
-            )
-            ->add(
-                'started_at',
-                'datetime',
-                [
-                    'format' => 'Y-m-d H:i:s'
-                ]
-            )
-            ->add(
-                'ended_at',
-                'datetime',
-                [
-                    'format' => 'Y-m-d H:i:s'
-                ]
-            );
+            ->tab('Event')
+                ->with('Event')
+                    ->add('name')
+                    ->add('external_venue_id')
+                    ->add('attendance_cap')
+                    ->add(
+                        'ticket_cost_in_cents',
+                        'currency',
+                        [
+                            'currency' => 'USD',
+                            'locale' => 'us'
+                        ]
+                    )
+                    ->add(
+                        'started_at',
+                        'datetime',
+                        [
+                            'format' => 'Y-m-d H:i:s'
+                        ]
+                    )
+                    ->add(
+                        'ended_at',
+                        'datetime',
+                        [
+                            'format' => 'Y-m-d H:i:s'
+                        ]
+                    )
+                ->end()
+            ->end();
+
+        $show
+            ->tab('Ticket')
+                ->with(
+                    'Tickets'
+                )
+                    ->add(
+                        'tickets',
+                        FieldDescriptionInterface::TYPE_ONE_TO_MANY,
+                        [
+                            'admin_code' => 'admin.tickets',
+                            'template' => 'events/ticket_list.html.twig'
+                        ]
+                    )
+                ->end()
+            ->end();
     }
 }

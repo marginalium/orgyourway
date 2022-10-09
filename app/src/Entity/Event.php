@@ -101,10 +101,6 @@ class Event
     )]
     private ?Collection $tickets;
 
-    private array $eventDate;
-
-    private string $fullName;
-
     public function __construct()
     {
         $this->tickets = new ArrayCollection();

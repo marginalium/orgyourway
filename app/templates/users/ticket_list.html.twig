@@ -1,0 +1,55 @@
+
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+<td class="sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}" objectId="{{ admin.id(object) }}"{% if field_description.option('row_align') %} style="text-align:{{ field_description.option('row_align') }}"{% endif %}>
+    {% set route_name = field_description.option('route').name|default(sonata_config.getOption('default_admin_route')) %}
+    {% set route_parameters = field_description.option('route').parameters|default([]) %}
+    {%- block field %}
+        <table class="table table-bordered table-striped table-hover sonata-ba-list">
+            <thead>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Ticket ID</th>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Event name</th>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-boolean">Checked In</th>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-datetime">Checked In At</th>
+            </thead>
+            <tbody>
+            {% for entity in value %}
+                <tr>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-integer">
+                        <a href="/admin/app/ticket/{{ entity.id }}/show">
+                            {{ entity.id }}
+                        </a>
+                    </td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-string">{{ entity.event.name }}</td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectid="{{ entity.id }}">
+                        <span class="x-editable editable editable-click" data-type="select" data-value="{{ entity.checkedIn }}"
+                              data-title="Checked In" data-pk="{{ entity.id }}"
+                              data-url="/admin/core/set-object-field-value?_sonata_admin=admin.tickets&amp;context=list&amp;field=checked_in&amp;objectId={{ entity.id }}&amp;_sonata_name=admin_app_ticket_list"
+                              data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]">
+                            {% if entity.checkedIn %}
+                                <span class="label label-success">yes</span>
+                            {% else %}
+                                <span class="label label-danger">no</span>
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-datetime">
+                        {% if entity.checkedInAt %}
+                            {{ entity.checkedInAt|date("Y-m-d H:i:s") }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
+</td>
