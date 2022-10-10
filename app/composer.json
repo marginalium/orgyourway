@@ -12,6 +12,7 @@
         "doctrine/doctrine-laminas-hydrator": "^3.1",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
+        "endroid/qr-code-bundle": "^4.1",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^1.24",
         "phpstan/phpdoc-parser": "^1.7",
@@ -53,7 +54,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "endroid/installer": true
         },
         "optimize-autoloader": true,
         "preferred-install": {

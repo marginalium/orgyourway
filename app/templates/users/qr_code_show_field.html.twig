@@ -1,0 +1,5 @@
+{% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
+
+{% block field %}
+    <img src="/qr-code/default/%2Fadmin%2Fapp%2Fuser%2F{{ value }}%2Fcheck_in" />
+{% endblock field %}

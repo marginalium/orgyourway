@@ -101,14 +101,25 @@ class UserAdmin extends AbstractAdmin
                 'subscribed_at',
                 'datetime',
                 [
-                    'format' => 'Y-m-d H:i:s'
+                    'format' => 'Y-m-d H:i:s',
+                    'sortable' => true
                 ]
             )
             ->add(
                 'created_at',
                 'datetime',
                 [
-                    'format' => 'Y-m-d H:i:s'
+                    'format' => 'Y-m-d H:i:s',
+                    'sortable' => true
+                ]
+            )
+            ->add(
+                'id',
+                'string',
+                [
+                    'label' => 'QR Code',
+                    'sortable' => false,
+                    'template' => 'users/qr_code_list_field.html.twig'
                 ]
             )
             ->add(ListMapper::NAME_ACTIONS, null, [
@@ -148,6 +159,14 @@ class UserAdmin extends AbstractAdmin
                         'datetime',
                         [
                             'format' => 'Y-m-d H:i:s'
+                        ]
+                    )
+                    ->add(
+                        'id',
+                        'string',
+                        [
+                            'label' => 'QR Code',
+                            'template' => 'users/qr_code_show_field.html.twig'
                         ]
                     )
                 ->end()

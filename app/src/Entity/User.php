@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\{
     Column,
@@ -203,6 +202,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
+
         return $this;
     }
 
@@ -221,6 +221,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
+
         return $this;
     }
 
@@ -239,6 +240,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAlias(?string $alias): self
     {
         $this->alias = $alias;
+
         return $this;
     }
 
@@ -258,6 +260,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsSubscribed(bool $isSubscribed): self
     {
         $this->isSubscribed = $isSubscribed;
+
         return $this;
     }
 
@@ -280,6 +283,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $subscribedAt = new DateTime($subscribedAt);
         }
         $this->subscribedAt = $subscribedAt;
+
         return $this;
     }
 
@@ -302,6 +306,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $unsubscribedAt = new DateTime($unsubscribedAt);
         }
         $this->unsubscribedAt = $unsubscribedAt;
+
         return $this;
     }
 
@@ -314,14 +319,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param DateTime|null $registeredAt
+     * @param DateTime|string|null $registeredAt
+     * @return User
+     * @throws Exception
      */
-    public function setRegisteredAt(DateTime|string|null $registeredAt): void
+    public function setRegisteredAt(DateTime|string|null $registeredAt): self
     {
         if (is_string($registeredAt)) {
             $registeredAt = new DateTime($registeredAt);
         }
         $this->registeredAt = $registeredAt;
+
+        return $this;
     }
 
     /**
@@ -334,10 +343,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param Collection $tickets
+     * @return User
      */
-    public function setTickets(Collection $tickets): void
+    public function setTickets(Collection $tickets): self
     {
         $this->tickets = $tickets;
+
+        return $this;
     }
 
     /**
