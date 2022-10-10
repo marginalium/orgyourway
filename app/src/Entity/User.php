@@ -69,21 +69,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         type: Types::BOOLEAN,
         nullable: true
     )]
-    private bool $isSubscribed;
+    private ?bool $isSubscribed = null;
 
     #[Column(
         name: 'subscribed_at',
         type: Types::DATETIME_MUTABLE,
         nullable: true
     )]
-    private ?DateTime $subscribedAt;
+    private ?DateTime $subscribedAt = null;
 
     #[Column(
         name: 'unsubscribed_at',
         type: Types::DATETIME_MUTABLE,
         nullable: true
     )]
-    private ?DateTime $unsubscribedAt;
+    private ?DateTime $unsubscribedAt = null;
 
     #[Column(
         name: 'registered_at',
@@ -253,6 +253,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param bool $isSubscribed
      * @return User
+     * @throws Exception
      */
     public function setIsSubscribed(bool $isSubscribed): self
     {
@@ -339,6 +340,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->tickets = $tickets;
     }
 
+    /**
+     * @throws Exception
+     */
     #[PrePersist, PreUpdate]
     public function updatedTimestamps(): void
     {
@@ -348,6 +352,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt($dateTimeNow);
+        }
+
+        if ($this->isSubscribed && empty($this->subscribedAt)) {
+            $this->setSubscribedAt(new DateTime('now'));
+        } elseif (!$this->isSubscribed && !empty($this->subscribedAt)) {
+            $this->setSubscribedAt(null);
+        } elseif ($this->isSubscribed && !empty($this->unsubscribedAt)) {
+            $this->setUnsubscribedAt(null);
         }
     }
 

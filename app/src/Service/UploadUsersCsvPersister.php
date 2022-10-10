@@ -10,6 +10,9 @@ use Exception;
 
 class UploadUsersCsvPersister
 {
+    public const SUBSCRIBED_YES = 'Yes';
+    public const SUBSCRIBED_NO = 'No';
+
     public function __construct(
         private EntityManagerInterface $entityManager
     ) {}
@@ -39,24 +42,23 @@ class UploadUsersCsvPersister
             if (empty($user)) {
                 $user = new User();
                 $user->setEmail(strtolower($userRow['email']));
-                $user->setIsSubscribed($userRow['is_subscribed']);
                 $writeCount['created']++;
             } else {
-                if (
-                    !$user->isSubscribed() &&
-                    empty($user->getSubscribedAt()) &&
-                    $userRow['is_subscribed']
-                ) {
-                    $user->setIsSubscribed($userRow['is_subscribed']);
-                    $user->setSubscribedAt(new DateTime('now'));
-                }
                 $writeCount['updated']++;
+            }
+            if ($userRow['is_subscribed'] == self::SUBSCRIBED_YES) {
+                $user->setIsSubscribed(true);
+            } elseif ($userRow['is_subscribed'] == self::SUBSCRIBED_NO || empty($userRow['is_subscribed'])) {
+                $user->setIsSubscribed(false);
+            }
+            if (
+                !empty($userRow['unsubscribed_at']) &&
+                empty($user->getUnsubscribedAt())
+            ) {
+                $user->setUnsubscribedAt(new DateTime($userRow['unsubscribed_at']));
             }
             $user->setFirstName($userRow['first_name']);
             $user->setLastName($userRow['last_name']);
-            if (!empty($userRow['unsubscribed_at'])) {
-                $user->setUnsubscribedAt(new DateTime($userRow['unsubscribed_at']));
-            }
             $user->setPassword(password_hash(random_bytes(16), PASSWORD_BCRYPT));
             $this->entityManager->persist($user);
             $writeCount['total']++;
