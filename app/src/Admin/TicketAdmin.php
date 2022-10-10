@@ -19,7 +19,13 @@ class TicketAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('source', TextType::class)
+            ->add(
+                'source',
+                TextType::class,
+                [
+                    'required' => true
+                ]
+            )
             ->add(
                 'user',
                 ModelAutocompleteType::class,

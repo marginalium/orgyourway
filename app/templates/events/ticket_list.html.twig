@@ -18,7 +18,8 @@ file that was distributed with this source code.
             <thead>
                 <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Ticket ID</th>
                 <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Event name</th>
-                <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">User email</th>
+                <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">User email - alias</th>
+                <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Ticket Quantity</th>
                 <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-boolean">Checked In</th>
                 <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-datetime">Checked In At</th>
             </thead>
@@ -31,7 +32,14 @@ file that was distributed with this source code.
                         </a>
                     </td>
                     <td class="sonata-ba-list-field sonata-ba-list-field-string">{{ entity.event.name }}</td>
-                    <td class="sonata-ba-list-field sonata-ba-list-field-string">{{ entity.user.email }}</td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-string">
+                        <a href="/admin/app/user/{{ entity.user.id }}/show">
+                            {{ entity.user.email }} - {{ entity.user.alias }}
+                        </a>
+                    </td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-integer">
+                        {{ entity.quantity }}
+                    </td>
                     <td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectid="{{ entity.id }}">
                         <span class="x-editable editable editable-click" data-type="select" data-value="{{ entity.checkedIn }}"
                               data-title="Checked In" data-pk="{{ entity.id }}"

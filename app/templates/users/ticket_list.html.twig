@@ -14,15 +14,24 @@ file that was distributed with this source code.
     {% set route_name = field_description.option('route').name|default(sonata_config.getOption('default_admin_route')) %}
     {% set route_parameters = field_description.option('route').parameters|default([]) %}
     {%- block field %}
+        <h3 class="panel-heading bg-danger">
+            Tickets found for {{ app.request.get('found') }} events, mark ticket manually if available.
+        </h3>
         <table class="table table-bordered table-striped table-hover sonata-ba-list">
             <thead>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Ticket ID</th>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Event name</th>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Ticket Quantity</th>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Event Start</th>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Event End</th>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-boolean">Checked In</th>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-datetime">Checked In At</th>
             </thead>
             <tbody>
+            {% set twoMonthsAgo = date("-2 months") %}
+            {% set twoMonthsAhead = date("+2 months") %}
             {% for entity in value %}
+                {% if entity.event.startedAt >= twoMonthsAgo and entity.event.endedAt <= twoMonthsAhead %}
                 <tr>
                     <td class="sonata-ba-list-field sonata-ba-list-field-integer">
                         <a href="/admin/app/ticket/{{ entity.id }}/show">
@@ -30,6 +39,9 @@ file that was distributed with this source code.
                         </a>
                     </td>
                     <td class="sonata-ba-list-field sonata-ba-list-field-string">{{ entity.event.name }}</td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-integer">{{ entity.quantity }}</td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-string">{{ entity.event.startedAt|date("Y-m-d H:i:s") }}</td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-string">{{ entity.event.endedAt|date("Y-m-d H:i:s") }}</td>
                     <td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectid="{{ entity.id }}">
                         <span class="x-editable editable editable-click" data-type="select" data-value="{{ entity.checkedIn }}"
                               data-title="Checked In" data-pk="{{ entity.id }}"
@@ -48,6 +60,7 @@ file that was distributed with this source code.
                         {% endif %}
                     </td>
                 </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

@@ -28,9 +28,10 @@ class CheckInController extends AbstractController
                 $element->getEvent()->getEndedAt() >= new DateTime('now');
         })->toArray();
 
-        if (empty($filteredTickets)) {
-            //TODO: build a fail response for user
-            die('no valid tickets!');
+        if (empty($filteredTickets) || count($filteredTickets) > 1) {
+            return new RedirectResponse(
+                '/admin/app/user/' . $user->getId() . '/show?_tab=2&found=' . count($filteredTickets)
+            );
         }
 
         foreach ($filteredTickets as $ticket) {
