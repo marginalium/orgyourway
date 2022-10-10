@@ -11,6 +11,4 @@ To build the docker environment, do the following.
 4. Upon completion, run `docker cp orgyourway-nginx:/var/www/html/vendor ./app/` to pull down latest Composer files
 
 TODO:
-- Need to add --add-host host.docker.internal:host-gateway argument to the docker build in the CI pipeline
-- Complete logic to parse user and event CSV files from EventBrite
-- Complete Sonata admin setup
+- Support multiple ticket quantity with 1 scan = 1 quantity
