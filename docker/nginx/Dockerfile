@@ -29,4 +29,4 @@ RUN composer install
 
 RUN npm install
 
-CMD ["/entrypoint/orgyourway-entrypoint.sh"]
+CMD ["bash", "/entrypoint/orgyourway-entrypoint.sh"]
