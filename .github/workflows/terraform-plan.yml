@@ -1,0 +1,39 @@
+name: Terraform Plan
+on:
+  pull_request:
+
+jobs:
+  terraform:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: read
+    steps:
+     - name: Clone repo
+       uses: actions/checkout@v2
+     - name: Formatting Check
+       uses: Yellow-Box-Software/terraform-action@v2.5
+       with:
+         args: "fmt -check terraform"
+     - name: Security scan
+       uses: aquasecurity/tfsec-action@master
+       with:
+         soft_fail: true
+         working_directory: terraform
+     - name: Test
+       shell: bash
+       run: echo Testing ${{ secrets.TF_BUCKET }}
+     - name: Initialize Terraform
+       uses: Yellow-Box-Software/terraform-action@v2.5
+       with:
+         args: "init -backend-config=bucket=${{ secrets.TF_BUCKET }} terraform"
+     - name: Terraform Plan
+       uses: Yellow-Box-Software/terraform-action@v2.5
+       with:
+         args: >
+           -chdir=terraform
+           plan
+           -var "gcp_project=${{ secrets.GCP_PROJECT }}"
+
