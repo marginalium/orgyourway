@@ -22,9 +22,13 @@ jobs:
        with:
          soft_fail: true
          working_directory: terraform
-     - name: Test
-       shell: bash
-       run: echo Testing ${{ secrets.TF_BUCKET }}
+     - name: Authenticate with Google Cloud
+       uses: actions-hub/gcloud@master
+       env:
+         PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+       with:
+         args: info
      - name: Initialize Terraform
        uses: Yellow-Box-Software/terraform-action@v2.5
        with:
