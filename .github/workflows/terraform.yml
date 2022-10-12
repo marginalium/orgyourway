@@ -1,0 +1,35 @@
+name: Terraform
+on:
+  pull_request:
+
+jobs:
+  tf-sec:
+    name: tf-sec
+    run-name: Terraform Security
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+     -name: Clone repo
+      uses: actions/checkout@v2
+     -name: tfsec
+      uses: aquasecurity/tfsec-action@master
+      with:
+        working_directory: terraform
+
+  tf-fmt:
+    name: tf-fmt
+    run-name: Terraform Format
+    uses: Yellow-Box-Software/terraform-action@v2.5
+    with:
+      args: "fmt -check"
+
+  tf-plan:
+    name: tf-plan
+    run-name: Terraform Plan
+
+  tf-apply:
+    name: tf-apply
+    run-name: Terraform Apply

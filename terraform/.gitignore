@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 **/.terraform/*
 *.tfstate
 *.tfstate.*
 *.tfplan
+=======
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+>>>>>>> cfc0de6 (Initial terraform configuration)
 
