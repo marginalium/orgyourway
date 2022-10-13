@@ -6,42 +6,56 @@ jobs:
   terraform:
     name: Terraform Plan
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
     permissions:
       actions: read
       contents: read
       security-events: read
     steps:
-     - name: Clone repo
-       uses: actions/checkout@v2
-     - name: Formatting Check
-       uses: Yellow-Box-Software/terraform-action@v2.5
+#     - name: Clone repo
+     - uses: actions/checkout@v3
+#     - uses: Yellow-Box-Software/terraform-action@v2.5
+     - uses: hashicorp/setup-terraform@v2
        with:
-         args: "fmt -check terraform"
+         terraform_wrapper: false
+
+     - name: Formatting Check
+       id: fmt
+       run: terraform fmt -check
+       continue-on-error: true
+
      - name: Security scan
+       id: tfsec
        uses: aquasecurity/tfsec-action@master
        with:
          soft_fail: true
-         working_directory: terraform
+
      - name: Authenticate with Google Cloud
+       id: auth
        uses: actions-hub/gcloud@master
        env:
          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
        with:
-         args: iam service-accounts keys create gcloud-service-key.json --iam-account github-deploy@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com
+         args: iam service-accounts keys create terraform/gcloud-service-key.json --iam-account github-deploy@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com
+
      - name: Initialize Terraform
-       uses: Yellow-Box-Software/terraform-action@v2.5
+       id: init
        env:
          GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
-       with:
-         args: init -backend-config="bucket=${{ secrets.TF_BUCKET }}" terraform
+       run: terraform init -backend-config='bucket=${{ secrets.TF_BUCKET }}'
+
+     - name: Terraform Validate
+       id: validate
+       run: terraform validate
+
      - name: Terraform Plan
-       uses: Yellow-Box-Software/terraform-action@v2.5
+       id: plan
        env:
          GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
-       with:
-         args: >
-           -chdir=terraform
-           plan
+       run: >
+           terraform plan
            -var "gcp_project=${{ secrets.GCP_PROJECT }}"
 
