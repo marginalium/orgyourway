@@ -5,7 +5,9 @@
   1. Add JSON key to GitHub
 1. Create Terraform state bucket
   1. Permit use to deploy sa created above
-1. Enable Cloud Resource Manager API
+1. Enable necessary APIs
+  1. Cloud Resource Manager
+  1. Identity and Access Management (IAM)
 1. Populate GitHub Actions secrets with environment values
   1. GCLOUD_PROJECT
   1. GCLOUD_DEPLOY_KEY

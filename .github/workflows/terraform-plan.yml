@@ -28,7 +28,7 @@ jobs:
          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
        with:
-         args: auth list
+         args: iam service-accounts keys create gcloud-service-key.json --iam-account github-deploy@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com
      - name: Initialize Terraform
        uses: Yellow-Box-Software/terraform-action@v2.5
        env:
