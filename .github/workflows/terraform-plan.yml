@@ -28,13 +28,17 @@ jobs:
          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
        with:
-         args: projects list
+         args: auth list
      - name: Initialize Terraform
        uses: Yellow-Box-Software/terraform-action@v2.5
+       env:
+         GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
        with:
          args: "init -backend-config=bucket=${{ secrets.TF_BUCKET }} terraform"
      - name: Terraform Plan
        uses: Yellow-Box-Software/terraform-action@v2.5
+       env:
+         GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
        with:
          args: >
            -chdir=terraform
