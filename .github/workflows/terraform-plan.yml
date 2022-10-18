@@ -39,13 +39,13 @@ jobs:
          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
        with:
-         args: iam service-accounts keys create terraform/gcloud-service-key.json --iam-account github-deploy@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com && chown 1001:121 terraform/gcloud-service-key.json
+         args: iam service-accounts keys create terraform/gcloud-service-key.json --iam-account github-deploy@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com; cat terraform/gcloud-service-key.json
 
      - name: Initialize Terraform
        id: init
        env:
          GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
-       run: pwd && ls -al; terraform init -backend-config='bucket=${{ secrets.TF_BUCKET }}'
+       run: pwd && ls -al && terraform init -backend-config="bucket=${{ secrets.TF_BUCKET }}"
 
      - name: Terraform Validate
        id: validate
