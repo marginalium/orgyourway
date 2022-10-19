@@ -36,6 +36,9 @@ class CheckInController extends AbstractController
 
         foreach ($filteredTickets as $ticket) {
             $ticket->setCheckedIn(true);
+            if ($ticket->getCheckedInQuantity() < $ticket->getQuantity()) {
+                $ticket->setCheckedInQuantity($ticket->getCheckedInQuantity() + 1);
+            }
             $this->entityManager->persist($ticket);
         }
 

@@ -105,6 +105,12 @@ class Ticket
     private bool $checkedIn = false;
 
     #[Column(
+        name: 'checked_in_quantity',
+        type: Types::INTEGER
+    )]
+    private int $checkedInQuantity = 0;
+
+    #[Column(
         name: 'checked_in_at',
         type: Types::DATETIME_MUTABLE,
         nullable: true
@@ -402,6 +408,22 @@ class Ticket
         }
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCheckedInQuantity(): int
+    {
+        return $this->checkedInQuantity;
+    }
+
+    /**
+     * @param int $checkedInQuantity
+     */
+    public function setCheckedInQuantity(int $checkedInQuantity): void
+    {
+        $this->checkedInQuantity = $checkedInQuantity;
     }
 
     /**
