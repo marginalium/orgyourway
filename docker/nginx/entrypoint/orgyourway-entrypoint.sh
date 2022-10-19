@@ -26,4 +26,6 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 printf "${GREEN}Setup completed!${NC}"
 
+composer install
+
 exec tail -f /dev/null

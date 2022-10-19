@@ -1,4 +1,4 @@
-FROM ubuntu/nginx
+FROM ubuntu/nginx:1.18-22.04_beta
 
 RUN apt update && \
     apt install -y git zip software-properties-common curl mysql-client
