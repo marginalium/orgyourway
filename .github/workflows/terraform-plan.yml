@@ -64,4 +64,7 @@ jobs:
        run: >
            terraform plan
            -var "gcp_project=${{ secrets.GCP_PROJECT }}"
+           -var "app_name=${{ secrets.APP_NAME }}"
+           -var "admin_user=${{ secrets.ADMIN_USERNAME }}"
+           -var "admin_password=${{ secrets.ADMIN_PASSWORD }}"
 
