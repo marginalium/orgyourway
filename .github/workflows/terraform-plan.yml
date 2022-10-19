@@ -32,14 +32,20 @@ jobs:
        with:
          soft_fail: true
 
-     - name: Authenticate with Google Cloud
+#     - name: Authenticate with Google Cloud
+#       id: auth
+#       uses: actions-hub/gcloud@master
+#       env:
+#         PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+#         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+#       with:
+#         args: iam service-accounts keys create terraform/gcloud-service-key.json --iam-account github-deploy@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com; cat terraform/gcloud-service-key.json
+
+     - name: Write gcloud key
        id: auth
-       uses: actions-hub/gcloud@master
        env:
-         PROJECT_ID: ${{ secrets.GCP_PROJECT }}
          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-       with:
-         args: iam service-accounts keys create terraform/gcloud-service-key.json --iam-account github-deploy@${{ secrets.GCP_PROJECT }}.iam.gserviceaccount.com; cat terraform/gcloud-service-key.json
+       run: echo $APPLICATION_CREDENTIALS > gcloud-service-key.json
 
      - name: Initialize Terraform
        id: init
