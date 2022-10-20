@@ -14,15 +14,18 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php && \
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 apt-get install -y nodejs
 
-COPY app /var/www/html
-COPY docker/nginx/config /etc/nginx/conf.d
-COPY docker/nginx/entrypoint /entrypoint
-
 ENV MYSQL_DATABASE ${MYSQL_DATABASE}
+ENV MYSQL_HOST ${MYSQL_HOST}
 ENV MYSQL_USER ${MYSQL_USER}
 ENV MYSQL_PASSWORD ${MYSQL_PASSWORD}
 ENV ADMIN_USERNAME ${ADMIN_USERNAME}
 ENV ADMIN_PASSWORD ${ADMIN_PASSWORD}
+
+COPY app /var/www/html
+COPY docker/nginx/config /etc/nginx/conf.d
+COPY docker/nginx/php/php.ini /etc/php/8.1/fpm/php.ini
+COPY docker/nginx/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
+COPY docker/nginx/entrypoint /entrypoint
 
 WORKDIR /var/www/html/
 RUN composer install

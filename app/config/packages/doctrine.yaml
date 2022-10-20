@@ -1,6 +1,11 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        dbname: '%env(resolve:MYSQL_DATABASE)%'
+        host: '%env(MYSQL_HOST)%'
+        port: 3306
+        user: '%env(MYSQL_USER)%'
+        password: '%env(MYSQL_PASSWORD)%'
+        server_version: '8.0'
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
