@@ -14,9 +14,11 @@ file that was distributed with this source code.
     {% set route_name = field_description.option('route').name|default(sonata_config.getOption('default_admin_route')) %}
     {% set route_parameters = field_description.option('route').parameters|default([]) %}
     {%- block field %}
+        {% if app.request.get('found') is not empty %}
         <h3 class="panel-heading bg-danger">
             Tickets found for {{ app.request.get('found') }} events, mark ticket manually if available.
         </h3>
+        {% endif %}
         <table class="table table-bordered table-striped table-hover sonata-ba-list">
             <thead>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Ticket ID</th>
