@@ -27,6 +27,7 @@ file that was distributed with this source code.
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Event Start</th>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Event End</th>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-boolean">Checked In</th>
+            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-asc">Checked In Quantity</th>
             <th class="sonata-ba-list-field-header sonata-ba-list-field-header-order-datetime">Checked In At</th>
             </thead>
             <tbody>
@@ -54,6 +55,13 @@ file that was distributed with this source code.
                             {% else %}
                                 <span class="label label-danger">no</span>
                             {% endif %}
+                        </span>
+                    </td>
+                    <td class="sonata-ba-list-field sonata-ba-list-field-integer" objectid="{{ entity.id }}">
+                        <span class="x-editable editable editable-click" data-type="number" data-value="{{ entity.checkedInQuantity }}"
+                              data-title="Checked In Quantity" data-pk="{{ entity.id }}"
+                              data-url="/admin/core/set-object-field-value?_sonata_admin=admin.tickets&amp;context=list&amp;field=checked_in_quantity&amp;objectId={{ entity.id }}&amp;_sonata_name=admin_app_ticket_list">
+                            {{ entity.checkedInQuantity }}
                         </span>
                     </td>
                     <td class="sonata-ba-list-field sonata-ba-list-field-datetime">

@@ -406,6 +406,9 @@ class Ticket
         if ($checkedIn && empty($this->checkedInAt)) {
             $this->setCheckedInAt(new DateTime('now'));
         }
+        if ($checkedIn && empty($this->checkedInQuantity)) {
+            $this->setCheckedInQuantity(1);
+        }
 
         return $this;
     }
@@ -420,9 +423,16 @@ class Ticket
 
     /**
      * @param int $checkedInQuantity
+     * @throws Exception
      */
     public function setCheckedInQuantity(int $checkedInQuantity): void
     {
+        if ($checkedInQuantity >= 1 && empty($this->checkedInAt)) {
+            $this->setCheckedInAt(new DateTime('now'));
+        }
+        if (!$this->checkedIn && $checkedInQuantity >= 1) {
+            $this->setCheckedIn(true);
+        }
         $this->checkedInQuantity = $checkedInQuantity;
     }
 
