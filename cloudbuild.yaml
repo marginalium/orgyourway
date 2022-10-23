@@ -1,7 +1,7 @@
 steps:
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t',
+    args: ['build',
             '--tag=gcr.io/$PROJECT_ID/orgyourway',
             '--file=docker/nginx/Dockerfile'
           ]
