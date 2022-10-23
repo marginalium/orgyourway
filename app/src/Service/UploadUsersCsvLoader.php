@@ -5,11 +5,11 @@ namespace App\Service;
 class UploadUsersCsvLoader
 {
     private const ACCEPTED_CONTACT_HEADER_VALUES = [
-        "Email Address" => "user.email",
-        "First Name" => "user.first_name",
-        "Last Name" => "user.last_name",
-        "Subscribed? Yes/No" => "user.is_subscribed",
-        "Unsubscribed Date" => "user.unsubscribed_at"
+        "Email Address" => "email",
+        "First Name" => "first_name",
+        "Last Name" => "last_name",
+        "Subscribed? Yes/No" => "is_subscribed",
+        "Unsubscribed Date" => "unsubscribed_at"
     ];
 
     public function __invoke(array $userArray): array
@@ -31,7 +31,7 @@ class UploadUsersCsvLoader
             foreach ($userRowValue as $userColumnKey => $userColumnValue) {
                 if (array_key_exists($userColumnKey, self::ACCEPTED_CONTACT_HEADER_VALUES)) {
                     $keyValuePair = explode('.', self::ACCEPTED_CONTACT_HEADER_VALUES[$userColumnKey]);
-                    $validatedUserArray[$keyValuePair[0]][$userRowKey][$keyValuePair[1]] = $userColumnValue;
+                    $validatedUserArray[$userRowKey][$keyValuePair[0]] = $userColumnValue;
                 }
             }
         }

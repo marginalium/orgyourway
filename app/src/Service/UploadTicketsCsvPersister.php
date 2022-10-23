@@ -54,6 +54,19 @@ class UploadTicketsCsvPersister
 
             $event = $this->hydrateEventData($ticketRow, $event);
 
+            $ticket = $ticketCollection->filter(
+            //https://www.php.net/manual/en/functions.arrow.php
+                fn($ticket) => $ticket->getExternalTicketId() == strtolower($ticketRow['external_ticket_id'])
+            )->first();
+
+            $writeCount['total']++;
+            if (empty($ticket)) {
+                $ticket = new Ticket();
+                $writeCount['created']++;
+            } else {
+                $writeCount['updated']++;
+            }
+
             $ticketData = [
                 'source' => self::DEFAULT_PROVIDER,
                 'external_ticket_id' => strtolower($ticketRow['external_ticket_id']),
@@ -70,19 +83,6 @@ class UploadTicketsCsvPersister
                 'user' => $user,
                 'event' => $event
             ];
-
-            $ticket = $ticketCollection->filter(
-            //https://www.php.net/manual/en/functions.arrow.php
-                fn($ticket) => $ticket->getExternalTicketId() == $ticketData['external_ticket_id']
-            )->first();
-
-            $writeCount['total']++;
-            if (empty($ticket)) {
-                $ticket = new Ticket();
-                $writeCount['created']++;
-            } else {
-                $writeCount['updated']++;
-            }
 
             $ticket = $this->doctrineHydrator->hydrate($ticketData, $ticket);
 

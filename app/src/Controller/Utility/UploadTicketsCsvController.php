@@ -20,6 +20,9 @@ class UploadTicketsCsvController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws \Exception
+     */
     #[Route('/utilities/upload/tickets/csv', name: 'app_utilities_upload_tickets_csv')]
     public function index(Request $request): Response
     {
