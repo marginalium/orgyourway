@@ -12,7 +12,7 @@ module "mysql-db" {
   disk_size             = 3
   disk_autoresize_limit = 15
 
-  database_version = "8.0"
+  database_version = "8.0.26"
   user_name        = "orgyourway"
 }
 
