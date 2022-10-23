@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-use Doctrine\ORM\PersistentCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;

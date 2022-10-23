@@ -55,6 +55,13 @@ class TicketAdmin extends AbstractAdmin
                 ]
             )
             ->add(
+                'checked_in_quantity',
+                IntegerType::class,
+                [
+                    'required' => false
+                ]
+            )
+            ->add(
                 'checked_in_at',
                 DateTimePickerType::class,
                 [
@@ -116,6 +123,13 @@ class TicketAdmin extends AbstractAdmin
                 ]
             )
             ->add(
+                'checked_in_quantity',
+                'integer',
+                [
+                    'editable' => true
+                ]
+            )
+            ->add(
                 'checked_in_at',
                 'datetime',
                 [
@@ -157,6 +171,7 @@ class TicketAdmin extends AbstractAdmin
             ->add('payment_status')
             ->add('delivery_method')
             ->add('checked_in', 'boolean')
+            ->add('checked_in_quantity')
             ->add(
                 'checked_in_at',
                 'datetime',
