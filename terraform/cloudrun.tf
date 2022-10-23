@@ -2,7 +2,7 @@ module "cloud_run" {
   source  = "GoogleCloudPlatform/cloud-run/google"
   version = "~> 0.2.0"
 
-  service_name = "OrgYourWay"
+  service_name = "orgyourway"
   project_id   = var.gcp_project
   location     = "us-central1"
 
