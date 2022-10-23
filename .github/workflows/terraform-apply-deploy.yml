@@ -72,7 +72,7 @@ jobs:
 
     - name: Deploy
       run: >
-        gcloud run deploy OrgYourWay --image gcr.io/${{ secrets.GCP_PROJECT }}/OrgYourWay
+        gcloud run deploy orgyourway --image gcr.io/${{ secrets.GCP_PROJECT }}/OrgYourWay
         --platform managed
         --allow-unauthenticated
         --memory 256M
