@@ -65,9 +65,11 @@ jobs:
       run: gcloud auth configure-docker
 
     - name: Build & Publish
+      env:
+        PROJECT_ID: ${{ secrets.GCP_PROJECT }}
       run: |
         gcloud config set project ${{ secrets.GCP_PROJECT }}
-        gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT }}/OrgYourWay
+        gcloud builds submit --config cloudbuild.yaml --tag gcr.io/${{ secrets.GCP_PROJECT }}/OrgYourWay
         gcloud config set run/region us-central1
 
     - name: Deploy

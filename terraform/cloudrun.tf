@@ -22,6 +22,10 @@ module "cloud_run" {
       value = var.admin_password
     },
     {
+      name  = "MYSQL_HOST"
+      value = module.mysql-db.instance_ip_address
+    },
+    {
       name  = "MYSQL_DATABASE"
       value = "orgyourway"
     },
