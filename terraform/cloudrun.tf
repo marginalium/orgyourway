@@ -23,7 +23,7 @@ module "cloud_run" {
     },
     {
       name  = "MYSQL_HOST"
-      value = module.mysql-db.instance_ip_address
+      value = module.mysql-db.instance_first_ip_address
     },
     {
       name  = "MYSQL_DATABASE"
