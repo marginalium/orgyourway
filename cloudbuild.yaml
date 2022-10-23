@@ -3,7 +3,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
             '--tag=gcr.io/$PROJECT_ID/orgyourway',
-            '--file=docker/nginx/Dockerfile'
+            'docker/nginx'
           ]
 
 images:
