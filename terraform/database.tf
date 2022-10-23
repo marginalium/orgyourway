@@ -9,8 +9,8 @@ module "mysql-db" {
 
   tier                  = "db-f1-micro"
   disk_type             = "PD_HDD"
-  disk_size             = 3
-  disk_autoresize_limit = 15
+  disk_size             = 10
+  disk_autoresize_limit = 30
 
   database_version = "MYSQL_8_0"
   user_name        = "orgyourway"
