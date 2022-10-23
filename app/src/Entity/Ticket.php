@@ -225,10 +225,10 @@ class Ticket
     }
 
     /**
-     * @param int $grossRevenueInCents
+     * @param float $grossRevenueInCents
      * @return Ticket
      */
-    public function setGrossRevenueInCents(int $grossRevenueInCents): self
+    public function setGrossRevenueInCents(float $grossRevenueInCents): self
     {
         $this->grossRevenueInCents = (int) ($grossRevenueInCents * 100);
 
@@ -244,10 +244,10 @@ class Ticket
     }
 
     /**
-     * @param int $ticketRevenueInCents
+     * @param float $ticketRevenueInCents
      * @return Ticket
      */
-    public function setTicketRevenueInCents(int $ticketRevenueInCents): self
+    public function setTicketRevenueInCents(float $ticketRevenueInCents): self
     {
         $this->ticketRevenueInCents = (int) ($ticketRevenueInCents * 100);
 
@@ -263,10 +263,10 @@ class Ticket
     }
 
     /**
-     * @param int $thirdPartyFeesInCents
+     * @param float $thirdPartyFeesInCents
      * @return Ticket
      */
-    public function setThirdPartyFeesInCents(int $thirdPartyFeesInCents): self
+    public function setThirdPartyFeesInCents(float $thirdPartyFeesInCents): self
     {
         $this->thirdPartyFeesInCents = (int) ($thirdPartyFeesInCents * 100);
 
@@ -282,10 +282,10 @@ class Ticket
     }
 
     /**
-     * @param int $thirdPartyPaymentProcessingInCents
+     * @param float $thirdPartyPaymentProcessingInCents
      * @return Ticket
      */
-    public function setThirdPartyPaymentProcessingInCents(int $thirdPartyPaymentProcessingInCents): self
+    public function setThirdPartyPaymentProcessingInCents(float $thirdPartyPaymentProcessingInCents): self
     {
         $this->thirdPartyPaymentProcessingInCents = (int) ($thirdPartyPaymentProcessingInCents * 100);
 
@@ -301,10 +301,10 @@ class Ticket
     }
 
     /**
-     * @param int $taxInCents
+     * @param float $taxInCents
      * @return Ticket
      */
-    public function setTaxInCents(int $taxInCents): self
+    public function setTaxInCents(float $taxInCents): self
     {
         $this->taxInCents = (int) ($taxInCents * 100);
 

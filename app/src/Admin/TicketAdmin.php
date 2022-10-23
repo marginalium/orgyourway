@@ -190,6 +190,7 @@ class TicketAdmin extends AbstractAdmin
                 'gross_revenue_in_cents',
                 'currency',
                 [
+                    'label' => 'Gross Revenue',
                     'currency' => 'USD',
                     'locale' => 'us'
                 ]
@@ -198,6 +199,7 @@ class TicketAdmin extends AbstractAdmin
                 'ticket_revenue_in_cents',
                 'currency',
                 [
+                    'label' => 'Ticket Revenue',
                     'currency' => 'USD',
                     'locale' => 'us'
                 ]
@@ -206,6 +208,7 @@ class TicketAdmin extends AbstractAdmin
                 'third_party_fees_in_cents',
                 'currency',
                 [
+                    'label' => 'Third Party Fees',
                     'currency' => 'USD',
                     'locale' => 'us'
                 ]
@@ -214,6 +217,7 @@ class TicketAdmin extends AbstractAdmin
                 'third_party_payment_processing_in_cents',
                 'currency',
                 [
+                    'label' => 'Third Party Payment Processing',
                     'currency' => 'USD',
                     'locale' => 'us'
                 ]
@@ -222,6 +226,7 @@ class TicketAdmin extends AbstractAdmin
                 'tax_in_cents',
                 'currency',
                 [
+                    'label' => 'Tax',
                     'currency' => 'USD',
                     'locale' => 'us'
                 ]

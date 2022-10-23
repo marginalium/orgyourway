@@ -45,6 +45,7 @@ class EventAdmin extends AbstractAdmin
                         'ticket_cost_in_cents',
                         MoneyType::class,
                         [
+                            'label' => 'Ticket Cost',
                             'currency' => 'USD',
                             'label' => 'Ticket Cost'
                         ]
