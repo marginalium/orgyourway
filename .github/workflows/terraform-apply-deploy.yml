@@ -1,0 +1,79 @@
+name: Terraform Plan
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    permissions:
+      actions: read
+      contents: read
+      security-events: read
+    steps:
+    - uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: false
+
+    - name: Write gcloud key
+      id: auth
+      env:
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      run: echo $APPLICATION_CREDENTIALS > gcloud-service-key.json
+
+    - name: Initialize Terraform
+      id: init
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
+      run: terraform init -backend-config "bucket=${{ secrets.TF_BUCKET }}"
+
+    - name: Terraform Apply
+      id: apply
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
+      run: >
+        terraform apply -auto-approve
+        -var "gcp_project=${{ secrets.GCP_PROJECT }}"
+        -var "app_name=${{ secrets.APP_NAME }}"
+        -var "admin_user=${{ secrets.ADMIN_USERNAME }}"
+        -var "admin_password=${{ secrets.ADMIN_PASSWORD }}"
+
+  cloudrun:
+    name: Cloudrun Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Configure Docker
+      run: gcloud auth configure-docker
+
+    - name: Build & Publish
+      env:
+        PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+      run: |
+        gcloud config set project ${{ secrets.GCP_PROJECT }}
+        gcloud builds submit --config cloudbuild.yaml --tag gcr.io/${{ secrets.GCP_PROJECT }}/OrgYourWay
+        gcloud config set run/region us-central1
+
+    - name: Deploy
+      run: >
+        gcloud run deploy OrgYourWay --image gcr.io/${{ secrets.GCP_PROJECT }}/OrgYourWay
+        --platform managed
+        --allow-unauthenticated
+        --memory 256M
+

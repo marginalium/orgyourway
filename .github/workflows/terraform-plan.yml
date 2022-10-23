@@ -1,0 +1,59 @@
+name: Terraform Plan
+on:
+  pull_request:
+
+jobs:
+  terraform:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    permissions:
+      actions: read
+      contents: read
+      security-events: read
+    steps:
+    - uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: false
+
+    - name: Formatting Check
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
+
+    - name: Security scan
+      id: tfsec
+      uses: aquasecurity/tfsec-action@master
+      with:
+        soft_fail: true
+
+    - name: Write gcloud key
+      id: auth
+      env:
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      run: echo $APPLICATION_CREDENTIALS > gcloud-service-key.json
+
+    - name: Initialize Terraform
+      id: init
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
+      run: terraform init -backend-config "bucket=${{ secrets.TF_BUCKET }}"
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate
+
+    - name: Terraform Plan
+      id: plan
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
+      run: >
+        terraform plan
+        -var "gcp_project=${{ secrets.GCP_PROJECT }}"
+        -var "app_name=${{ secrets.APP_NAME }}"
+        -var "admin_user=${{ secrets.ADMIN_USERNAME }}"
+        -var "admin_password=${{ secrets.ADMIN_PASSWORD }}"
+
