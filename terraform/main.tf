@@ -18,6 +18,7 @@ variable "gcp_service_list" {
     "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
     "iam.googleapis.com",
+    "run.googleapis.com",
     "sqladmin.googleapis.com",
   ]
 }
