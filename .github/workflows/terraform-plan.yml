@@ -14,10 +14,9 @@ jobs:
       contents: read
       security-events: read
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     - uses: hashicorp/setup-terraform@v2
-       with:
+      with:
         terraform_wrapper: false
 
     - name: Formatting Check
@@ -29,7 +28,7 @@ jobs:
       id: tfsec
       uses: aquasecurity/tfsec-action@master
       with:
-      soft_fail: true
+        soft_fail: true
 
     - name: Write gcloud key
       id: auth
