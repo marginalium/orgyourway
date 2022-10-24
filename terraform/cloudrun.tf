@@ -8,6 +8,11 @@ module "cloud_run" {
 
   image = "gcr.io/cloudrun/hello"
 
+  ports = {
+    name = "http1"
+    port = 80
+  }
+
   env_vars = [
     {
       name  = "APP_NAME"
@@ -36,6 +41,17 @@ module "cloud_run" {
     {
       name  = "MYSQL_PASSWORD"
       value = module.mysql-db.generated_user_password
+    },
+    {
+      name  = "PORT"
+      value = "80"
     }
   ]
+
+  container_concurrency = 80
+
+  limits = {
+    cpu    = "1000m"
+    memory = "512M"
+  }
 }
