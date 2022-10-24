@@ -54,4 +54,10 @@ module "cloud_run" {
     cpu    = "1000m"
     memory = "512M"
   }
+
+  lifecycle {
+    ignore_changes = [
+      image
+    ]
+  }
 }
