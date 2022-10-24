@@ -75,5 +75,5 @@ jobs:
         gcloud run deploy orgyourway --image gcr.io/${{ secrets.GCP_PROJECT }}/orgyourway
         --platform managed
         --allow-unauthenticated
-        --memory 256M
+        --memory 512M
 
