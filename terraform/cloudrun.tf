@@ -41,10 +41,6 @@ module "cloud_run" {
     {
       name  = "MYSQL_PASSWORD"
       value = module.mysql-db.generated_user_password
-    },
-    {
-      name  = "PORT"
-      value = "80"
     }
   ]
 
