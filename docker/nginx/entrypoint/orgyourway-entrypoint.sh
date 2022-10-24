@@ -28,3 +28,4 @@ NC='\033[0m' # No Color
 printf "${GREEN}Setup completed!${NC}"
 
 exec tail -f /dev/null
+
