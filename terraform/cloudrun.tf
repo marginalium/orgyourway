@@ -46,6 +46,10 @@ module "cloud_run" {
 
   container_concurrency = 80
 
+  members = [
+    "allUsers",
+  ]
+
   limits = {
     cpu    = "1000m"
     memory = "512M"
