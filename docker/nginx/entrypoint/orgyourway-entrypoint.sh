@@ -21,8 +21,6 @@ service nginx start
 /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
-cp /var/www/html/.env.dist /var/www/html/.env
-
 composer install
 
 GREEN='\033[0;32m'

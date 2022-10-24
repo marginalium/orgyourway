@@ -19,6 +19,4 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-/.env
-
 node_modules
