@@ -18,7 +18,7 @@ service nginx start
 
 /etc/init.d/php8.1-fpm start
 
-/entrypoint/waitforit.sh orgyourway-mysql:3306 -t 100
+/entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 cp /var/www/html/.env.dist /var/www/html/.env
