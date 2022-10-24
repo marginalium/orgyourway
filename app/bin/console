@@ -15,3 +15,4 @@ return function (array $context) {
 
     return new Application($kernel);
 };
+
