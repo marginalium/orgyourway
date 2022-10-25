@@ -2,6 +2,7 @@
 
 namespace App\Admin;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -10,6 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\CollectionType;
+use Sonata\Form\Type\ImmutableArrayType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,13 +24,29 @@ class UserAdmin extends AbstractAdmin
         $form
             ->tab('User')
                 ->with('User')
-                    ->add('email', TextType::class, ['attr' => ['readonly' => true]])
-                    ->add('first_name', TextType::class)
-                    ->add('last_name', TextType::class)
-                    ->add('alias', TextType::class)
-                    ->add('subscribed', CheckboxType::class)
-                    ->add('subscribed_at', DateType::class)
-                    ->add('unsubscribed_at', DateType::class)
+                    ->add(
+                        'email',
+                        TextType::class
+                    )
+                    ->add('first_name', TextType::class, [
+                        'required' => false,
+
+                    ])
+                    ->add('last_name', TextType::class, [
+                        'required' => false,
+                    ])
+                    ->add('alias', TextType::class, [
+                        'required' => false,
+                    ])
+                    ->add('is_subscribed', CheckboxType::class, [
+                        'required' => false,
+                    ])
+                    ->add('subscribed_at', DateType::class, [
+                        'required' => false,
+                    ])
+                    ->add('unsubscribed_at', DateType::class, [
+                        'required' => false,
+                    ])
                 ->end()
             ->end();
 
@@ -42,6 +60,7 @@ class UserAdmin extends AbstractAdmin
                             'required' => false,
                             'by_reference' => false,
                             'label' => 'Tickets',
+                            'empty_data' => new ArrayCollection(),
                             'type_options' => array(
                                 // Prevents the "Delete" option from being displayed
                                 'delete' => false,

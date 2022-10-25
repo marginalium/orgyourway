@@ -2,6 +2,9 @@
 
 namespace App\Admin;
 
+use App\Entity\Event;
+use DateTime;
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -9,6 +12,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\DateTimePickerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -31,9 +35,25 @@ class TicketAdmin extends AbstractAdmin
                 ModelAutocompleteType::class,
                 [
                     'property' => 'email',
+                    'btn_add' => false,
                     'to_string_callback' => function($entity, $property) {
                         return $entity->getEmail();
                     },
+                ]
+            )
+            ->add(
+                'event',
+                EntityType::class,
+                [
+                    'class' => Event::class,
+                    'required' => true,
+                    'choice_label' => 'fullName',
+                    'query_builder' => function (EntityRepository $entityRepository) {
+                        return $entityRepository->createQueryBuilder('e')
+                            ->where('e.endedAt > :today')
+                            ->orderBy('e.startedAt')
+                            ->setParameter('today', new DateTime());
+                    }
                 ]
             )
             ->add(
