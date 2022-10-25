@@ -28,7 +28,11 @@ module "cloud_run" {
     },
     {
       name  = "MYSQL_HOST"
-      value = module.mysql-db.instance_first_ip_address
+      value = "localhost"
+    },
+    {
+      name  = "MYSQL_UNIX_SOCKET"
+      value = "/cloudsql/${var.gcp_project}:us-central1:${module.mysql-db.instance_name}"
     },
     {
       name  = "MYSQL_DATABASE"

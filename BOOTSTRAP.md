@@ -1,6 +1,7 @@
 1. Create Google Cloud project
 1. Create deploy service account
   1. Granted `Editor` privileges
+  1. Granted `Cloud Run Admin` privileges
   1. Export JSON key for GitHub
   1. Add JSON key to GitHub
 1. Create Terraform state bucket
