@@ -14,6 +14,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
       MYSQL_HOST: ${MYSQL_HOST:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
+      MYSQL_UNIX_SOCKET: ${MYSQL_UNIX_SOCKET}
       MYSQL_USER: ${MYSQL_USER:?err}
     volumes:
       - './app:/var/www/html:cached'
