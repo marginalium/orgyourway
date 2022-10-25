@@ -28,6 +28,10 @@ module "cloud_run" {
     },
     {
       name  = "MYSQL_HOST"
+      value = "localhost"
+    },
+    {
+      name  = "MYSQL_UNIX_SOCKET"
       value = "/cloudsql/${var.gcp_project}:us-central1:${module.mysql-db.instance_name}"
     },
     {
@@ -57,7 +61,7 @@ module "cloud_run" {
 
   lifecycle {
     ignore_changes = [
-      image
+      module.cloud_run.image
     ]
   }
 }
