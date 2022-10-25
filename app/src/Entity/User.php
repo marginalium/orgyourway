@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\{
@@ -116,6 +117,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         cascade: ['persist']
     )]
     private ?Collection $tickets;
+
+    /**
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $this->setRoles([]);
+        $this->setPassword(password_hash(random_bytes(16), PASSWORD_BCRYPT));
+    }
 
     public function getId(): ?int
     {
@@ -334,9 +344,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection
+     * @return ?Collection
      */
-    public function getTickets(): Collection
+    public function getTickets(): ?Collection
     {
         return $this->tickets;
     }
