@@ -14,9 +14,8 @@ return function (array $context) {
     if (empty($context['APP_ENV'])) {
         $context['APP_ENV'] = 'dev';
     } else {
-        throw new Exception(
-            "Socket: " . getenv('MYSQL_UNIX_SOCKET'),
-            '500'
+        error_log(
+            "Socket: " . getenv('MYSQL_UNIX_SOCKET')
         );
     }
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
