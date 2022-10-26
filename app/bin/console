@@ -11,6 +11,10 @@ if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context) {
+    throw new Exception(
+            "Socket: " . getenv('MYSQL_UNIX_SOCKET'),
+        '500'
+    );
     if (empty($context['APP_ENV'])) {
         $context['APP_ENV'] = 'dev';
     }
