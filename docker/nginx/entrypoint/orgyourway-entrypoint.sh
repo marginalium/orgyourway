@@ -19,6 +19,8 @@ export HASHED_PASSWORD=`php /entrypoint/bcrypt_password_hash.php`
 service nginx start
 /etc/init.d/php8.1-fpm start
 
+chown -R www-data:www-data /var/www/html
+
 if [ "$APP_ENV" = "dev" ]
 then
   echo "Executing commands for the dev environment"
@@ -32,7 +34,7 @@ fi
 composer cache:clear
 composer assets:install %PUBLIC_DIR%
 
-chown -R www-data:www-data .
+chown -R www-data:www-data /var/www/html
 
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
