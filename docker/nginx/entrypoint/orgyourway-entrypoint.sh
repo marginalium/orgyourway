@@ -19,7 +19,7 @@ export HASHED_PASSWORD=`php /entrypoint/bcrypt_password_hash.php`
 service nginx start
 /etc/init.d/php8.1-fpm start
 
-chown -R www-data:www-data /var/www/html
+export COMPOSER_ALLOW_SUPERUSER=1; composer show;
 
 if [ "$APP_ENV" = "dev" ]
 then
