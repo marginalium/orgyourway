@@ -17,7 +17,7 @@ export MYSQL_PASSWORD=$MYSQL_PASSWORD
 export HASHED_PASSWORD=`php /entrypoint/bcrypt_password_hash.php`
 
 service nginx start
-service php8.1-fpm start
+/etc/init.d/php8.1-fpm start
 
 if [ "$APP_ENV" = "dev" ]
 then
