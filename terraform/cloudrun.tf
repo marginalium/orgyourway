@@ -10,6 +10,8 @@ module "cloud_run" {
 
   image = "gcr.io/cloudrun/hello"
 
+  timeout_seconds = 1000
+
   ports = {
     name = "http1"
     port = 80

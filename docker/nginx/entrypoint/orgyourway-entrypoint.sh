@@ -25,13 +25,8 @@ if [ "$APP_ENV" = "dev" ]
 then
   echo "Executing commands for the dev environment"
   composer install --dev
-elif [ "$APP_ENV" = "prod" ]
-then
-  echo "Executing commands for the prod environment"
-  composer install --no-dev
 fi
 
-composer cache:clear
 composer assets:install %PUBLIC_DIR%
 
 chown -R www-data:www-data /var/www/html
