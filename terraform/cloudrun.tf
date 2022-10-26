@@ -36,7 +36,7 @@ module "cloud_run" {
     },
     {
       name  = "MYSQL_HOST"
-      value = "localhost"
+      value = module.mysql-db.instance_first_ip_address
     },
     {
       name  = "MYSQL_UNIX_SOCKET"
