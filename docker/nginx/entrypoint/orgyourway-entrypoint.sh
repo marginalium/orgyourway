@@ -32,6 +32,8 @@ fi
 composer cache:clear
 composer assets:install %PUBLIC_DIR%
 
+chown -R www-data:www-data .
+
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 GREEN='\033[0;32m'

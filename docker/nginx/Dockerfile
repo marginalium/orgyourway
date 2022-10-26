@@ -30,8 +30,11 @@ COPY docker/nginx/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
 COPY docker/nginx/entrypoint /entrypoint
 
 WORKDIR /var/www/html/
+RUN npm install
+RUN chown -R www-data:www-data .
+
+USER www-data
 RUN composer install --no-dev
 
-RUN npm install
-
+USER root
 CMD ["bash", "/entrypoint/orgyourway-entrypoint.sh"]
