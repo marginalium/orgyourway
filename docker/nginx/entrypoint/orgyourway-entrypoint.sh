@@ -24,7 +24,6 @@ then
 /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 fi
 
-MYSQL_DATABASE=$MYSQL_DATABASE MYSQL_HOST=$MYSQL_HOST MYSQL_UNIX_SOCKET=$MYSQL_UNIX_SOCKET MYSQL_USER=$MYSQL_USER MYSQL_PASSWORD=$MYSQL_PASSWORD \
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 composer install
