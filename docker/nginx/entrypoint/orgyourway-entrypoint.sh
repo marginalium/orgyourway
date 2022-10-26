@@ -21,12 +21,13 @@ service nginx start
 
 if [ "$APP_ENV" = "dev" ]
 then
-/entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
+  composer install --require-dev
+elif [ "$APP_ENV" = "prod" ]
+then
+  composer install --no-dev
 fi
 
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-
-composer install
 
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
