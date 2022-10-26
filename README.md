@@ -12,5 +12,3 @@ To build the docker environment, do the following.
 
 TODO:
 - Support multiple ticket quantity with 1 scan = 1 quantity
-
-trigger deploy
