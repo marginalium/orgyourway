@@ -1,3 +1,5 @@
+
+
 module "cloud_run" {
   source  = "GoogleCloudPlatform/cloud-run/google"
   version = "~> 0.2.0"
@@ -11,6 +13,12 @@ module "cloud_run" {
   ports = {
     name = "http1"
     port = 80
+  }
+
+  template_annotations = {
+    "autoscaling.knative.dev/maxScale"      = 1,
+    "autoscaling.knative.dev/minScale"      = 0,
+    "run.googleapis.com/cloudsql-instances" = module.mysql-db.instance_connection_name
   }
 
   env_vars = [
@@ -29,6 +37,10 @@ module "cloud_run" {
     {
       name  = "MYSQL_HOST"
       value = module.mysql-db.instance_first_ip_address
+    },
+    {
+      name  = "MYSQL_UNIX_SOCKET"
+      value = "/cloudsql/${module.mysql-db.instance_connection_name}"
     },
     {
       name  = "MYSQL_DATABASE"

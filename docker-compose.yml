@@ -11,9 +11,11 @@ services:
     environment:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?err}
       ADMIN_USERNAME: ${ADMIN_USERNAME:?err}
+      APP_ENV: ${APP_ENV:?err}
       MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
       MYSQL_HOST: ${MYSQL_HOST:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
+      MYSQL_UNIX_SOCKET: ${MYSQL_UNIX_SOCKET}
       MYSQL_USER: ${MYSQL_USER:?err}
     volumes:
       - './app:/var/www/html:cached'
@@ -23,6 +25,8 @@ services:
       - '/var/www/html/vendor'
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - mysql
   mysql:
     build:
       context: ./docker/mysql
