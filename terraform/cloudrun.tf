@@ -27,8 +27,8 @@ module "cloud_run" {
       value = var.app_name
     },
     {
-      name  = "APP_ENV"
-      value = var.app_env
+      name  = "ORG_ENV"
+      value = var.org_env
     },
     {
       name  = "ADMIN_USERNAME"

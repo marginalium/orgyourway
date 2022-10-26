@@ -7,7 +7,7 @@ phpenmod zip
 
 export ADMIN_USERNAME=$ADMIN_USERNAME
 export ADMIN_PASSWORD=$ADMIN_PASSWORD
-export APP_ENV=$APP_ENV
+export APP_ENV=$ORG_ENV
 export APP_NAME=$APP_NAME
 export MYSQL_DATABASE=$MYSQL_DATABASE
 export MYSQL_HOST=$MYSQL_HOST
@@ -21,11 +21,16 @@ service nginx start
 
 if [ "$APP_ENV" = "dev" ]
 then
-  composer install --require-dev
+  echo "Executing commands for the dev environment"
+  composer install --dev
 elif [ "$APP_ENV" = "prod" ]
 then
+  echo "Executing commands for the prod environment"
   composer install --no-dev
 fi
+
+composer cache:clear
+composer assets:install %PUBLIC_DIR%
 
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 

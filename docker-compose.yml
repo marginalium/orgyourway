@@ -11,7 +11,7 @@ services:
     environment:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?err}
       ADMIN_USERNAME: ${ADMIN_USERNAME:?err}
-      APP_ENV: ${APP_ENV:?err}
+      ORG_ENV: ${ORG_ENV:?err}
       MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
       MYSQL_HOST: ${MYSQL_HOST:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}

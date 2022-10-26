@@ -3,7 +3,7 @@ variable "gcp_project" {
   description = "Google Cloud project id"
 }
 
-variable "app_env" {
+variable "org_env" {
   type        = string
   description = "Application environment"
   default     = "prod"
