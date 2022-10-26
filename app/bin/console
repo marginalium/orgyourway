@@ -12,7 +12,7 @@ require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context) {
     throw new Exception(
-            "Server: " . $_SERVER['MYSQL_UNIX_SOCKET'] . ' Env: ' . $_ENV['MYSQL_UNIX_SOCKET'],
+            "Socket: " . getenv('MYSQL_UNIX_SOCKET'),
         '500'
     );
     if (empty($context['APP_ENV'])) {
