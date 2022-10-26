@@ -20,7 +20,11 @@ service nginx start
 
 /etc/init.d/php8.1-fpm start
 
-# /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
+if [ "$APP_ENV" = "dev" ]
+then
+/entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
+fi
+
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 composer install

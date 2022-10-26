@@ -40,7 +40,3 @@ services:
       MYSQL_USER: ${MYSQL_USER:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      timeout: 20s
-      retries: 10
