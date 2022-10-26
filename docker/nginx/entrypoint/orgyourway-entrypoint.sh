@@ -25,6 +25,8 @@ then
 /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 fi
 
+echo bin/console list
+
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 composer install
