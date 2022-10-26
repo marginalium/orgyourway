@@ -16,7 +16,6 @@ return function (array $context) {
     }
 
     print('Socket: ' . getenv('MYSQL_UNIX_SOCKET'));
-    exit;
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 
     return new Application($kernel);
