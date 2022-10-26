@@ -27,10 +27,16 @@ then
   composer install --dev
 fi
 
+echo "Clearing Composer cache"
+composer cache:clear
+
+echo "Installing assets"
 composer assets:install %PUBLIC_DIR%
 
-chown -R www-data:www-data /var/www/html
+echo "Changing directory ownership"
+chown -R 1000:1000 /var/www/html
 
+echo "Running migrations"
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 GREEN='\033[0;32m'
