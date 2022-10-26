@@ -11,6 +11,7 @@ services:
     environment:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?err}
       ADMIN_USERNAME: ${ADMIN_USERNAME:?err}
+      APP_ENV: ${APP_ENV:?err}
       MYSQL_DATABASE: ${MYSQL_DATABASE:?err}
       MYSQL_HOST: ${MYSQL_HOST:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
@@ -24,6 +25,8 @@ services:
       - '/var/www/html/vendor'
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - mysql
   mysql:
     build:
       context: ./docker/mysql
@@ -37,3 +40,7 @@ services:
       MYSQL_USER: ${MYSQL_USER:?err}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?err}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10

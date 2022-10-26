@@ -7,6 +7,7 @@ phpenmod zip
 
 export ADMIN_USERNAME=$ADMIN_USERNAME
 export ADMIN_PASSWORD=$ADMIN_PASSWORD
+export APP_ENV=$APP_ENV
 export APP_NAME=$APP_NAME
 export MYSQL_DATABASE=$MYSQL_DATABASE
 export MYSQL_HOST=$MYSQL_HOST
@@ -19,7 +20,7 @@ service nginx start
 
 /etc/init.d/php8.1-fpm start
 
-/entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
+# /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 composer install
