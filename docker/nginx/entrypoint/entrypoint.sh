@@ -6,6 +6,9 @@ phpenmod gd
 phpenmod mbstring
 phpenmod zip
 
+service nginx start
+service php8.1-fpm start
+
 export ADMIN_USERNAME=$ADMIN_USERNAME
 export ADMIN_PASSWORD=$ADMIN_PASSWORD
 export APP_ENV=$ORG_ENV

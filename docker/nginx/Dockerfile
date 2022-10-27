@@ -1,7 +1,7 @@
 FROM ubuntu/nginx:1.18-22.04_beta
 
 RUN apt update && \
-    apt install -y git zip software-properties-common curl mysql-client file
+    apt install -y git zip software-properties-common curl mysql-client file sendmail
 
 RUN add-apt-repository ppa:ondrej/php
 
