@@ -4,7 +4,7 @@ doctrine:
         user: '%env(MYSQL_USER)%'
         password: '%env(MYSQL_PASSWORD)%'
         server_version: '8.0'
-        unix_socket: '%env(resolve:MYSQL_UNIX_SOCKET)'
+        unix_socket: '%env(string:MYSQL_UNIX_SOCKET)'
         driver: pdo_mysql
 
         # IMPORTANT: You MUST configure your server version,
