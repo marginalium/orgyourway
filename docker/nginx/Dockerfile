@@ -27,6 +27,7 @@ COPY app /var/www/html
 COPY docker/nginx/config /etc/nginx/sites-enabled
 COPY docker/nginx/php/php.ini /etc/php/8.1/fpm/php.ini
 COPY docker/nginx/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
+COPY docker/nginx/php/cli/php.ini /etc/php/8.1/cli/php.ini
 COPY docker/nginx/entrypoint /entrypoint
 
 WORKDIR /var/www/html/
