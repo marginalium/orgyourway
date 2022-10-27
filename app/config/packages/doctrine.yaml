@@ -4,7 +4,7 @@ doctrine:
         user: '%env(MYSQL_USER)%'
         password: '%env(MYSQL_PASSWORD)%'
         server_version: '8.0'
-        unix_socket: '%env(string:MYSQL_UNIX_SOCKET)'
+        unix_socket: "/cloudsql/test-orgyourway-6467:us-central1:orgyourway"
         driver: pdo_mysql
 
         # IMPORTANT: You MUST configure your server version,
