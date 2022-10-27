@@ -20,3 +20,5 @@
 ###< symfony/phpunit-bridge ###
 
 node_modules
+
+/.env
