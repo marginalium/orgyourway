@@ -33,9 +33,6 @@ composer cache:clear
 echo "Installing assets"
 composer assets:install %PUBLIC_DIR%
 
-echo "Changing directory ownership"
-chown -R 1000:1000 /var/www/html
-
 echo "Running migrations"
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
