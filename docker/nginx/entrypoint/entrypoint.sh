@@ -32,14 +32,11 @@ sed -i "s/%%MYSQL_PASSWORD%%/${MYSQL_PASSWORD}/" /var/www/html/.env
 sed -i "s/%%MYSQL_DATABASE%%/${MYSQL_DATABASE}/" /var/www/html/.env
 sed -i "s,%%MYSQL_UNIX_SOCKET%%,${MYSQL_UNIX_SOCKET}," /var/www/html/.env
 
-rm -rf /var/www/html/var
+mkdir -p /var/www/html/var
 chown -R www-data:www-data /var/www/html/var
 
 service nginx start
 service php8.1-fpm start
-
-#composer cache:clear
-#composer assets:install
 
 if [ "$ORG_ENV" = "dev" ]
 then
