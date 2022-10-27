@@ -19,13 +19,7 @@ export HASHED_PASSWORD=`php /entrypoint/bcrypt_password_hash.php`
 service nginx start
 /etc/init.d/php8.1-fpm start
 
-export COMPOSER_ALLOW_SUPERUSER=1; composer show;
-
-if [ "$APP_ENV" = "dev" ]
-then
-  echo "Executing commands for the dev environment"
-  composer install --dev
-fi
+export COMPOSER_ALLOW_SUPERUSER=1
 
 echo "Clearing Composer cache"
 composer cache:clear

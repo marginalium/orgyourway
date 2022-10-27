@@ -1,8 +1,6 @@
 doctrine:
     dbal:
         dbname: '%env(resolve:MYSQL_DATABASE)%'
-        host: '%env(MYSQL_HOST)%'
-        port: 3306
         user: '%env(MYSQL_USER)%'
         password: '%env(MYSQL_PASSWORD)%'
         server_version: '8.0'
@@ -22,6 +20,13 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
 
+when@dev:
+    doctrine:
+        dbal:
+            host: '%env(MYSQL_HOST)%'
+            port: 3306
+            unix_socket: '%env(MYSQL_UNIX_SOCKET)'
+
 when@test:
     doctrine:
         dbal:
@@ -30,12 +35,6 @@ when@test:
 
 when@prod:
     doctrine:
-        dbal:
-            dbname: '%env(resolve:MYSQL_DATABASE)%'
-            user: '%env(MYSQL_USER)%'
-            password: '%env(MYSQL_PASSWORD)%'
-            server_version: '8.0'
-            unix_socket: '%env(MYSQL_UNIX_SOCKET)'
         orm:
             auto_generate_proxy_classes: false
             query_cache_driver:

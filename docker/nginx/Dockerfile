@@ -34,4 +34,4 @@ RUN composer install --no-dev
 
 RUN npm install
 
-CMD ["bash", "/entrypoint/orgyourway-entrypoint.sh"]
+CMD ["bash", "/entrypoint/entrypoint.sh"]
