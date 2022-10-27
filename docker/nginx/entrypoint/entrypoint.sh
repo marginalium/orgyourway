@@ -1,8 +1,6 @@
 #!/bin/bash
 echo "Starting entrypoint for ${ORG_ENV}...";
 
-#!/bin/bash
-
 phpenmod intl
 phpenmod gd
 phpenmod mbstring
