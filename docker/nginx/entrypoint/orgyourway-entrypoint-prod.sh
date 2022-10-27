@@ -30,6 +30,8 @@ composer assets:install %PUBLIC_DIR%
 echo "Running migrations"
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
+chmod -R +w /var/www/html/var/cache/prod/
+
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 printf "${GREEN}Setup completed!${NC}"
