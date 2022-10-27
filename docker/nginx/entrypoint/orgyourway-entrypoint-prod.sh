@@ -19,8 +19,6 @@ export HASHED_PASSWORD=`php /entrypoint/bcrypt_password_hash.php`
 service nginx start
 /etc/init.d/php8.1-fpm start
 
-chmod -R +w /var/www/html/var/cache/prod/
-
 export COMPOSER_ALLOW_SUPERUSER=1
 
 echo "Clearing Composer cache"
@@ -28,6 +26,8 @@ composer cache:clear
 
 echo "Installing assets"
 composer assets:install %PUBLIC_DIR%
+
+chmod -R +w /var/www/html/var/cache/
 
 echo "Running migrations"
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
