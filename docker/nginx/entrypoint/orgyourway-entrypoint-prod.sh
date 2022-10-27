@@ -27,7 +27,7 @@ composer cache:clear
 echo "Installing assets"
 composer assets:install %PUBLIC_DIR%
 
-chmod -R +w /var/www/html/var/cache/
+chmod -R +w /var/www/html/var/
 
 echo "Running migrations"
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
