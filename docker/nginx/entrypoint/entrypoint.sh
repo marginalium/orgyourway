@@ -1,6 +1,8 @@
 #!/bin/bash
 echo "Starting entrypoint for ${ORG_ENV}...";
 
+cd /var/www/html
+
 phpenmod intl
 phpenmod gd
 phpenmod mbstring
@@ -36,8 +38,12 @@ chown -R www-data:www-data /var/www/html/var
 service nginx start
 service php8.1-fpm start
 
+#composer cache:clear
+#composer assets:install
+
 if [ "$ORG_ENV" = "dev" ]
 then
+  sed -i "s/APP_ENV=%%APP_ENV%%/APP_ENV=${ORG_ENV}/" /var/www/html/.env
   /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 fi
 
