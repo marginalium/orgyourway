@@ -46,7 +46,7 @@ module "cloud_run" {
     },
     {
       name  = "MYSQL_UNIX_SOCKET"
-      value = "/cloudsql/${module.mysql-db.instance_connection_name}"
+      value = "${module.mysql-db.instance_connection_name}"
     },
     {
       name  = "MYSQL_DATABASE"

@@ -14,16 +14,6 @@ return function (array $context) {
     if (empty($context['APP_ENV'])) {
         $context['APP_ENV'] = 'prod';
     }
-    $msg = "This is the Unix socket getenv() style: " . getenv('MYSQL_UNIX_SOCKET') . " This is the Unix socket server style: " . $_SERVER['MYSQL_UNIX_SOCKET'];
-
-    // use wordwrap() if lines are longer than 70 characters
-    $msg = wordwrap($msg,70);
-
-    $headers = 'From: domdest@gmail.com' . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-
-    // send email
-    mail("domdest@gmail.com","Test email from Cloud Run", $msg, $headers);
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 
     return new Application($kernel);

@@ -38,9 +38,9 @@ chown -R www-data:www-data /var/www/html/var
 service nginx start
 service php8.1-fpm start
 
-if [ "$ORG_ENV" = "dev" ]
+if [ "${ORG_ENV}" = "dev" ]
 then
-  sed -i "s/APP_ENV=%%APP_ENV%%/APP_ENV=${ORG_ENV}/" /var/www/html/.env
+  sed -i "s/APP_ENV=prod/APP_ENV=${ORG_ENV}/" /var/www/html/.env
   /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 fi
 

@@ -4,7 +4,6 @@ doctrine:
         user: '%env(MYSQL_USER)%'
         password: '%env(MYSQL_PASSWORD)%'
         server_version: '8.0'
-        unix_socket: "/cloudsql/test-orgyourway-6467:us-central1:orgyourway"
         driver: pdo_mysql
 
         # IMPORTANT: You MUST configure your server version,
@@ -26,7 +25,6 @@ when@dev:
         dbal:
             host: '%env(MYSQL_HOST)%'
             port: 3306
-            unix_socket: '%env(MYSQL_UNIX_SOCKET)'
 
 when@test:
     doctrine:
@@ -36,6 +34,8 @@ when@test:
 
 when@prod:
     doctrine:
+        dbal:
+            unix_socket: "/cloudsql/%env(MYSQL_UNIX_SOCKET)%"
         orm:
             auto_generate_proxy_classes: false
             query_cache_driver:
