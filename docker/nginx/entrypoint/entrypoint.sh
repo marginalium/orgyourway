@@ -6,9 +6,6 @@ phpenmod gd
 phpenmod mbstring
 phpenmod zip
 
-service nginx start
-service php8.1-fpm start
-
 export ADMIN_USERNAME=$ADMIN_USERNAME
 export ADMIN_PASSWORD=$ADMIN_PASSWORD
 export ORG_ENV=$ORG_ENV
@@ -33,6 +30,11 @@ sed -i "s/%%MYSQL_PASSWORD%%/${MYSQL_PASSWORD}/" /var/www/html/.env
 sed -i "s/%%MYSQL_DATABASE%%/${MYSQL_DATABASE}/" /var/www/html/.env
 sed -i "s,%%MYSQL_UNIX_SOCKET%%,${MYSQL_UNIX_SOCKET}," /var/www/html/.env
 
+rm -rf /var/www/html/var/cache
+chown -R www-data:www-data /var/www/html/var
+
+service nginx start
+service php8.1-fpm start
 
 if [ "$ORG_ENV" = "dev" ]
 then
