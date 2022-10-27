@@ -27,6 +27,7 @@ composer cache:clear
 echo "Installing assets"
 composer assets:install %PUBLIC_DIR%
 
+mkdir /var/www/html/var
 chmod -R +w /var/www/html/var/
 
 echo "Running migrations"
