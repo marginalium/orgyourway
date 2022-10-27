@@ -14,7 +14,7 @@ security:
             memory:
                 users:
                     '%env(resolve:ADMIN_USERNAME)%':
-                        password: '%env(resolve:HASHED_PASSWORD)%'
+                        password: '%env(resolve:ADMIN_PASSWORD)%'
                         roles: ['ROLE_ADMIN', 'ROLE_USER']
         all_users:
             chain:
