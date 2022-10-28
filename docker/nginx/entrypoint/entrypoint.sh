@@ -50,5 +50,5 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 printf "${GREEN}Setup completed!${NC}"
 
-exec tail -f /dev/null
+tail -f /var/log/nginx/error.log
 
