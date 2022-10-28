@@ -62,7 +62,7 @@ module "cloud_run" {
     }
   ]
 
-  container_concurrency = 40
+  container_concurrency = 2
 
   members = [
     "allUsers",
