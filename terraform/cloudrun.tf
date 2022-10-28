@@ -21,6 +21,7 @@ module "cloud_run" {
     "autoscaling.knative.dev/maxScale"      = 10,
     "autoscaling.knative.dev/minScale"      = 1,
     "run.googleapis.com/cloudsql-instances" = module.mysql-db.instance_connection_name
+    "run.googleapis.com/execution-environment" = "gen2"
   }
 
   env_vars = [
