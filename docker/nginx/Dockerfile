@@ -6,7 +6,7 @@ RUN apt update && \
 RUN add-apt-repository ppa:ondrej/php
 
 RUN apt-get update && \
-    apt install -y php8.1 php8.1-fpm php8.1-mysql php8.1-xml php8.1-intl php8.1-gd php8.1-mbstring php8.1-zip
+    apt install -y php8.1 php8.1-fpm php8.1-mysql php8.1-xml php8.1-intl php8.1-gd php8.1-mbstring php8.1-zip php8.1-opcache
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
@@ -38,5 +38,20 @@ RUN phpenmod intl
 RUN phpenmod gd
 RUN phpenmod mbstring
 RUN phpenmod zip
+
+RUN set -ex; \
+  { \
+    echo "; Cloud Run enforces memory & timeouts"; \
+    echo "memory_limit = -1"; \
+    echo "max_execution_time = 0"; \
+    echo "; File upload at Cloud Run network limit"; \
+    echo "upload_max_filesize = 32M"; \
+    echo "post_max_size = 32M"; \
+    echo "; Configure Opcache for Containers"; \
+    echo "opcache.enable = On"; \
+    echo "opcache.validate_timestamps = Off"; \
+    echo "; Configure Opcache Memory (Application-specific)"; \
+    echo "opcache.memory_consumption = 32"; \
+  } > "/etc/php/8.1/fpm/conf.d/cloud-run.ini"
 
 CMD ["bash", "/entrypoint/entrypoint.sh"]

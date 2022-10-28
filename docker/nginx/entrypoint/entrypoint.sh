@@ -38,6 +38,7 @@ then
   /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 fi
 
+echo "Running migrations"
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 GREEN='\033[0;32m'
