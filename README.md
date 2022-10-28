@@ -11,4 +11,4 @@ To build the docker environment, do the following.
 4. Upon completion, run `docker cp orgyourway-nginx:/var/www/html/vendor ./app/` to pull down latest Composer files
 
 TODO:
-- Support multiple ticket quantity with 1 scan = 1 quantity
+- Go live!
