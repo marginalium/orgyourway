@@ -71,6 +71,6 @@ module "cloud_run" {
 
   limits = {
     cpu    = "1000m"
-    memory = "2G"
+    memory = "1G"
   }
 }
