@@ -1,7 +1,8 @@
 {% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
 
 {% block field %}
-    {% set qrCodeUrlValue = url('app_admin_user_checkin', {'user': value}) %}
-    {% set qrCodeUrlValueEsc = qrCodeUrlValue|escape('url') %}
-    <img width="150" height="150" src="{{ qr_code_data_uri(qrCodeUrlValue) }}" />
+    {#    {% set qrCodeUrlValue = url('app_admin_user_checkin', {'user': value}) %}#}
+    {#    {% set qrCodeUrlValueEsc = qrCodeUrlValue|escape('url') %}#}
+    {#    <img width="150" height="150" src="{{ qr_code_data_uri(qrCodeUrlValue) }}" />#}
+    <img width="150" height="150" src="/qr-code/default/https%3A%2F%2Fmartiparti.net%2Fadmin%2Fapp%2Fuser%2F{{ value }}%2Fcheck_in" />
 {% endblock field %}
