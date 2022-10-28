@@ -42,6 +42,10 @@ module "cloud_run" {
       value = var.admin_password
     },
     {
+      name  = "MAX_CHILDREN"
+      value = var.max_children
+    }
+    {
       name  = "MYSQL_HOST"
       value = module.mysql-db.instance_first_ip_address
     },

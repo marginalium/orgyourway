@@ -8,6 +8,9 @@ phpenmod gd
 phpenmod mbstring
 phpenmod zip
 
+MAX_CHILDREN=$MAX_CHILDREN
+sed -i "s/%%MAX_CHILDREN%%/$MAX_CHILDREN/" /etc/php/8.1/fpm/pool.d/www.conf
+
 service nginx start
 service php8.1-fpm start
 
@@ -50,4 +53,4 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 printf "${GREEN}Setup completed!${NC}"
 
-tail -f /var/www/html/var/log/prod.log
+tail -f /var/www/html/var/log/${ORG_ENV}.log
