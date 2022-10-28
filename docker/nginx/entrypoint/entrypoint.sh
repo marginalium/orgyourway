@@ -35,7 +35,8 @@ sed -i "s/%%MYSQL_DATABASE%%/${MYSQL_DATABASE}/" /var/www/html/.env
 sed -i "s,%%MYSQL_UNIX_SOCKET%%,${MYSQL_UNIX_SOCKET}," /var/www/html/.env
 
 mkdir -p /var/www/html/var
-chown -R www-data:www-data /var/www/html/var
+composer auto-scripts
+chown -R www-data:www-data /var/www/html
 
 if [ "${ORG_ENV}" = "dev" ]
 then
