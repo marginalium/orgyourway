@@ -4,6 +4,7 @@ steps:
     args: ['build',
             '--tag=gcr.io/$PROJECT_ID/orgyourway',
             '--file=docker/nginx/Dockerfile',
+            '--cache-from', 'gcr.io/$PROJECT_ID/orgyourway:latest',
             '.'
           ]
 
