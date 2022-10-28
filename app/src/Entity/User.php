@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping\{Column,
-    CustomIdGenerator,
+use Doctrine\ORM\Mapping\{
+    Column,
     Entity,
     GeneratedValue,
     HasLifecycleCallbacks,
@@ -15,11 +16,11 @@ use Doctrine\ORM\Mapping\{Column,
     OneToMany,
     PrePersist,
     PreUpdate,
-    Table};
+    Table
+};
 use Exception;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Uid\Uuid;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'users')]
@@ -27,10 +28,9 @@ use Symfony\Component\Uid\Uuid;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Id]
-    #[Column(type: 'uuid', unique: true)]
-    #[GeneratedValue(strategy: 'CUSTOM')]
-    #[CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?Uuid $id = null;
+    #[GeneratedValue]
+    #[Column]
+    private ?int $id = null;
 
     #[Column(length: 180, unique: true)]
     private ?string $email = null;
@@ -127,7 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->setPassword(password_hash(random_bytes(16), PASSWORD_BCRYPT));
     }
 
-    public function getId(): ?Uuid
+    public function getId(): ?int
     {
         return $this->id;
     }
