@@ -18,8 +18,8 @@ module "cloud_run" {
   }
 
   template_annotations = {
-    "autoscaling.knative.dev/maxScale"      = 1,
-    "autoscaling.knative.dev/minScale"      = 0,
+    "autoscaling.knative.dev/maxScale"      = 10,
+    "autoscaling.knative.dev/minScale"      = 1,
     "run.googleapis.com/cloudsql-instances" = module.mysql-db.instance_connection_name
   }
 
