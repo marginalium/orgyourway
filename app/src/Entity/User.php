@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(type: 'uuid', unique: true)]
     #[GeneratedValue(strategy: 'CUSTOM')]
     #[CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?int $id = null;
+    private ?Uuid $id = null;
 
     #[Column(length: 180, unique: true)]
     private ?string $email = null;
