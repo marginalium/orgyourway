@@ -2,10 +2,16 @@ steps:
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build',
-            '--tag=gcr.io/$PROJECT_ID/orgyourway',
+            '--tag=gcr.io/$PROJECT_ID/orgyourway:latest',
             '--file=docker/nginx/Dockerfile',
+            '--cache-from', 'gcr.io/$PROJECT_ID/orgyourway:latest',
             '.'
           ]
+  - name: gcr.io/cloud-builders/docker
+    args: ['push',
+            'gcr.io/$PROJECT_ID/orgyourway:latest'
+          ]
+    id: PushLatest
 
 images:
-  'gcr.io/$PROJECT_ID/orgyourway'
+  'gcr.io/$PROJECT_ID/orgyourway:latest'

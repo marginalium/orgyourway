@@ -1,4 +1,4 @@
-name: Terraform Plan
+name: Terraform Apply and Deploy
 on:
   push:
     branches:
@@ -75,5 +75,5 @@ jobs:
         gcloud run deploy orgyourway --image gcr.io/${{ secrets.GCP_PROJECT }}/orgyourway
         --platform managed
         --allow-unauthenticated
-        --memory 512M
+        --memory 1G
 

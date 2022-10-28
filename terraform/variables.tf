@@ -25,3 +25,8 @@ variable "admin_password" {
   description = "Admin password"
 }
 
+variable "max_children" {
+  type        = string
+  description = "Maximum PHP Child Processes"
+  default     = 80
+}

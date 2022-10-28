@@ -18,9 +18,10 @@ module "cloud_run" {
   }
 
   template_annotations = {
-    "autoscaling.knative.dev/maxScale"      = 1,
-    "autoscaling.knative.dev/minScale"      = 0,
+    "autoscaling.knative.dev/maxScale"      = 10,
+    "autoscaling.knative.dev/minScale"      = 1,
     "run.googleapis.com/cloudsql-instances" = module.mysql-db.instance_connection_name
+    "run.googleapis.com/execution-environment" = "gen2"
   }
 
   env_vars = [
@@ -39,6 +40,10 @@ module "cloud_run" {
     {
       name  = "ADMIN_PASSWORD"
       value = var.admin_password
+    },
+    {
+      name  = "MAX_CHILDREN"
+      value = var.max_children
     },
     {
       name  = "MYSQL_HOST"
@@ -62,7 +67,7 @@ module "cloud_run" {
     }
   ]
 
-  container_concurrency = 40
+  container_concurrency = 20
 
   members = [
     "allUsers",
@@ -70,6 +75,6 @@ module "cloud_run" {
 
   limits = {
     cpu    = "1000m"
-    memory = "512M"
+    memory = "1G"
   }
 }

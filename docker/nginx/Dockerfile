@@ -6,7 +6,7 @@ RUN apt update && \
 RUN add-apt-repository ppa:ondrej/php
 
 RUN apt-get update && \
-    apt install -y php8.1 php8.1-fpm php8.1-mysql php8.1-xml php8.1-intl php8.1-gd php8.1-mbstring php8.1-zip
+    apt install -y php8.1 php8.1-fpm php8.1-mysql php8.1-xml php8.1-intl php8.1-gd php8.1-mbstring php8.1-zip php8.1-opcache
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
@@ -18,6 +18,7 @@ ENV ADMIN_USERNAME ${ADMIN_USERNAME}
 ENV ADMIN_PASSWORD ${ADMIN_PASSWORD}
 ENV APP_NAME ${APP_NAME}
 ENV ORG_ENV ${ORG_ENV}
+ENV MAX_CHILDREN ${MAX_CHILDREN}
 ENV MYSQL_DATABASE ${MYSQL_DATABASE}
 ENV MYSQL_HOST ${MYSQL_HOST}
 ENV MYSQL_USER ${MYSQL_USER}
@@ -27,10 +28,11 @@ ENV MYSQL_UNIX_SOCKET ${MYSQL_UNIX_SOCKET}
 COPY app /var/www/html
 COPY docker/nginx/config /etc/nginx/sites-enabled
 COPY docker/nginx/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
+COPY docker/nginx/php/php.ini /etc/php/8.1/fpm/php.ini
 COPY docker/nginx/entrypoint /entrypoint
 
 WORKDIR /var/www/html/
-RUN if [ "$ORG_ENV" = "prod"] ; then composer install --no-dev ; else composer install --dev ; fi
+RUN if [ "$ORG_ENV" = "prod"] ; then composer install --no-dev ; else composer install ; fi
 
 RUN npm install
 
