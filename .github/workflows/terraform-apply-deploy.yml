@@ -1,4 +1,4 @@
-name: Terraform Plan
+name: Terraform Apply and Deploy
 on:
   push:
     branches:
