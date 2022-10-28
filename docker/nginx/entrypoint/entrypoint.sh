@@ -3,11 +3,6 @@ echo "Starting entrypoint for ${ORG_ENV}...";
 
 cd /var/www/html
 
-phpenmod intl
-phpenmod gd
-phpenmod mbstring
-phpenmod zip
-
 service nginx start
 service php8.1-fpm start
 
@@ -35,7 +30,6 @@ sed -i "s/%%MYSQL_DATABASE%%/${MYSQL_DATABASE}/" /var/www/html/.env
 sed -i "s,%%MYSQL_UNIX_SOCKET%%,${MYSQL_UNIX_SOCKET}," /var/www/html/.env
 
 mkdir -p /var/www/html/var
-composer auto-scripts
 chown -R www-data:www-data /var/www/html
 
 if [ "${ORG_ENV}" = "dev" ]
@@ -44,7 +38,6 @@ then
   /entrypoint/waitforit.sh $MYSQL_HOST:3306 -t 100
 fi
 
-echo "Running migrations"
 bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 GREEN='\033[0;32m'

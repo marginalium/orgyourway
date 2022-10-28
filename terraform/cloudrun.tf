@@ -6,7 +6,7 @@ module "cloud_run" {
 
   service_name = "orgyourway"
   project_id   = var.gcp_project
-  location     = "us-central1"
+  location     = "us-east4"
 
   image = "gcr.io/cloudrun/hello"
 
@@ -62,7 +62,7 @@ module "cloud_run" {
     }
   ]
 
-  container_concurrency = 80
+  container_concurrency = 1
 
   members = [
     "allUsers",

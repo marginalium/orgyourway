@@ -30,8 +30,13 @@ COPY docker/nginx/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
 COPY docker/nginx/entrypoint /entrypoint
 
 WORKDIR /var/www/html/
-RUN if [ "$ORG_ENV" = "prod"] ; then composer install --no-dev ; else composer install --dev ; fi
+RUN if [ "${ORG_ENV}" = "prod"] ; then composer install --no-dev ; else composer install --dev ; fi
 
 RUN npm install
+
+RUN phpenmod intl
+RUN phpenmod gd
+RUN phpenmod mbstring
+RUN phpenmod zip
 
 CMD ["bash", "/entrypoint/entrypoint.sh"]
