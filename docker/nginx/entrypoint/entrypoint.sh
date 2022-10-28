@@ -50,4 +50,4 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 printf "${GREEN}Setup completed!${NC}"
 
-tail -f /var/www/html/var/log/dev.log
+tail -f /var/www/html/var/log/prod.log
