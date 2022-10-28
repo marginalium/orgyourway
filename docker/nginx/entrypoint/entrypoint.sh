@@ -3,6 +3,11 @@ echo "Starting entrypoint for ${ORG_ENV}...";
 
 cd /var/www/html
 
+phpenmod intl
+phpenmod gd
+phpenmod mbstring
+phpenmod zip
+
 service nginx start
 service php8.1-fpm start
 
