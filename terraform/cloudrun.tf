@@ -43,7 +43,7 @@ module "cloud_run" {
     },
     {
       name  = "MAX_CHILDREN"
-      value = var.max_children
+      value = 80
     },
     {
       name  = "MYSQL_HOST"
