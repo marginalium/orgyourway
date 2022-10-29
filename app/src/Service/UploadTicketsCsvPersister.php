@@ -103,7 +103,8 @@ class UploadTicketsCsvPersister
             'email' => strtolower($data['user']['email']),
             'password' => password_hash(random_bytes(16), PASSWORD_BCRYPT),
             'first_name' => $data['user']['first_name'],
-            'last_name' => $data['user']['last_name']
+            'last_name' => $data['user']['last_name'],
+            'is_subscribed' => true
         ];
 
         $user = $userCollection->filter(
