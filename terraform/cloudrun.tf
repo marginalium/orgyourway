@@ -80,7 +80,7 @@ module "cloud_run" {
 }
 
 resource "google_cloud_run_domain_mapping" "default" {
-  count    = var.domain ? 1 : 0
+  count    = var.domain == "" ? 0 : 1
   name     = var.domain
   location = module.cloud_run.location
   metadata {
