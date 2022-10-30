@@ -23,6 +23,9 @@ jobs:
           "${{ secrets.ADMIN_PASSWORD }}"
         )
 
+        test = GCP_PROJECT
+        echo "GCP_PROJECT = ${{ secrets.$test }}"
+
         for var in "${Variables[@]}"; do
           echo $var
           if [ "$var" = "" ]; then
