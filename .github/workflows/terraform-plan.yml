@@ -17,19 +17,15 @@ jobs:
         Variables=(
           "${{ secrets.GCP_PROJECT }}"
           "${{ secrets.TF_BUCKET }}"
-          "${{ secrets.TEST_SECRET }}"
           "${{ secrets.APP_NAME }}"
           "${{ secrets.ADMIN_USERNAME }}"
           "${{ secrets.ADMIN_PASSWORD }}"
         )
 
-        test = GCP_PROJECT
-        echo "GCP_PROJECT = ${{ secrets.$test }}"
-
         for var in "${Variables[@]}"; do
           echo $var
           if [ "$var" = "" ]; then
-            echo "$var has not been defined. Add $i to GitHub Actions Secrets"
+            echo "One or more required variables are missing. Make sure all required variables are available in Github Secrets."
             exit 1
           fi
         done
