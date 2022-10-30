@@ -10,7 +10,8 @@
   1. Cloud Resource Manager
   1. Identity and Access Management (IAM)
 1. Populate GitHub Actions secrets with environment values
+  1. APP_NAME
   1. GCLOUD_PROJECT
-  1. GCLOUD_DEPLOY_KEY
+  1. GOOGLE_APPLICATION_CREDENTIALS
   1. TF_BUCKET
 

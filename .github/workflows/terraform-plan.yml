@@ -3,9 +3,36 @@ on:
   pull_request:
 
 jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: read
+    steps:
+    - uses: actions/checkout@v3
+    - name: Test Variables
+      run: |
+        Variables=(
+          "${{ secrets.GCP_PROJECT }}"
+          "${{ secrets.TF_BUCKET }}"
+          "${{ secrets.APP_NAME }}"
+          "${{ secrets.ADMIN_USERNAME }}"
+          "${{ secrets.ADMIN_PASSWORD }}"
+        )
+
+        for var in "${Variables[@]}"; do
+          if [ "$var" = "" ]; then
+            echo "One or more required variables are missing. Make sure all required variables are available in Github Secrets."
+            exit 1
+          fi
+        done
+
   terraform:
     name: Terraform Plan
     runs-on: ubuntu-latest
+    needs: tests
     defaults:
       run:
         working-directory: terraform
@@ -54,6 +81,7 @@ jobs:
         terraform plan
         -var "gcp_project=${{ secrets.GCP_PROJECT }}"
         -var "app_name=${{ secrets.APP_NAME }}"
+        -var "domain=${{ secrets.DOMAIN }}"
         -var "admin_user=${{ secrets.ADMIN_USERNAME }}"
         -var "admin_password=${{ secrets.ADMIN_PASSWORD }}"
 
