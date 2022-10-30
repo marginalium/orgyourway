@@ -8,9 +8,7 @@ module "cloud_run" {
   project_id   = var.gcp_project
   location     = "us-central1"
 
-  verified_domain_name = [
-    "${var.domain}",
-  ]
+  verified_domain_name = var.domain
 
   image = "gcr.io/cloudrun/hello"
 
