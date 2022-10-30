@@ -14,6 +14,15 @@ jobs:
       contents: read
       security-events: read
     steps:
+    - name: Test variables
+      run: >
+        for i in TEST_SECRET GCP_PROJECT TF_BUCKET APP_NAME ADMIN_USERNAME ADMIN_PASSWORD; do
+          if [ -z "${{ secrets.$i }}" ]; then
+            echo "$i has not been defined. Add $i to GitHub Actions Secrets"
+            exit 1
+          fi
+        done
+
     - uses: actions/checkout@v3
     - uses: hashicorp/setup-terraform@v2
       with:
@@ -54,6 +63,7 @@ jobs:
         terraform plan
         -var "gcp_project=${{ secrets.GCP_PROJECT }}"
         -var "app_name=${{ secrets.APP_NAME }}"
+        -var "domain=${{ secrets.DOMAIN }}"
         -var "admin_user=${{ secrets.ADMIN_USERNAME }}"
         -var "admin_password=${{ secrets.ADMIN_PASSWORD }}"
 
