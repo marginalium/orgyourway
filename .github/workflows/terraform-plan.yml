@@ -15,7 +15,7 @@ jobs:
       security-events: read
     steps:
     - name: Test variables
-      run: >
+      run: |
         for var in TEST_SECRET GCP_PROJECT TF_BUCKET APP_NAME ADMIN_USERNAME ADMIN_PASSWORD; do
           if [ -z ${{ secrets.$var }} ]; then
             echo "$i has not been defined. Add $i to GitHub Actions Secrets"
