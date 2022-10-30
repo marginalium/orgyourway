@@ -1,4 +1,4 @@
-
+data "google_project" "project" {}
 
 module "cloud_run" {
   source  = "GoogleCloudPlatform/cloud-run/google"
@@ -18,9 +18,9 @@ module "cloud_run" {
   }
 
   template_annotations = {
-    "autoscaling.knative.dev/maxScale"      = 10,
-    "autoscaling.knative.dev/minScale"      = 1,
-    "run.googleapis.com/cloudsql-instances" = module.mysql-db.instance_connection_name
+    "autoscaling.knative.dev/maxScale"         = 10,
+    "autoscaling.knative.dev/minScale"         = 1,
+    "run.googleapis.com/cloudsql-instances"    = module.mysql-db.instance_connection_name
     "run.googleapis.com/execution-environment" = "gen2"
   }
 
@@ -78,3 +78,16 @@ module "cloud_run" {
     memory = "1G"
   }
 }
+
+resource "google_cloud_run_domain_mapping" "default" {
+  count    = var.domain ? 1 : 0
+  name     = var.domain
+  location = module.cloud_run.location
+  metadata {
+    namespace = var.gcp_project
+  }
+  spec {
+    route_name = module.cloud_run.service_name
+  }
+}
+
