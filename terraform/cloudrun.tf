@@ -8,6 +8,10 @@ module "cloud_run" {
   project_id   = var.gcp_project
   location     = "us-central1"
 
+  verified_domain_name = [
+    var.domain
+  ]
+
   image = "gcr.io/cloudrun/hello"
 
   timeout_seconds = 1000
@@ -76,18 +80,6 @@ module "cloud_run" {
   limits = {
     cpu    = "1000m"
     memory = "1G"
-  }
-}
-
-resource "google_cloud_run_domain_mapping" "default" {
-  count    = var.domain == "" ? 0 : 1
-  name     = var.domain
-  location = module.cloud_run.location
-  metadata {
-    namespace = var.gcp_project
-  }
-  spec {
-    route_name = module.cloud_run.service_name
   }
 }
 
