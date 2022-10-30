@@ -9,7 +9,7 @@ module "cloud_run" {
   location     = "us-central1"
 
   verified_domain_name = [
-    var.domain
+    "${var.domain}",
   ]
 
   image = "gcr.io/cloudrun/hello"
