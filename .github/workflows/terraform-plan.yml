@@ -23,7 +23,6 @@ jobs:
         )
 
         for var in "${Variables[@]}"; do
-          echo $var
           if [ "$var" = "" ]; then
             echo "One or more required variables are missing. Make sure all required variables are available in Github Secrets."
             exit 1
