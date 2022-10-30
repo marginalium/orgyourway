@@ -34,6 +34,6 @@ variable "max_children" {
 variable "domain" {
   type        = string
   description = "Custom domain mapping"
-  default     = ""
+  default     = "example.com"
 }
 
