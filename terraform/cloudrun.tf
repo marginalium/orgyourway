@@ -8,6 +8,8 @@ module "cloud_run" {
 
   verified_domain_name = var.domain
 
+  certificate_mode = "AUTOMATIC"
+
   image = "gcr.io/cloudrun/hello"
 
   timeout_seconds = 1000
