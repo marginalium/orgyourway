@@ -1,5 +1,3 @@
-
-
 module "cloud_run" {
   source  = "GoogleCloudPlatform/cloud-run/google"
   version = "~> 0.2.0"
@@ -7,6 +5,10 @@ module "cloud_run" {
   service_name = "orgyourway"
   project_id   = var.gcp_project
   location     = "us-central1"
+
+  verified_domain_name = var.domain
+
+  certificate_mode = "AUTOMATIC"
 
   image = "gcr.io/cloudrun/hello"
 
@@ -18,9 +20,9 @@ module "cloud_run" {
   }
 
   template_annotations = {
-    "autoscaling.knative.dev/maxScale"      = 10,
-    "autoscaling.knative.dev/minScale"      = 1,
-    "run.googleapis.com/cloudsql-instances" = module.mysql-db.instance_connection_name
+    "autoscaling.knative.dev/maxScale"         = 10,
+    "autoscaling.knative.dev/minScale"         = 1,
+    "run.googleapis.com/cloudsql-instances"    = module.mysql-db.instance_connection_name
     "run.googleapis.com/execution-environment" = "gen2"
   }
 
@@ -78,3 +80,4 @@ module "cloud_run" {
     memory = "1G"
   }
 }
+

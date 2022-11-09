@@ -30,3 +30,10 @@ variable "max_children" {
   description = "Maximum PHP Child Processes"
   default     = 80
 }
+
+variable "domain" {
+  type        = string
+  description = "Custom domain mapping"
+  default     = ""
+}
+
