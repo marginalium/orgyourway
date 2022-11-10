@@ -47,7 +47,6 @@ class EventAdmin extends AbstractAdmin
                         [
                             'label' => 'Ticket Cost',
                             'currency' => 'USD',
-                            'label' => 'Ticket Cost'
                         ]
                     )
                     ->add(
@@ -68,29 +67,30 @@ class EventAdmin extends AbstractAdmin
                 ->end()
             ->end();
 
-        $form
-            ->tab('Tickets')
-                ->with('Tickets')
-                    ->add(
-                        'tickets',
-                        CollectionType::class,
-                        [
-                            'required' => false,
-                            'by_reference' => false,
-                            'label' => 'Tickets',
-                            'type_options' => array(
-                                // Prevents the "Delete" option from being displayed
-                                'delete' => false,
-                            ),
-                        ],
-                        [
-                            'edit' => 'inline',
-                            'inline' => 'table',
-                            'sortable' => 'position',
-                        ]
-                    )
-                ->end()
-            ->end();
+        //TODO figure out how to make this editable inline without auto-updating ticket dates when event is edited
+//        $form
+//            ->tab('Tickets')
+//                ->with('Tickets')
+//                    ->add(
+//                        'tickets',
+//                        CollectionType::class,
+//                        [
+//                            'required' => false,
+//                            'by_reference' => false,
+//                            'label' => 'Tickets',
+//                            'type_options' => array(
+//                                // Prevents the "Delete" option from being displayed
+//                                'delete' => false,
+//                            ),
+//                        ],
+//                        [
+//                            'edit' => 'link',
+//                            'inline' => 'table',
+//                            'sortable' => 'position',
+//                        ]
+//                    )
+//                ->end()
+//            ->end();
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
