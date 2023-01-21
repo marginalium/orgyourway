@@ -5,6 +5,7 @@ namespace App\Controller\Utility;
 use App\Form\UploadTicketsCsvForm;
 use App\Service\UploadTicketsCsvLoader;
 use App\Service\UploadTicketsCsvPersister;
+use Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,13 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class UploadTicketsCsvController extends AbstractController
 {
     public function __construct(
-        private UploadTicketsCsvLoader $uploadTicketsCsvLoader,
-        private UploadTicketsCsvPersister $uploadTicketsCsvPersister
+        private readonly UploadTicketsCsvLoader $uploadTicketsCsvLoader,
+        private readonly UploadTicketsCsvPersister $uploadTicketsCsvPersister
     ) {
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route('/utilities/upload/tickets/csv', name: 'app_utilities_upload_tickets_csv')]
     public function index(Request $request): Response
@@ -39,8 +40,9 @@ class UploadTicketsCsvController extends AbstractController
             $sheetData = $this->getSheetData($file);
 
             $header = array_shift($sheetData);
-            foreach($sheetData as $row) {
-                $ticketArray[] = array_combine($header, $row);
+            $ticketArray = [];
+            foreach($sheetData as $key => $row) {
+                $ticketArray[$key] = array_combine($header, $row);
             }
 
             $validatedTicketArray = ($this->uploadTicketsCsvLoader)($ticketArray);

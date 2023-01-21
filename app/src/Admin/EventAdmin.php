@@ -57,11 +57,14 @@ class EventAdmin extends AbstractAdmin
                             'field_options_start' => [
                                 'label' => 'Start Date/time',
                                 'translation_domain' => 'messages',
+                                'required' => true
                             ],
                             'field_options_end' => [
                                 'label' => 'End Date/time',
                                 'translation_domain' => 'messages',
-                            ]
+                                'required' => true
+                            ],
+                            'required' => true
                         ]
                     )
                 ->end()

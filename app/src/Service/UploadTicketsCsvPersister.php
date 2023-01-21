@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Laminas\Hydrator\DoctrineObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use JetBrains\PhpStorm\ArrayShape;
 
 class UploadTicketsCsvPersister
 {
@@ -26,6 +27,7 @@ class UploadTicketsCsvPersister
     /**
      * @throws Exception
      */
+    #[ArrayShape(['updated' => "int", 'created' => "int", 'total' => "int"])]
     public function __invoke(array $ticketArray, Event $event): array
     {
         $ticketCollection = $this->ticketRepository->getTicketsByExternalId($ticketArray);
@@ -37,6 +39,7 @@ class UploadTicketsCsvPersister
     /**
      * @throws Exception
      */
+    #[ArrayShape(['updated' => "int", 'created' => "int", 'total' => "int"])]
     public function writeTicketEntities(
         array $ticketArray,
         ArrayCollection $ticketCollection,
@@ -49,8 +52,15 @@ class UploadTicketsCsvPersister
             'total' => 0
         ];
 
+        $email_list = [];
         foreach ($ticketArray as $ticketRow) {
             $user = $this->hydrateUserData($ticketRow, $userCollection);
+
+            //make sure we're not trying to create the same user twice in one flush
+            if (array_key_exists($user->getEmail(), $email_list)) {
+                $user = $email_list[$user->getEmail()];
+            }
+            $email_list[$user->getEmail()] = $user;
 
             $event = $this->hydrateEventData($ticketRow, $event);
 
@@ -121,7 +131,7 @@ class UploadTicketsCsvPersister
     protected function hydrateEventData(array $data, Event $event): Event
     {
         $eventData = [
-            'name' => $data['event']['name'],
+            'name' => $event->getName() ?? $data['event']['name'],
             'venue_name' => $data['event']['venue_name'],
             'external_venue_id' => $data['event']['external_venue_id']
         ];
