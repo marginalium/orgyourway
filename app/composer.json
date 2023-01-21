@@ -4,6 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
+        "amphp/http-client": "*",
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
