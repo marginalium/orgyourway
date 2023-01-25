@@ -207,4 +207,9 @@ class UserAdmin extends AbstractAdmin
                 ->end()
             ->end();
     }
+
+    protected function configureExportFields(): array
+    {
+        return ['email'];
+    }
 }
