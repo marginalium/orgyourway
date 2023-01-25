@@ -17,7 +17,7 @@ class CheckInController extends AbstractController
     }
 
     #[Route(
-        '/admin/user/{user}/check_in',
+        '/admin/app/user/{user}/check_in',
         name: 'app_admin_user_checkin',
         methods: ['GET']
     )]
